@@ -121,6 +121,27 @@ export const constantRoutes = [
         meta: { title: 'profile', icon: 'user', noCache: true }
       }
     ]
+  },
+  {
+    path: '/item-types',
+    component: Layout,
+    redirect: '/item-types/index',
+    name: 'item-types-index',
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/item-types'),
+        name: 'ItemType1',
+        meta: { title: '目錄' }
+      },
+      {
+        hidden: true,
+        path: 'create',
+        component: () => import('@/views/item-types/create'),
+        name: 'item-types-create',
+        meta: { title: 'item-types-create' }
+      }
+    ]
   }
 ]
 
