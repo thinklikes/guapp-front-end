@@ -11,7 +11,6 @@ const name = defaultSettings.title || 'vue Element Admin' // page title
 // use administrator privileges to execute the command line.
 // For example, Mac: sudo npm run
 const port = 9527 // dev port
-
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   /**
@@ -36,11 +35,11 @@ module.exports = {
     proxy: {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API + '/item-types']: {
+      [process.env.VUE_APP_BASE_API + '/stock-manager']: {
         target: 'http://packages.test',
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: '/stock-manager'
+          ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
       [process.env.VUE_APP_BASE_API]: {
