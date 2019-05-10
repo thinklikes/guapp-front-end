@@ -7,34 +7,31 @@ export function fetchList() {
   })
 }
 
-export function fetchArticle(id) {
+export function createItemType(data) {
   return request({
-    url: '/article/detail',
-    method: 'get',
-    params: { id }
-  })
-}
-
-export function fetchPv(pv) {
-  return request({
-    url: '/article/pv',
-    method: 'get',
-    params: { pv }
-  })
-}
-
-export function createArticle(data) {
-  return request({
-    url: '/article/create',
+    url: '/stock-manager/item_types',
     method: 'post',
-    data
+    data: {
+      'id': data.id,
+      'parent_id': data.parent_id,
+      'name': data.label
+    }
   })
 }
 
-export function updateArticle(data) {
+export function updateItemType(data) {
   return request({
-    url: '/article/update',
-    method: 'post',
-    data
+    url: '/stock-manager/item_types' + '/' + data.id,
+    method: 'put',
+    data: {
+      'name': data.label
+    }
+  })
+}
+
+export function removeItemType(data) {
+  return request({
+    url: '/stock-manager/item_types' + '/' + data.id,
+    method: 'delete'
   })
 }
