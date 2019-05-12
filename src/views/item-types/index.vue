@@ -4,11 +4,15 @@
       <div class="block">
         <p>品項類別</p>
         <el-tree
-          :data="data"
+          ref="myTree"
           v-loading="loading"
-          empty-text="loadingStr"
           node-key="id"
-          :expand-on-click-node="false">
+          empty-text="loadingStr"
+          :data="data"
+          :expand-on-click-node="false"
+          @node-drop="handleDrop"
+          @node-drag-start="handleDragStart"
+          draggable>
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <el-input
               type="text"
@@ -35,7 +39,7 @@
               <el-button
                 type="text"
                 size="mini"
-                @click="() => append(data)">
+                @click="() => append(node)">
                 Append
               </el-button>
               <el-button
@@ -53,7 +57,8 @@
 </template>
 <script>
   import { fetchList } from '@/api/item-types'
-  import { updateItemType } from '@/api/item-types'
+  import { updateItemTypeName } from '@/api/item-types'
+  import { updateItemTypePriority } from '@/api/item-types'
   import { createItemType } from '@/api/item-types'
   import { removeItemType } from '@/api/item-types'
 
@@ -66,14 +71,15 @@
         data: [],
         loadingStr: "Loading ....",
         loading: true,
-        editField : ''
+        editField : '',
+        oldParentBeforeDragging: '',
       }
     },
 
     created() {
       fetchList().then(response => {
         this.data = response.data.itemTypes
-        id = response.data.maxId + 1
+        id = response.data.maxId
         this.loading = false
       }).catch(e => {
         console.log(e);
@@ -81,27 +87,21 @@
     },
 
     methods: {
-      append(data) {
-        const newChild = { id: id++, label: 'new item', children: [] };
-        if (!data.children) {
-          this.$set(data, 'children', []);
-        }
-        data.children.push(newChild);
-        newChild.parent_id = data.id
+      append(parentNode) {
+        const newChild = { id: ++id, label: 'new item' + id, children: [] };
+        this.$refs.myTree.append(newChild, parentNode)
+        newChild.parent_id = parentNode.data.id
+        parentNode.expand()
         createItemType(newChild)
       },
 
       remove(node, data) {
-        const parent = node.parent;
-        const children = parent.data.children || parent.data;
-        const index = children.findIndex(d => d.id === data.id);
-
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          children.splice(index, 1);
+          this.$refs.myTree.remove(node)
           removeItemType(data)
           this.$message({
             type: 'success',
@@ -120,14 +120,32 @@
       },
 
       blurField(node){
-        updateItemType(node.data);
+        updateItemTypeName(node.data);
         this.editField = '';
       },
 
       showField(node){
-        return this.editField == node.id
+        return this.editField === node.id
       },
 
+      handleDragStart(node, ev) {
+        this.oldParentBeforeDragging = node.parent.data.id
+        console.log(this.oldParentBeforeDragging);
+      },
+
+      handleDrop(draggingNode, dropNode, dropType, ev) {
+        var parent_id;
+        if ((dropType === 'before' || dropType === 'after')) {
+          if (this.oldParentBeforeDragging !== dropNode.parent.data.id) {
+            parent_id = dropNode.parent.data.id ? dropNode.parent.data.id : 0
+            updateItemTypePriority(draggingNode.data, parent_id);
+          }
+          this.oldParentBeforeDragging = '';
+        } else if (dropType === 'inner') {
+          parent_id = dropNode.data.id
+          updateItemTypePriority(draggingNode.data, parent_id);
+        }
+      },
     }
   };
 </script>
