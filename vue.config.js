@@ -35,11 +35,11 @@ module.exports = {
     proxy: {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API + '/stock-manager']: {
-        target: 'http://packages.test',
+      [process.env.VUE_APP_BASE_API + '/guapp']: {
+        target: 'http://guapp.test',
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
+          ['^' + process.env.VUE_APP_BASE_API + '/guapp']: '/api'
         }
       },
       [process.env.VUE_APP_BASE_API]: {
