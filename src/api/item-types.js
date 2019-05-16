@@ -29,13 +29,14 @@ export function updateItemTypeName(data) {
   })
 }
 
-export function updateItemTypePriority(data, parent_id) {
+export function updateItemTypePriority(data, parent_id, children) {
   return request({
     url: '/stock-manager/item-types/update-priority/' + data.id,
     method: 'put',
     data: {
       'name': data.label,
-      'parent_id': parent_id
+      'parent_id': parent_id,
+      'children': children
     }
   })
 }

@@ -134,17 +134,22 @@
       },
 
       handleDrop(draggingNode, dropNode, dropType, ev) {
-        var parent_id;
+        var parent;
+
         if ((dropType === 'before' || dropType === 'after')) {
-          if (this.oldParentBeforeDragging !== dropNode.parent.data.id) {
-            parent_id = dropNode.parent.data.id ? dropNode.parent.data.id : 0
-            updateItemTypePriority(draggingNode.data, parent_id);
-          }
-          this.oldParentBeforeDragging = '';
+          parent = dropNode.parent;
         } else if (dropType === 'inner') {
-          parent_id = dropNode.data.id
-          updateItemTypePriority(draggingNode.data, parent_id);
+          parent = dropNode
         }
+
+        var parentId = parent.data.id || 0;
+
+        var children = parent.data.children || parent.data;
+
+        children = Object.values(children).map(item => item.id);
+    console.log(children, parentId);
+        updateItemTypePriority(draggingNode.data, parent.data.id, children);
+
       },
     }
   };
