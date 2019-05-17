@@ -83,6 +83,7 @@ export const constantRoutes = [
       }
     ]
   },
+
   {
     path: '/documentation',
     component: Layout,
@@ -123,23 +124,62 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/item-types',
+    path: '/stock-manager',
     component: Layout,
-    redirect: '/item-types/index',
-    name: 'item-types-index',
+    redirect: '/items',
+    name: 'StockManager',
+    meta: {
+      title: 'stock-manager',
+      icon: 'nested'
+    },
     children: [
+      // {
+      //   path: 'menu1',
+      //   component: () => import('@/views/nested/menu1/index'), // Parent router-view
+      //   name: 'Menu1',
+      //   meta: { title: 'menu1' },
+      //   redirect: '/nested/menu1/menu1-1',
+      //   children: [
+      //     {
+      //       path: 'menu1-1',
+      //       component: () => import('@/views/nested/menu1/menu1-1'),
+      //       name: 'Menu1-1',
+      //       meta: { title: 'menu1-1' }
+      //     },
+      //     {
+      //       path: 'menu1-2',
+      //       component: () => import('@/views/nested/menu1/menu1-2'),
+      //       name: 'Menu1-2',
+      //       redirect: '/nested/menu1/menu1-2/menu1-2-1',
+      //       meta: { title: 'menu1-2' },
+      //       children: [
+      //         {
+      //           path: 'menu1-2-1',
+      //           component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
+      //           name: 'Menu1-2-1',
+      //           meta: { title: 'menu1-2-1' }
+      //         },
+      //         {
+      //           path: 'menu1-2-2',
+      //           component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
+      //           name: 'Menu1-2-2',
+      //           meta: { title: 'menu1-2-2' }
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       {
-        path: '',
-        component: () => import('@/views/item-types'),
-        name: 'ItemType1',
-        meta: { title: '目錄' }
+        path: 'item-types',
+        component: () => import('@/views/stock-manager/item-types'),
+        name: 'ItemTypes',
+        meta: { title: 'item-types' }
       },
       {
-        hidden: true,
-        path: 'create',
-        component: () => import('@/views/item-types/create'),
-        name: 'item-types-create',
-        meta: { title: 'item-types-create' }
+        path: 'items',
+        component: () => import('@/views/stock-manager/items'),
+        name: 'Items',
+        meta: { title: 'items' }
       }
     ]
   }
@@ -149,7 +189,9 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
+
 export const asyncRoutes = [
+  /*
   {
     path: '/permission',
     component: Layout,
@@ -204,11 +246,12 @@ export const asyncRoutes = [
       }
     ]
   },
-
+  */
   /** when your routing map is too long, you can split it into small modules **/
   componentsRouter,
-  chartsRouter,
   nestedRouter,
+  /*
+  chartsRouter,
   tableRouter,
 
   {
@@ -416,7 +459,7 @@ export const asyncRoutes = [
       }
     ]
   },
-
+  */
   { path: '*', redirect: '/404', hidden: true }
 ]
 

@@ -62,7 +62,10 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
     externalLink: '外链',
-    profile: '个人中心'
+    profile: '个人中心',
+    'stock-manager': '庫存管理',
+    'items': '品項管理',
+    'item-types': '品項類別'
   },
   navbar: {
     dashboard: '首页',

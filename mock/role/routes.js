@@ -324,7 +324,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'create',
+        path: 'views.stock-manager.items.create',
         component: 'views/example/create',
         name: 'CreateArticle',
         meta: { title: 'createArticle', icon: 'edit' }
