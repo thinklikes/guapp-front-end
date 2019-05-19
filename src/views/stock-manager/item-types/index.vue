@@ -62,8 +62,6 @@
   import { createItemType } from '@/api/item-types'
   import { removeItemType } from '@/api/item-types'
 
-  let id;
-
   export default {
     name: 'ItemTypes',
     data() {
@@ -78,8 +76,7 @@
 
     created() {
       fetchList().then(response => {
-        this.data = response.data.itemTypes
-        id = response.data.maxId
+        this.data = response.data
         this.loading = false
       }).catch(e => {
         console.log(e);
@@ -88,11 +85,15 @@
 
     methods: {
       append(parentNode) {
-        const newChild = { id: ++id, label: 'new item' + id, children: [] };
-        this.$refs.myTree.append(newChild, parentNode)
+        const newChild = {label: 'new item', children: [] };
         newChild.parent_id = parentNode.data.id
-        parentNode.expand()
-        createItemType(newChild)
+        createItemType(newChild).then(response => {
+          newChild.id = response.data.id
+          this.$refs.myTree.append(newChild, parentNode)
+          parentNode.expand()
+        }).catch(e => {
+          console.log(e);
+        });
       },
 
       remove(node, data) {
@@ -102,11 +103,15 @@
           type: 'warning'
         }).then(() => {
           this.$refs.myTree.remove(node)
-          removeItemType(data)
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+          removeItemType(data).then(() => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          }).catch(e => {
+              console.log(e);
           });
+
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -142,12 +147,10 @@
           parent = dropNode
         }
 
-        var parentId = parent.data.id || 0;
-
         var children = parent.data.children || parent.data;
 
         children = Object.values(children).map(item => item.id);
-    console.log(children, parentId);
+
         updateItemTypePriority(draggingNode.data, parent.data.id, children);
 
       },
