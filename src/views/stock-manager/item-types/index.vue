@@ -11,8 +11,8 @@
           :data="data"
           :expand-on-click-node="false"
           @node-drop="handleDrop"
-          @node-drag-start="handleDragStart"
-          draggable>
+          draggable
+          :allow-drop="allowDrop">
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <el-input
               type="text"
@@ -62,6 +62,8 @@
   import { createItemType } from '@/api/item-types'
   import { removeItemType } from '@/api/item-types'
 
+  const MAX_PATH_NODES = 3;
+
   export default {
     name: 'ItemTypes',
     data() {
@@ -70,7 +72,8 @@
         loadingStr: "Loading ....",
         loading: true,
         editField : '',
-        oldParentBeforeDragging: '',
+        oldParentKeyBeforeDragging: '',
+        oldIndexBeforeDragging: 0,
       }
     },
 
@@ -86,10 +89,10 @@
     methods: {
       append(parentNode) {
         const newChild = {label: 'new item', children: [] };
-        newChild.parent_id = parentNode.data.id
+        newChild.parent_id = parentNode.data.id;
         createItemType(newChild).then(response => {
-          newChild.id = response.data.id
-          this.$refs.myTree.append(newChild, parentNode)
+          newChild.id = response.data.id;
+          this.$refs.myTree.append(newChild, parentNode);
           parentNode.expand()
         }).catch(e => {
           console.log(e);
@@ -102,7 +105,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$refs.myTree.remove(node)
+          this.$refs.myTree.remove(node);
           removeItemType(data).then(() => {
             this.$message({
               type: 'success',
@@ -133,13 +136,8 @@
         return this.editField === node.id
       },
 
-      handleDragStart(node, ev) {
-        this.oldParentBeforeDragging = node.parent.data.id
-        console.log(this.oldParentBeforeDragging);
-      },
-
       handleDrop(draggingNode, dropNode, dropType, ev) {
-        var parent;
+        let parent;
 
         if ((dropType === 'before' || dropType === 'after')) {
           parent = dropNode.parent;
@@ -147,13 +145,42 @@
           parent = dropNode
         }
 
-        var children = parent.data.children || parent.data;
+        let children = parent.data.children || parent.data;
 
         children = Object.values(children).map(item => item.id);
 
-        updateItemTypePriority(draggingNode.data, parent.data.id, children);
+        updateItemTypePriority(
+          draggingNode.data, parent.data.id, children
+        ).then(() => {
+          this.$router.push({
+            path: this.$route.path,
+            query: {
+              t: +new Date() //保证每次点击路由的query项都是不一样的，确保会重新刷新view
+            }
+          })
+        }).catch(e => {
+          console.log(e);
+        });
 
       },
+
+      allowDrop(draggingNode, dropNode, dropType) {
+        let pathNodes = draggingNode.data.children != null ? 2 : 1;
+
+        let parent;
+
+        if ((dropType === 'prev' || dropType === 'next')) {
+          parent = dropNode.parent;
+        } else if (dropType === 'inner') {
+          parent = dropNode
+        }
+
+        let parentPathNodes = parent.label === undefined
+          ? 0
+          : parent.data.path.match(/(\/\d+)/g).length;
+
+        return (parseInt(parentPathNodes) + parseInt(pathNodes)) <= MAX_PATH_NODES;
+      }
     }
   };
 </script>
