@@ -9,24 +9,11 @@
         prop="name"
         label="名稱">
         <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作">
-        <template slot-scope="scope">
           <el-input
             type="text"
             size="mini"
             placeholder="请输入内容"
-            v-model="scope.name"
+            v-model="scope.row.name"
             v-show="showField(scope)"
             @focus="focusField(scope)"
             @blur="blurField(scope)"
@@ -35,8 +22,14 @@
           </el-input>
           <span
             v-show="!showField(scope)">
-              {{ scope.name }}
-            </span>
+              {{ scope.row.name }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed="right"
+        label="操作">
+        <template slot-scope="scope">
           <el-button
             type="text"
             size="mini"
