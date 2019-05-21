@@ -10,14 +10,13 @@
         label="名稱">
         <template slot-scope="scope">
           <el-input
+            :ref="'input' + scope.row.id"
             type="text"
             size="mini"
             placeholder="请输入内容"
             v-model="scope.row.name"
             v-show="showField(scope)"
-            @focus="focusField(scope)"
-            @blur="blurField(scope)"
-            :autofocus="true"
+            @blur="() => blurField(scope)"
             clearable>
           </el-input>
           <span
@@ -33,7 +32,7 @@
           <el-button
             type="text"
             size="mini"
-            @click="focusField(scope)">
+            @click="() => focusField(scope)">
             Edit
           </el-button>
           <el-button
@@ -65,27 +64,6 @@
       }
     },
 
-    methods: {
-      focusField(scope){
-        console.log(scope);
-        console.log(scope.$index);
-        this.editField = scope.$index;
-      },
-
-      blurField(scope){
-        update(node.data);
-        this.editField = '';
-      },
-
-      showField(scope){
-        return this.editField === scope.$index
-      },
-
-      deleteRow(index, rows) {
-        rows.splice(index, 1);
-      }
-    },
-
     created() {
       fetchList().then(response => {
         this.tableData = response.contents.data;
@@ -93,6 +71,28 @@
       }).catch(e => {
         console.log(e);
       });
-    }
+    },
+
+    methods: {
+      focusField(scope){
+        this.editField = scope.row.id;
+
+        this.$nextTick(() => this.$refs["input" + scope.row.id].focus());
+        // this.$nextTick(() => this.$refs["input" + scope.row.id].$el.children[0].focus());
+      },
+
+      blurField(scope){
+        // update(node.data);
+        this.editField = '';
+      },
+
+      showField(scope){
+        return this.editField === scope.row.id
+      },
+
+      deleteRow(index, rows) {
+        rows.splice(index, 1);
+      }
+    },
   }
 </script>

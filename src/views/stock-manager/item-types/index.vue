@@ -15,14 +15,13 @@
           :allow-drop="allowDrop">
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <el-input
+              :ref="'input' + node.key"
               type="text"
               size="mini"
               placeholder="请输入内容"
               v-model="data.label"
               v-show="showField(node)"
-              @focus="focusField(node)"
-              @blur="blurField(node)"
-              :autofocus="true"
+              @blur="() => blurField(node)"
               clearable>
             </el-input>
             <span
@@ -33,7 +32,7 @@
               <el-button
                 type="text"
                 size="mini"
-                @click="focusField(node)">
+                @click="() => focusField(node)">
                 Edit
               </el-button>
               <el-button
@@ -91,7 +90,7 @@
         const newChild = {label: 'new item', children: [] };
         newChild.parent_id = parentNode.data.id;
         createItemType(newChild).then(response => {
-          newChild.id = response.data.id;
+          newChild.id = response.contents.id;
           this.$refs.myTree.append(newChild, parentNode);
           parentNode.expand()
         }).catch(e => {
@@ -124,7 +123,9 @@
       },
 
       focusField(node){
-        this.editField = node.id;
+        this.editField = node.key;
+
+        this.$nextTick(() => this.$refs["input" + node.key].focus());
       },
 
       blurField(node){
@@ -133,7 +134,7 @@
       },
 
       showField(node){
-        return this.editField === node.id
+        return this.editField === node.key
       },
 
       handleDrop(draggingNode, dropNode, dropType, ev) {
@@ -154,7 +155,6 @@
         updateItemTypePriority(
           draggingNode.data, parentId, children
         );
-        console.log(this.$refs.myTree.getNode(draggingNode.key))
       },
 
       allowDrop(draggingNode, dropNode, dropType) {
