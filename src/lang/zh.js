@@ -65,6 +65,7 @@ export default {
     profile: '个人中心',
     'stock-manager': '庫存管理',
     'items': '品項管理',
+    'item-units': '品項單位',
     'item-types': '品項類別'
   },
   navbar: {

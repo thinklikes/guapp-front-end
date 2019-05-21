@@ -33,7 +33,7 @@
               <el-button
                 type="text"
                 size="mini"
-                @click="() => focusField(node)">
+                @click="focusField(node)">
                 Edit
               </el-button>
               <el-button
@@ -79,7 +79,7 @@
 
     created() {
       fetchList().then(response => {
-        this.data = response.data
+        this.data = response.contents
         this.loading = false
       }).catch(e => {
         console.log(e);
@@ -145,29 +145,32 @@
           parent = dropNode
         }
 
+        let parentId = parent.data.id ? parent.data.id : 0;
+
         let children = parent.data.children || parent.data;
 
         children = Object.values(children).map(item => item.id);
 
         updateItemTypePriority(
-          draggingNode.data, parent.data.id, children
-        ).then(() => {
-          this.$router.push({
-            path: this.$route.path,
-            query: {
-              t: +new Date() //保证每次点击路由的query项都是不一样的，确保会重新刷新view
-            }
-          })
-        }).catch(e => {
-          console.log(e);
-        });
-
+          draggingNode.data, parentId, children
+        );
+        console.log(this.$refs.myTree.getNode(draggingNode.key))
       },
 
       allowDrop(draggingNode, dropNode, dropType) {
-        let pathNodes = draggingNode.data.children != null ? 2 : 1;
-
+        // return false;
+        let subChildren = draggingNode.data.children;
+        let levelOfCurrent = subChildren == null ? 1 : 2;
         let parent;
+
+        if (subChildren != null) {
+          subChildren.forEach(function (subChild) {
+            if (subChild.children != null) {
+              levelOfCurrent += 1;
+              return false;
+            }
+          });
+        }
 
         if ((dropType === 'prev' || dropType === 'next')) {
           parent = dropNode.parent;
@@ -175,11 +178,11 @@
           parent = dropNode
         }
 
-        let parentPathNodes = parent.label === undefined
+        let parentLevel = parent.label === undefined
           ? 0
-          : parent.data.path.match(/(\/\d+)/g).length;
+          : parent.level;
 
-        return (parseInt(parentPathNodes) + parseInt(pathNodes)) <= MAX_PATH_NODES;
+        return (parentLevel + levelOfCurrent) <= MAX_PATH_NODES;
       }
     }
   };

@@ -176,10 +176,10 @@ export const constantRoutes = [
         meta: { title: 'item-types' }
       },
       {
-        path: 'items',
-        component: () => import('@/views/stock-manager/items'),
-        name: 'Items',
-        meta: { title: 'items' }
+        path: 'item-units',
+        component: () => import('@/views/stock-manager/item-units'),
+        name: 'ItemUnits',
+        meta: { title: 'item-units' }
       }
     ]
   }
