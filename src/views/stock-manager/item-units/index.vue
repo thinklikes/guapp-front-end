@@ -1,49 +1,53 @@
 <template>
   <div class="app-container">
-    <el-table
-      ref="myTable"
-      v-loading="loading"
-      :data="tableData"
-      style="width: 100%">
-      <el-table-column
-        prop="name"
-        label="名稱">
-        <template slot-scope="scope">
-          <el-input
-            :ref="'input' + scope.row.id"
-            type="text"
-            size="mini"
-            placeholder="请输入内容"
-            v-model="scope.row.name"
-            v-show="showField(scope)"
-            @blur="() => blurField(scope)"
-            clearable>
-          </el-input>
-          <span
-            v-show="!showField(scope)">
-              {{ scope.row.name }}
+    <div class="custom-tree-container">
+      <div class="block">
+        <el-button
+          type="text"
+          size="mini"
+          @click="() => append()">
+          Add Unit
+        </el-button>
+        <el-tree
+          ref="itemUnitTree"
+          v-loading="loading"
+          node-key="id"
+          :empty-text="loadingStr"
+          :data="data"
+          :expand-on-click-node="false">
+          <span class="custom-tree-node" slot-scope="{ node, data }">
+            <el-input
+              :ref="'input' + node.key"
+              type="text"
+              size="mini"
+              placeholder="请输入内容"
+              v-model="data.label"
+              v-show="showField(node)"
+              @blur="() => blurField(node)"
+              clearable>
+            </el-input>
+            <span
+              v-show="!showField(node)">
+              {{ node.label }}
+            </span>
+            <span>
+              <el-button
+                type="text"
+                size="mini"
+                @click="() => focusField(node)">
+                Edit
+              </el-button>
+              <el-button
+                type="text"
+                size="mini"
+                @click="() => remove(node, data)">
+                Delete
+              </el-button>
+            </span>
           </span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作">
-        <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="mini"
-            @click="() => focusField(scope)">
-            Edit
-          </el-button>
-          <el-button
-            @click="deleteRow(scope.$index, tableData)"
-            type="text"
-            size="mini">
-            Delete
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+        </el-tree>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -51,13 +55,13 @@
   import { fetchList } from '@/api/item-units'
   import { create } from '@/api/item-units'
   import { update } from '@/api/item-units'
-  import { destory } from '@/api/item-units'
+  import { destroy } from '@/api/item-units'
 
   export default {
     name: 'ItemUnits',
     data() {
       return {
-        tableData: [],
+        data: [],
         loadingStr: "Loading ....",
         loading: true,
         editField : '',
@@ -66,7 +70,7 @@
 
     created() {
       fetchList().then(response => {
-        this.tableData = response.contents.data;
+        this.data = response.contents
         this.loading = false
       }).catch(e => {
         console.log(e);
@@ -74,25 +78,63 @@
     },
 
     methods: {
-      focusField(scope){
-        this.editField = scope.row.id;
-
-        this.$nextTick(() => this.$refs["input" + scope.row.id].focus());
-        // this.$nextTick(() => this.$refs["input" + scope.row.id].$el.children[0].focus());
+      append() {
+        const newChild = {label: 'new unit', children: [] };
+        create(newChild).then(response => {
+          this.$refs.itemUnitTree.append(newChild);
+        }).catch(e => {
+          console.log(e);
+        });
       },
 
-      blurField(scope){
-        // update(node.data);
+      remove(node, data) {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          destroy(data).then(() => {
+            this.$refs.itemUnitTree.remove(node);
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          }).catch(e => {
+            console.log(e);
+          });
+        }).catch(e => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+
+      focusField(node) {
+        this.editField = node.key;
+
+        this.$nextTick(() => this.$refs["input" + node.key].focus());
+      },
+
+      blurField(node) {
+        update(node.data);
         this.editField = '';
       },
 
-      showField(scope){
-        return this.editField === scope.row.id
-      },
-
-      deleteRow(index, rows) {
-        rows.splice(index, 1);
+      showField(node) {
+        return this.editField === node.key
       }
-    },
-  }
+    }
+  };
 </script>
+
+<style>
+  .custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+</style>

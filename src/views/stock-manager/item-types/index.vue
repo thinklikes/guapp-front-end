@@ -2,12 +2,17 @@
   <div class="app-container">
     <div class="custom-tree-container">
       <div class="block">
-        <p>品項類別</p>
+        <el-button
+          type="text"
+          size="mini"
+          @click="() => append()">
+          Add Type
+        </el-button>
         <el-tree
-          ref="myTree"
+          ref="itemTypeTree"
           v-loading="loading"
           node-key="id"
-          empty-text="loadingStr"
+          :empty-text="loadingStr"
           :data="data"
           :expand-on-click-node="false"
           @node-drop="handleDrop"
@@ -86,13 +91,15 @@
     },
 
     methods: {
-      append(parentNode) {
+      append(parentNode = null) {
         const newChild = {label: 'new item', children: [] };
-        newChild.parent_id = parentNode.data.id;
+        newChild.parent_id = parentNode == null ? 0 :parentNode.data.id;
         createItemType(newChild).then(response => {
           newChild.id = response.contents.id;
-          this.$refs.myTree.append(newChild, parentNode);
-          parentNode.expand()
+          this.$refs.itemTypeTree.append(newChild, parentNode);
+          if (parentNode) {
+            parentNode.expand()
+          }
         }).catch(e => {
           console.log(e);
         });
@@ -104,8 +111,8 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$refs.myTree.remove(node);
-          removeItemType(data).then(() => {
+          this.$refs.itemTypeTree.remove(node);
+          destroy(data).then(() => {
             this.$message({
               type: 'success',
               message: '删除成功!'

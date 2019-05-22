@@ -250,7 +250,6 @@ export const asyncRoutes = [
   /** when your routing map is too long, you can split it into small modules **/
   componentsRouter,
   nestedRouter,
-  /*
   chartsRouter,
   tableRouter,
 
@@ -285,7 +284,7 @@ export const asyncRoutes = [
       }
     ]
   },
-
+  /*
   {
     path: '/tab',
     component: Layout,
