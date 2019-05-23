@@ -133,42 +133,6 @@ export const constantRoutes = [
       icon: 'nested'
     },
     children: [
-      // {
-      //   path: 'menu1',
-      //   component: () => import('@/views/nested/menu1/index'), // Parent router-view
-      //   name: 'Menu1',
-      //   meta: { title: 'menu1' },
-      //   redirect: '/nested/menu1/menu1-1',
-      //   children: [
-      //     {
-      //       path: 'menu1-1',
-      //       component: () => import('@/views/nested/menu1/menu1-1'),
-      //       name: 'Menu1-1',
-      //       meta: { title: 'menu1-1' }
-      //     },
-      //     {
-      //       path: 'menu1-2',
-      //       component: () => import('@/views/nested/menu1/menu1-2'),
-      //       name: 'Menu1-2',
-      //       redirect: '/nested/menu1/menu1-2/menu1-2-1',
-      //       meta: { title: 'menu1-2' },
-      //       children: [
-      //         {
-      //           path: 'menu1-2-1',
-      //           component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-      //           name: 'Menu1-2-1',
-      //           meta: { title: 'menu1-2-1' }
-      //         },
-      //         {
-      //           path: 'menu1-2-2',
-      //           component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-      //           name: 'Menu1-2-2',
-      //           meta: { title: 'menu1-2-2' }
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
       {
         path: 'item-types',
         component: () => import('@/views/stock-manager/item-types'),
@@ -180,6 +144,43 @@ export const constantRoutes = [
         component: () => import('@/views/stock-manager/item-units'),
         name: 'ItemUnits',
         meta: { title: 'item-units' }
+      },
+      {
+        path: 'items',
+        component: () => import('@/views/stock-manager/items'),
+        redirect: '/items/list',
+        name: 'Items',
+        meta: {
+          title: 'items'
+        },
+        children: [
+          {
+            path: 'list',
+            component: () => import('@/views/stock-manager/items/list'),
+            name: 'ItemList',
+            meta: { title: 'items-list', icon: 'list' }
+          },
+          {
+            path: 'create',
+            component: () => import('@/views/stock-manager/items/create'),
+            name: 'CreateItem',
+            meta: { title: 'items-create', icon: 'edit' }
+          },
+          {
+            path: 'edit/:id(\\d+)',
+            component: () => import('@/views/stock-manager/items/create'),
+            name: 'EditItem',
+            meta: { title: 'items-edit', icon: 'edit' },
+            hidden: true
+          },
+          {
+            path: 'show/:id(\\d+)',
+            component: () => import('@/views/stock-manager/items/show'),
+            name: 'ShowItem',
+            meta: { title: 'items-show' },
+            hidden: true
+          }
+        ]
       }
     ]
   }

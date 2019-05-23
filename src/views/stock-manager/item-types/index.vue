@@ -8,10 +8,15 @@
           @click="() => append()">
           Add Type
         </el-button>
+        <el-input
+          placeholder="输入关键字进行过滤"
+          v-model="filterText">
+        </el-input>
         <el-tree
           ref="itemTypeTree"
           v-loading="loading"
           node-key="id"
+          :filter-node-method="filterNode"
           :empty-text="loadingStr"
           :data="data"
           :expand-on-click-node="false"
@@ -78,6 +83,7 @@
         editField : '',
         oldParentKeyBeforeDragging: '',
         oldIndexBeforeDragging: 0,
+        filterText: '',
       }
     },
 
@@ -90,7 +96,18 @@
       });
     },
 
+    watch: {
+      filterText(val) {
+        this.$refs.itemTypeTree.filter(val);
+      }
+    },
+
     methods: {
+      filterNode(value, data) {
+        if (!value) return true;
+        return data.label.indexOf(value) !== -1;
+      },
+
       append(parentNode = null) {
         const newChild = {label: 'new item', children: [] };
         newChild.parent_id = parentNode == null ? 0 :parentNode.data.id;

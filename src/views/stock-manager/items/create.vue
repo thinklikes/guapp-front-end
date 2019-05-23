@@ -1,6 +1,13 @@
 <template>
   <div class="app-container">
     create
+    <el-button
+      size="mini"
+      @click="edit(scope.$index, scope.row)">Edit</el-button>
+    <el-button
+      size="mini"
+      type="danger"
+      @click="remove(scope.$index, scope.row)">Delete</el-button>
   </div>
 </template>
 

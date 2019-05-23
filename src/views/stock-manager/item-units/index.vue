@@ -8,10 +8,15 @@
           @click="() => append()">
           Add Unit
         </el-button>
+        <el-input
+          placeholder="输入关键字进行过滤"
+          v-model="filterText">
+        </el-input>
         <el-tree
           ref="itemUnitTree"
           v-loading="loading"
           node-key="id"
+          :filter-node-method="filterNode"
           :empty-text="loadingStr"
           :data="data"
           :expand-on-click-node="false">
@@ -65,6 +70,7 @@
         loadingStr: "Loading ....",
         loading: true,
         editField : '',
+        filterText: '',
       }
     },
 
@@ -77,7 +83,18 @@
       });
     },
 
+    watch: {
+      filterText(val) {
+        this.$refs.itemUnitTree.filter(val);
+      }
+    },
+
     methods: {
+      filterNode(value, data) {
+        if (!value) return true;
+        return data.label.indexOf(value) !== -1;
+      },
+
       append() {
         const newChild = {label: 'new unit', children: [] };
         create(newChild).then(response => {

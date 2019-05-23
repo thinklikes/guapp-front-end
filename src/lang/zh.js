@@ -66,7 +66,10 @@ export default {
     'stock-manager': '庫存管理',
     'items': '品項管理',
     'item-units': '品項單位',
-    'item-types': '品項類別'
+    'item-types': '品項類別',
+    'items-list': '品項列表',
+    'items-create': '新增品項',
+    'items-show': '品項資料'
   },
   navbar: {
     dashboard: '首页',
