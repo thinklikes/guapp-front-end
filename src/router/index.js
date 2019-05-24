@@ -89,7 +89,7 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'index',
+        path: 'views.stock-manager.item-types.components.index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
         meta: { title: 'documentation', icon: 'documentation', affix: true }
@@ -102,7 +102,7 @@ export const constantRoutes = [
     redirect: '/guide/index',
     children: [
       {
-        path: 'index',
+        path: 'views.stock-manager.item-types.components.index',
         component: () => import('@/views/guide/index'),
         name: 'Guide',
         meta: { title: 'guide', icon: 'guide', noCache: true }
@@ -116,7 +116,7 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: 'index',
+        path: 'views.stock-manager.item-types.components.index',
         component: () => import('@/views/profile/index'),
         name: 'Profile',
         meta: { title: 'profile', icon: 'user', noCache: true }

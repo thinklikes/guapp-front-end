@@ -2,25 +2,51 @@
   <div class="app-container">
     <div class="custom-tree-container">
       <div class="block">
-        <el-button
-          type="text"
-          size="mini"
-          @click="() => add()">
-          Add Item
-        </el-button>
+        <div class="filter-container">
+          <el-input
+            v-model="queryString"
+            placeholder="品項代號或品項名稱"
+            style="width: 200px;"
+            class="filter-item"
+            @keyup.enter.native="handleFilter" />
+
+          <item-type-selector />
+
+          <el-button
+            class="filter-item"
+            type="primary"
+            icon="el-icon-search"
+            @click="handleFilter">
+            {{ $t('table.search') }}
+          </el-button>
+          <el-button
+            class="filter-item"
+            style="margin-left: 10px;"
+            type="primary"
+            icon="el-icon-edit"
+            @click="add">
+            {{ $t('table.add') }}
+          </el-button>
+        </div>
         <el-table
           v-loading="loading"
           :empty-text="loadingStr"
           :data="data"
           style="width: 100%">
           <el-table-column
-            label="ID">
+            label="品項代號">
             <template slot-scope="scope">
-              <span style="margin-left: 10px">{{ scope.row.id }}</span>
+              <span style="margin-left: 10px">{{ scope.row.code }}</span>
             </template>
           </el-table-column>
           <el-table-column
-            label="姓名">
+            label="品項類型">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">{{ scope.row.item_type.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="品項名稱">
             <template slot-scope="scope">
               <span style="margin-left: 10px">
                 <router-link :to="'/stock-manager/items/show/'+scope.row.id" class="link-type">
@@ -30,30 +56,41 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="pageCount"
-          @prev-click="() => prev()"
-          @next-click="() => next()">
-        </el-pagination>
+        <div class="pagination-container">
+          <el-pagination
+            background
+            layout="sizes, prev, pager, next, total"
+            :total="total"
+            :page-size="perPage"
+            :current-page="currentPage"
+            :page-sizes="[50, 100, 200, 250]"
+            @current-change="changePage"
+            @size-change="changeSize"
+            @prev-click="prevPage"
+            @next-click="nextPage">
+          </el-pagination>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
   import { fetchList } from '@/api/items'
+  import { default as ItemTypeSelector } from './components/ItemTypeSelector'
 
   export default {
     name: 'Items',
+    components: { ItemTypeSelector },
     data() {
       return {
         data: [],
         loadingStr: "Loading ....",
         loading: true,
-        pageCount: 1,
         currentPage: 1,
         total : 0,
+        perPage : 50,
+        queryString: '',
+        itemType: ''
       }
     },
 
@@ -66,19 +103,33 @@
         this.$router.push({ path: '/stock-manager/items/create' })
       },
 
-      prev() {
-        this.requestPage(this.currentPage === 1 ? 1 : this.currentPage - 1);
+      changeSize(size) {
+        this.currentPage = 1;
+        this.perPage = size;
+        this.requestPage();
       },
 
-      next() {
-        this.requestPage(this.currentPage + 1);
+      changePage(page) {
+        this.requestPage(page);
       },
 
-      requestPage(page = 1) {
+      prevPage() {
+        this.currentPage = this.currentPage === 1 ? 1 : this.currentPage - 1;
+        this.requestPage();
+      },
+
+      nextPage() {
+        this.currentPage += 1;
+        this.requestPage();
+      },
+
+      requestPage() {
         this.loading = true;
-        fetchList(page).then(response => {
+
+        fetchList(this.currentPage, this.perPage, this.queryString).then(response => {
           this.loading = false;
           this.parseResponseValues(response);
+          scrollTo(0, 0)
         }).catch(e => {
           console.log(e);
         });
@@ -86,12 +137,27 @@
 
       parseResponseValues(response) {
         this.data = response.contents.data;
-        this.pageCount = response.contents.last_page;
+        this.total = response.contents.total;
         this.currentPage = response.contents.current_page;
         this.total = response.contents.total;
-        console.log(response.contents)
+        this.perPage = parseInt(response.contents.per_page);
+      },
+
+      handleFilter() {
+        this.currentPage = 1;
+
+        this.requestPage();
       }
     }
   };
 </script>
 
+<style scoped>
+  .pagination-container {
+    background: #fff;
+    padding: 32px 16px;
+  }
+  .pagination-container.hidden {
+    display: none;
+  }
+</style>

@@ -1,8 +1,9 @@
 import request from '@/utils/request'
 
-export function fetchList(page = 0) {
+export function fetchList(page = 1, perPage = 50, queryString = '') {
+  const url = '/guapp/items?perPage=' + perPage + '&page=' + page + '&queryString=' + queryString
   return request({
-    url: '/guapp/items/' + (page === 0 ? '' : '?page=' + page),
+    url: url,
     method: 'get'
   })
 }
