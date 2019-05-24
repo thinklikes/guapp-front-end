@@ -2,14 +2,14 @@ import request from '@/utils/request'
 
 export function fetchList() {
   return request({
-    url: '/guapp/item-units',
+    url: process.env.VUE_APP_BACKEND_PREFIX + '/item-units',
     method: 'get'
   })
 }
 
 export function create(data) {
   return request({
-    url: '/guapp/item-units',
+    url: process.env.VUE_APP_BACKEND_PREFIX + '/item-units',
     method: 'post',
     data: {
       'id': data.id,
@@ -21,7 +21,7 @@ export function create(data) {
 
 export function update(data) {
   return request({
-    url: '/guapp/item-units/' + data.id,
+    url: process.env.VUE_APP_BACKEND_PREFIX + '/item-units/' + data.id,
     method: 'put',
     data: {
       'name': data.label
@@ -31,7 +31,7 @@ export function update(data) {
 
 export function destroy(data) {
   return request({
-    url: '/guapp/item-units/' + data.id,
+    url: process.env.VUE_APP_BACKEND_PREFIX + '/item-units/' + data.id,
     method: 'delete'
   })
 }
