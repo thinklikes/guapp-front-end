@@ -1,116 +1,180 @@
-import Mock from 'mockjs'
-
-const List = []
-const count = 100
-
-const baseContent = '<p>I am testing data, I am testing data.</p><p><img src="https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943"></p>'
-const image_uri = 'https://wpimg.wallstcn.com/e4558086-631c-425c-9430-56ffb46e70b3'
-
-for (let i = 0; i < count; i++) {
-  List.push(Mock.mock({
-    id: '@increment',
-    timestamp: +Mock.Random.date('T'),
-    author: '@first',
-    reviewer: '@first',
-    title: '@title(5, 10)',
-    content_short: 'mock data',
-    content: baseContent,
-    forecast: '@float(0, 100, 2, 2)',
-    importance: '@integer(1, 3)',
-    'type|1': ['CN', 'US', 'JP', 'EU'],
-    'status|1': ['published', 'draft', 'deleted'],
-    display_time: '@datetime',
-    comment_disabled: true,
-    pageviews: '@integer(300, 5000)',
-    image_uri,
-    platforms: ['a-platform']
-  }))
-}
+const itemTypes = [
+  {
+    'id': 1,
+    'parent_id': 0,
+    'level': 1,
+    'label': '進修',
+    'children': null
+  },
+  {
+    'id': 2,
+    'parent_id': 0,
+    'level': 1,
+    'label': '凝膠指甲',
+    'children': [
+      {
+        'id': 3,
+        'parent_id': 2,
+        'level': 2,
+        'label': '功能膠',
+        'children': [
+          {
+            'id': 4,
+            'parent_id': 3,
+            'level': 3,
+            'label': '底層膠'
+          },
+          {
+            'id': 5,
+            'parent_id': 3,
+            'level': 3,
+            'label': '上層膠'
+          },
+          {
+            'id': 6,
+            'parent_id': 3,
+            'level': 3,
+            'label': '建構/延甲膠'
+          },
+          {
+            'id': 7,
+            'parent_id': 3,
+            'level': 3,
+            'label': '調合膠'
+          }
+        ]
+      },
+      {
+        'id': 8,
+        'parent_id': 2,
+        'level': 2,
+        'label': '色膠',
+        'children': [
+          {
+            'id': 9,
+            'parent_id': 8,
+            'level': 3,
+            'label': '彩色凝膠（罐裝）'
+          },
+          {
+            'id': 10,
+            'parent_id': 8,
+            'level': 3,
+            'label': '彩色甲油膠'
+          },
+          {
+            'id': 11,
+            'parent_id': 8,
+            'level': 3,
+            'label': '彩繪凝膠'
+          }
+        ]
+      },
+      {
+        'id': 12,
+        'parent_id': 2,
+        'level': 2,
+        'label': '凝膠套組',
+        'children': null
+      },
+      {
+        'id': 13,
+        'parent_id': 2,
+        'level': 2,
+        'label': '3D粉雕',
+        'children': null
+      },
+      {
+        'id': 14,
+        'parent_id': 2,
+        'level': 2,
+        'label': '手工藝用凝膠',
+        'children': null
+      }
+    ]
+  },
+  {
+    'id': 15,
+    'parent_id': 0,
+    'level': 1,
+    'label': '水晶指甲',
+    'children': [
+      {
+        'id': 16,
+        'parent_id': 15,
+        'level': 2,
+        'label': '水晶粉',
+        'children': null
+      },
+      {
+        'id': 17,
+        'parent_id': 15,
+        'level': 2,
+        'label': '粉雕粉',
+        'children': null
+      }
+    ]
+  }
+]
 
 export default [
   {
-    url: '/article/list',
+    url: '/item-types',
     type: 'get',
     response: config => {
-      const { importance, type, title, page = 1, limit = 20, sort } = config.query
-
-      let mockList = List.filter(item => {
-        if (importance && item.importance !== +importance) return false
-        if (type && item.type !== type) return false
-        if (title && item.title.indexOf(title) < 0) return false
-        return true
-      })
-
-      if (sort === '-id') {
-        mockList = mockList.reverse()
-      }
-
-      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
       return {
         code: 20000,
-        data: {
-          total: mockList.length,
-          items: pageList
-        }
+        contents: itemTypes,
+        message: ''
       }
     }
   },
-
   {
-    url: '/article/detail',
-    type: 'get',
+    url: '/item-types',
+    type: 'post',
     response: config => {
-      const { id } = config.query
-      for (const article of List) {
-        if (article.id === +id) {
-          return {
-            code: 20000,
-            data: article
-          }
-        }
+      return {
+        code: 20000,
+        contents: {
+          id: parseInt(Math.random() * 100)
+        },
+        message: ''
       }
     }
   },
-
   {
-    url: '/article/pv',
-    type: 'get',
-    response: _ => {
+    url: '/item-types/[0-9]+',
+    type: 'put',
+    response: config => {
       return {
         code: 20000,
-        data: {
-          pvData: [
-            { key: 'PC', pv: 1024 },
-            { key: 'mobile', pv: 1024 },
-            { key: 'ios', pv: 1024 },
-            { key: 'android', pv: 1024 }
-          ]
-        }
+        contents: [],
+        message: ''
       }
     }
   },
-
   {
-    url: '/article/create',
-    type: 'post',
-    response: _ => {
+    url: '/item-types/update-priority/[0-9]+',
+    type: 'put',
+    response: config => {
       return {
         code: 20000,
-        data: 'success'
+        contents: [],
+        message: ''
       }
     }
   },
-
   {
-    url: '/article/update',
-    type: 'post',
-    response: _ => {
+    url: '/item-types/[0-9]+',
+    type: 'delete',
+    response: config => {
       return {
         code: 20000,
-        data: 'success'
+        contents: [],
+        message: ''
       }
     }
   }
+
 ]
 

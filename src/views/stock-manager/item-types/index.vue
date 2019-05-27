@@ -66,10 +66,10 @@
 </template>
 <script>
   import { fetchList } from '@/api/item-types'
-  import { updateItemTypeName } from '@/api/item-types'
-  import { updateItemTypePriority } from '@/api/item-types'
-  import { createItemType } from '@/api/item-types'
-  import { removeItemType } from '@/api/item-types'
+  import { create } from '@/api/item-types'
+  import { update } from '@/api/item-types'
+  import { updatePriority } from '@/api/item-types'
+  import { destroy } from '@/api/item-types'
 
   const MAX_PATH_NODES = 3;
 
@@ -111,7 +111,7 @@
       append(parentNode = null) {
         const newChild = {label: 'new item', children: [] };
         newChild.parent_id = parentNode == null ? 0 :parentNode.data.id;
-        createItemType(newChild).then(response => {
+        create(newChild).then(response => {
           newChild.id = response.contents.id;
           this.$refs.itemTypeTree.append(newChild, parentNode);
           if (parentNode) {
@@ -153,7 +153,7 @@
       },
 
       blurField(node){
-        updateItemTypeName(node.data);
+        update(node.data);
         this.editField = '';
       },
 
@@ -176,7 +176,7 @@
 
         children = Object.values(children).map(item => item.id);
 
-        updateItemTypePriority(
+        updatePriority(
           draggingNode.data, parentId, children
         );
       },

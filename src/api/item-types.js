@@ -7,7 +7,7 @@ export function fetchList() {
   })
 }
 
-export function createItemType(data) {
+export function create(data) {
   return request({
     url: process.env.VUE_APP_BACKEND_PREFIX + '/item-types',
     method: 'post',
@@ -19,7 +19,7 @@ export function createItemType(data) {
   })
 }
 
-export function updateItemTypeName(data) {
+export function update(data) {
   return request({
     url: process.env.VUE_APP_BACKEND_PREFIX + '/item-types/' + data.id,
     method: 'put',
@@ -29,7 +29,7 @@ export function updateItemTypeName(data) {
   })
 }
 
-export function updateItemTypePriority(data, parent_id, children) {
+export function updatePriority(data, parent_id, children) {
   return request({
     url: process.env.VUE_APP_BACKEND_PREFIX + '/item-types/update-priority/' + data.id,
     method: 'put',
@@ -41,7 +41,7 @@ export function updateItemTypePriority(data, parent_id, children) {
   })
 }
 
-export function removeItemType(data) {
+export function destroy(data) {
   return request({
     url: process.env.VUE_APP_BACKEND_PREFIX + '/item-types/' + data.id,
     method: 'delete'
