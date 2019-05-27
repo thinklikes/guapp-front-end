@@ -1,4 +1,6 @@
-const itemTypes = [
+const url = '/item-types'
+
+const contents = [
   {
     'id': 1,
     'parent_id': 0,
@@ -119,18 +121,18 @@ const itemTypes = [
 
 export default [
   {
-    url: '/item-types',
+    url: url,
     type: 'get',
     response: config => {
       return {
         code: 20000,
-        contents: itemTypes,
+        contents: contents,
         message: ''
       }
     }
   },
   {
-    url: '/item-types',
+    url: url,
     type: 'post',
     response: config => {
       return {
@@ -143,7 +145,7 @@ export default [
     }
   },
   {
-    url: '/item-types/[0-9]+',
+    url: url + '/[0-9]+',
     type: 'put',
     response: config => {
       return {
@@ -154,7 +156,7 @@ export default [
     }
   },
   {
-    url: '/item-types/update-priority/[0-9]+',
+    url: url + '/update-priority/[0-9]+',
     type: 'put',
     response: config => {
       return {
@@ -165,7 +167,7 @@ export default [
     }
   },
   {
-    url: '/item-types/[0-9]+',
+    url: url + '/[0-9]+',
     type: 'delete',
     response: config => {
       return {
