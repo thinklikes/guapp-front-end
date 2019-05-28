@@ -10,7 +10,7 @@
             class="filter-item"
             @keyup.enter.native="handleFilter" />
 
-          <item-type-selector />
+          <ItemTypeSelector v-model="selected" class="filter-item"/>
 
           <el-button
             class="filter-item"
@@ -76,7 +76,7 @@
 </template>
 <script>
   import { fetchList } from '@/api/items'
-  import { default as ItemTypeSelector } from './components/ItemTypeSelector'
+  import { default as ItemTypeSelector } from '../item-types/components/ItemTypeSelector'
 
   export default {
     name: 'Items',
@@ -90,10 +90,17 @@
         total : 0,
         perPage : 50,
         queryString: '',
-        itemType: ''
+        selected: null
       }
     },
-
+    watch: {
+      currentPage: function () {
+        this.requestPage();
+      },
+      perPage: function () {
+        this.requestPage();
+      }
+    },
     created() {
       this.requestPage();
     },
@@ -104,23 +111,20 @@
       },
 
       changeSize(size) {
-        this.currentPage = 1;
         this.perPage = size;
-        this.requestPage();
+        this.currentPage = 1;
       },
 
       changePage(page) {
-        this.requestPage(page);
+        this.currentPage = page;
       },
 
       prevPage() {
         this.currentPage = this.currentPage === 1 ? 1 : this.currentPage - 1;
-        this.requestPage();
       },
 
       nextPage() {
         this.currentPage += 1;
-        this.requestPage();
       },
 
       requestPage() {
