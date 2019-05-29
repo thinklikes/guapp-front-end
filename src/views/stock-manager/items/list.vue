@@ -10,7 +10,9 @@
             class="filter-item"
             @keyup.enter.native="handleFilter" />
 
-          <ItemTypeSelector v-model="selected" class="filter-item"/>
+          <ItemTypeSelector
+            v-model="typeId"
+            class="filter-item"/>
 
           <el-button
             class="filter-item"
@@ -79,7 +81,7 @@
   import { default as ItemTypeSelector } from '../item-types/components/ItemTypeSelector'
 
   export default {
-    name: 'Items',
+    name: 'ItemsList',
     components: { ItemTypeSelector },
     data() {
       return {
@@ -90,7 +92,7 @@
         total : 0,
         perPage : 50,
         queryString: '',
-        selected: null
+        typeId: null,
       }
     },
     watch: {
@@ -130,9 +132,19 @@
       requestPage() {
         this.loading = true;
 
-        fetchList(this.currentPage, this.perPage, this.queryString).then(response => {
+        let queryItem = {
+          currentPage: this.currentPage,
+          perPage: this.perPage,
+          queryString: this.queryString,
+          typeId: this.typeId
+        }
+
+        fetchList(queryItem).then(response => {
           this.loading = false;
           this.parseResponseValues(response);
+          if (this.data.length === 0) {
+            this.loadingStr = '暫無資料';
+          }
           scrollTo(0, 0)
         }).catch(e => {
           console.log(e);
@@ -151,7 +163,7 @@
         this.currentPage = 1;
 
         this.requestPage();
-      }
+      },
     }
   };
 </script>

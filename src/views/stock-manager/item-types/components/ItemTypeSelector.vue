@@ -1,5 +1,10 @@
 <template>
-  <el-select v-model="selectedValue" placeholder="请选择">
+  <el-select
+    v-model="selectedValue"
+    ref="selector"
+    placeholder="請選擇"
+    filterable
+    @change="handleChange">
     <template
       v-for="grand in options">
       <el-option-group
@@ -44,11 +49,16 @@
 
   export default {
     name: 'ItemTypeSelector',
-
+    props: {
+      value: {
+        type: Number,
+        default: null
+      },
+    },
     data() {
       return {
         options: [],
-        selectedValue: ''
+        selectedValue: this.value
       }
     },
 
@@ -59,5 +69,11 @@
         console.log(e);
       });
     },
+
+    methods: {
+      handleChange(event) {
+        this.$emit('input', this.selectedValue);
+      }
+    }
   }
 </script>

@@ -1,7 +1,12 @@
 import request from '@/utils/request'
 
-export function fetchList(page = 1, perPage = 50, queryString = '') {
-  const url = process.env.VUE_APP_BACKEND_PREFIX + '/items?perPage=' + perPage + '&page=' + page + '&queryString=' + queryString
+export function fetchList(queryItem) {
+  let url = process.env.VUE_APP_BACKEND_PREFIX + '/items?perPage=' + queryItem.perPage
+  url += '&page=' + queryItem.currentPage + '&queryString=' + queryItem.queryString
+  if (queryItem.typeId) {
+    url += '&itemTypeId=' + queryItem.typeId
+  }
+
   return request({
     url: url,
     method: 'get'

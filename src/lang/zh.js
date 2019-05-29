@@ -69,7 +69,8 @@ export default {
     'item-types': '品項類別',
     'items-list': '品項列表',
     'items-create': '新增品項',
-    'items-show': '品項資料'
+    'items-show': '品項資料',
+    'items-edit': '修改品項'
   },
   navbar: {
     dashboard: '首頁',
