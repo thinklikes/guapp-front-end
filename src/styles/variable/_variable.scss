@@ -1,0 +1,24 @@
+// ************************************************************
+// variable
+// ************************************************************
+
+$font_size: (
+    mini  : 0.75rem,
+    small : 0.875rem,
+    medium: 1rem,
+    large : 1.25rem,
+    huge  : 1.5rem
+);
+@function font_size($name) {
+    @return map-get($font_size, $name);
+}
+
+$border_radius: (
+    default : 4px,
+    medium   : 15px,
+    large   : 30px,
+    rounded : 50%
+);
+@function border_radius($name) {
+    @return map-get($border_radius, $name);
+}

@@ -1,0 +1,53 @@
+// ************************************************************
+// elementui--variable
+// ************************************************************
+
+$button-size: (
+    mini: 28px,
+    small: 36px,
+    medium: 44px,
+    large: 48px,
+);
+@function button-size($name) {
+    @return map-get($button-size, $name);
+}
+
+$button-length: (
+    short: 120px,
+    normal: 150px,
+    long: 240px,
+    longest: 320px,
+    half: calc(50% - 10px),
+    full: 100%
+);
+@function button-length($name) {
+    @return map-get($button-length, $name);
+}
+
+
+
+
+
+$el-size: (
+    mini: 36px,
+    small: 36px,
+    medium: 44px,
+    large: 60px,
+);
+@function el-size($name) {
+    @return map-get($el-size, $name);
+}
+
+$el-length: (
+    mini: 64px,
+    shortest: 120px,
+    short: 160px,
+    normal: 200px,
+    long: 240px,
+    longest: 320px,
+    half: calc(50% - 10px),
+    full: 100%
+);
+@function el-length($name) {
+    @return map-get($el-length, $name);
+}

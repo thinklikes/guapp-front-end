@@ -1,0 +1,188 @@
+// ************************************************************
+// utilities
+// ************************************************************
+
+@mixin generate($name, $value) {
+    $short_name: str_slice($name, 1, 1);
+    $total_value: $value;
+    @for $i from 1 through length($total_value) {
+        $value: nth($total_value, $i);
+        @if $name == 'opacity' {
+            .u_#{$short_name}--0#{$value*10} {
+                #{$name}: $value;
+            }
+        } @else {
+            .u_#{$short_name}--#{$value} {
+                #{$name}: $value;
+            }
+        }
+    }
+}
+
+@mixin generate_trbl($name, $value, $max: 4) {
+	$short_name: str_slice($name, 1, 1);
+	$direction: top, right, bottom, left;
+
+	@each $dir in $direction {
+		@for $i from 1 through $max {
+			.u_#{$short_name}--#{str_slice($dir, 1, 1)}#{$value * $i} {
+				#{$name}-#{$dir}: $value * $i * 1px;
+			}
+		}
+	}
+}
+
+@include generate_trbl(margin, 5);
+@include generate_trbl(padding, 5);
+
+
+
+
+
+// 顯示 / 隱藏
+.u_show {
+    opacity: 1;
+    visibility: visible;
+
+}
+.u_hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+
+
+// usage => .u_d--none
+$display: (
+    block,
+    none,
+    inline-block
+);
+@include generate(display, $display);
+
+
+
+// usage => .u_c--auto
+$cursor: (
+    auto,
+    default,
+    pointer,
+    text,
+    not-allowed
+);
+@include generate(cursor, $cursor);
+
+
+
+// usage => .u_t--center
+$text-align: (
+    center,
+    right,
+    left
+);
+@include generate(text-align, $text-align);
+
+
+
+// usage => .u_f--right
+$float: (
+    right,
+    left,
+    none
+);
+@include generate(float, $float);
+
+
+
+// usage => .u_f--bold
+$font-weight: (
+    bold,
+    normal
+);
+@include generate(font-weight, $font-weight);
+
+
+
+// usage => .u_o--09
+$opacity: (
+    0.9,
+    0.7,
+    0.5,
+    0.2
+);
+@include generate(opacity, $opacity);
+
+
+
+// usage => .u_w--right
+$float: (
+    right,
+    left,
+    none
+);
+@include generate(float, $float);
+
+
+
+.u_underline {
+    text-decoration: underline;
+}
+
+
+
+.u_clearfix {
+    &::after {
+        clear: both;
+        content: "";
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+}
+
+
+
+.u_hr {
+    background-color: border_color(weak);
+    border-top: 1px solid border_color(secondary);
+    height: 1px;
+    margin-bottom: 10px;
+}
+.u_vr,
+.u_vr--higher {
+    @include size(1px, 44px);
+    background-color: border_color(default);
+    margin: 0 auto;
+}
+.u_vr--higher {
+    height: 120px;
+}
+
+
+
+.u_link {
+    color: text_color(alert);
+    cursor: default;
+    font-weight: bold;
+    position: relative;
+    &:not(.is_active):hover {
+        color: darken(text_color(alert), 10%);
+        cursor: pointer;
+        transition: color 0.2s ease;
+        &::after {
+            width: 100%;
+        }
+    }
+    &.is_active {
+        color: text_color(alert);
+    }
+    &::after {
+        @include pseudo;
+        @include size(0, 1px);
+        background-color: bg_color(alert);
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: all 0.2s ease;
+    }
+}

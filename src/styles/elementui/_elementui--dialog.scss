@@ -1,0 +1,65 @@
+// ************************************************************
+// elementui--dialog
+// ************************************************************
+
+.el-dialog__wrapper {
+    text-align: center;
+}
+.el-dialog {
+    border-radius: 0;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    max-width: calc(100% - 20px);
+    text-align: left;
+    padding-bottom: 10px;
+    width: 420px;
+}
+.el-dialog__header {
+    background-color: bg_color(secondary);
+    margin-bottom: 0;
+    padding: 5px 20px 5px 2vw;
+    position: relative;
+}
+.el-dialog__title {
+    font-size: 1rem;
+    line-height: 38px;
+    color: text_color(default_invert);
+}
+.el-dialog__headerbtn {
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+}
+.el-dialog__headerbtn .el-dialog__close,
+.el-dialog__headerbtn:focus .el-dialog__close,
+.el-dialog__headerbtn:hover .el-dialog__close {
+    color: text_color(default_invert);
+}
+.el-dialog__body {
+    color: text_color(default);
+    padding: 0;
+}
+.el-dialog__content {
+    padding: 20px 4vw 0;
+    & .el-form-item {
+        margin-bottom: 20px;
+    }
+}
+
+.el-dialog__footer {
+    border-top: 1px solid border_color(warning);
+    font-size: 0;
+    padding: 20px 4vw 10px;
+    text-align: center;
+    & .el-button.el-button--small {
+        height: button-size(medium);
+        width: 120px;
+        & > span {
+            line-height: button-size(medium) - 2;
+        }
+    }
+}
+
+.el-dialog__footer button:nth-child(2) {
+    margin-left: 20px;
+}

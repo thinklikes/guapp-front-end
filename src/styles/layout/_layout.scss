@@ -1,0 +1,73 @@
+// ************************************************************
+// layout
+// ************************************************************
+
+#app {
+    & .app-main {
+        margin: 0 auto;
+        max-width: calc(#{$layout-max-width} + 8vw);
+        padding: 50px 4vw 40px;
+    }
+}
+
+
+
+
+
+.main-section {
+    background-color: bg_color(primary);
+    background: linear-gradient(45deg, bg_color(primary) 50%, rgba(#ffffff, 0) 50%), linear-gradient(-45deg, bg_color(accent) 70%, bg_color(primary) 70%);
+    border-radius: border_radius(large);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    padding: 40px 4vw;
+}
+
+.main-section__title {
+    color: text_color(secondary);
+    font-size: font_size(huge);
+    margin-bottom: 20px;
+}
+
+.main-section__body {
+    background-color: bg_color(weak);
+    border-radius: border_radius(medium);
+    margin-bottom: 20px;
+    padding: 20px 2vw;
+}
+
+.panel-group {
+    & .card-panel {
+        color: text_color(weak);
+        cursor: pointer;
+        font-size: font_size(mini);
+        height: 108px;
+        & + .card-panel {
+            box-shadow: 0 1px 0 rgba(#000000, 0.02) inset, 0 2px 0 rgba(#000000, 0.005) inset;
+        }
+    }
+    & .card-panel-icon-wrapper {
+        background-color: bg_color(weak);
+        border-radius: border_radius(rounded);
+        box-shadow: 0 0 3px shadow_color(dark);
+        color: text_color(accent);
+        float: left;
+        font-size: 28px;
+        margin-top: 22px;
+        padding: 16px;
+
+    }
+    & .card-panel-description {
+        float: right;
+        margin-top: 29px;
+    }
+    & .card-panel-text {
+        line-height: 18px;
+        font-size: font_size(medium);
+        margin-bottom: 12px;
+    }
+    & .card-panel-num {
+        font-size: font_size(large);
+        color: text_color(default);
+    }
+}

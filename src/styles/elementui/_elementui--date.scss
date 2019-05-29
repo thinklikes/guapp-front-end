@@ -1,0 +1,74 @@
+// ************************************************************
+// elementui--date
+// ************************************************************
+
+.el-date-editor--daterange.el-input,
+.el-date-editor--daterange.el-input__inner,
+.el-date-editor--timerange.el-input,
+.el-date-editor--timerange.el-input__inner {
+    width: 320px;
+}
+
+.el-range-editor {
+    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.el-range-editor.is-active,
+.el-range-editor.is-active:hover {
+    background-color: rgba(93, 76, 77, 0.05);
+    border-color: transparent;
+    border-bottom-color: rgba(23, 18, 19, 0.1);
+}
+
+.el-range-editor.el-input__inner {
+    height: el-size(medium);
+    padding-right: 15px;
+    padding-left: 20px;
+}
+
+.el-date-editor {
+    vertical-align: middle;
+    & .el-range__icon {
+        margin-left: 0;
+    }
+    & .el-range__close-icon {
+        width: 20px;
+    }
+    & .el-range-separator {
+        line-height: el-size(medium) - 8;
+        width: 10%;
+    }
+
+}
+
+
+.el-date-table td {
+    &.in-range div {
+        background-color: bg_color(weak);
+        &:hover {
+            background-color: bg_color(default);
+        }
+    }
+    &.start-date span,
+    &.end-date span {
+        background-color: bg_color(warning);
+    }
+    &.today span {
+        color: text_color(accent);
+    }
+    &.available:hover {
+        color: darken(text_color(alert), 10%);
+    }
+}
+
+.el-picker-panel__icon-btn:hover {
+    color: text_color(accent);
+}
+
+.el-date-editor .el-range-input {
+    color: text_color(primary);
+    font-size: 1rem;
+    width: 37.5%;
+    &::placeholder {
+        color: text_color(weak);
+    }
+}

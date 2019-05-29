@@ -1,0 +1,66 @@
+// ************************************************************
+// variable--color
+// ************************************************************
+
+$bg_color: (
+    default     : #f8e3bf,
+    primary     : #fffcf4,
+    accent      : #ffc85e,
+    weak        : #ffffff
+);
+@function bg_color($name) {
+    @return map-get($bg_color, $name);
+}
+
+$sidebar_color: (
+    title       : darken(#fff6e8, 2%),
+    submenu     : lighten(#fff6e8, 1%),
+    hover       : #f6dfc2,
+    active      : #f9f9f9
+);
+@function sidebar_color($name) {
+    @return map-get($sidebar_color, $name);
+}
+
+$text_color: (
+    default         : #342628,
+    primary         : #433033,
+    secondary       : #523b3e,
+    info            : #6699a1,
+    success         : #90b44b,
+    accent          : #ed784a,
+    strong          : #c73e3a,
+    warning         : #e9cd4c,
+    alert           : #70649a,
+    weak            : #888888,
+    default_invert  : #ffffff
+);
+@function text_color($name) {
+    @return map-get($text_color, $name);
+}
+@each $status, $color in $text_color {
+    .u_color--#{$status} {
+        color: $color;
+    }
+}
+
+$border_color: (
+    default         : #d9dadb,
+    weak            : #f9f9f9,
+);
+@function border_color($name) {
+    @return map-get($border_color, $name);
+}
+
+$shadow_color: (
+    default : rgba(0, 0, 0, 0.05),
+    dark : rgba(0, 0, 0, 0.1),
+);
+@function shadow_color($name) {
+    @return map-get($shadow_color, $name);
+}
+
+  
+  
+  
+  

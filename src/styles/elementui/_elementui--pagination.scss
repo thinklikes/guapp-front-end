@@ -1,0 +1,78 @@
+// ************************************************************
+// elementui--pagination
+// ************************************************************
+
+.pagination-container {
+    margin-top: 20px;
+    text-align: right;
+    &.hidden {
+        display: none;
+    }
+}
+.el-pagination {
+    & .el-select .el-input {
+        width: el-length(shortest);
+    }
+    & button:hover {
+        color: text_color(accent);
+    }
+    & button:disabled {
+        color: text_color(weak);
+    }
+}
+.el-pagination__sizes .el-input .el-input__inner {
+    font-size: 1rem;
+    &:hover {
+        border-color: transparent;
+        border-bottom-color: rgba(23, 18, 19, 0.1);
+    }
+}
+
+.el-pagination__total {
+    color: text_color(default);
+}
+
+.el-pager li {
+    font-size: 0.875rem;
+    margin: 4px;
+    min-width: 28px;
+    position: relative;
+    transition: background-color 0.2s ease;
+    &:not(.active):hover {
+        color: text_color(accent);
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+    &.number:not(.active):hover {
+        &::after {
+            width: calc(100% - 8px);
+        }
+    }
+    &.active {
+        background-color: bg_color(warning);
+        border-radius: 2px;
+        color: text_color(default_invert);
+    }
+    &::after {
+        @include pseudo;
+        @include size(0, 1px);
+        background-color: bg_color(accent);
+        top: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: all 0.2s ease;
+    }
+}
+.el-pagination span:not([class*=suffix]),
+.el-pagination button {
+    height: el-size(small);
+    font-size: 0.875rem;
+    line-height: el-size(small);
+}
+
+.el-pagination__editor.el-input {
+    width: el-length(mini);
+    & .el-input__inner {
+        height: el-size(small);
+    }
+}

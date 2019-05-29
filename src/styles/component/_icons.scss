@@ -1,0 +1,46 @@
+// ************************************************************
+// icons
+// ************************************************************
+
+@mixin i--active($name, $width, $height: $width, $filename_extension: png) {
+    .i_#{$name} {
+        @include background_image("./views/default/assets/icons/i_#{$name}.#{$filename_extension}");
+        @include size($width, $height);
+        background-size: 100%;
+        display: inline-block;
+        vertical-align: middle;
+        &:not(.is_disabled):active {
+            background-image: url("./views/default/assets/icons/i_#{$name}--active.#{$filename_extension}");
+        }
+    }
+}
+
+@mixin icon($name, $width, $height: $width, $filename_extension: svg) {
+    .i_#{$name} {
+        @include background_image("./views/default/assets/icons/i_#{$name}.#{$filename_extension}");
+        @include size($width, $height);
+        background-size: $width $height;
+    }
+}
+
+[class*="i_"],
+[class^="el-icon-"],
+[class*=" el-icon-"] {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+$icons: (
+    'alert',
+    'close',
+    'lock',
+    'user',
+    'verification-code',
+    'cal'
+);
+
+@each $icon in $icons {
+    @include icon(#{$icon}, 20px);
+}
+
+@include icon(reload, 18px);
