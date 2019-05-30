@@ -71,3 +71,70 @@
         color: text_color(default);
     }
 }
+
+.appointment-panel {
+    background-color: lighten(bg_color(info), 8%);
+    border-radius: border_radius(large);
+    color: text_color(default_invert);
+    float: right;
+    font-size: 0;
+    line-height: 0;
+    margin-bottom: 20px;
+    & .appointment-panel__title {
+        display: inline-block;
+        font-size: font_size(medium);
+        line-height: 60px;
+        padding-right: 15px;
+        vertical-align: middle;
+    }
+    & .appointment-panel__icon {
+        color: text_color(secondary);
+        display: inline-block;
+        font-size: 32px;
+        margin: 0 10px 0 20px;
+        vertical-align: middle;
+    }
+    & .appointment-panel__button-group {
+        background-color: bg_color(info);
+        box-shadow: -1px 0 0 darken(bg_color(info), 10%), 1px 0 0 lighten(bg_color(info), 8%) inset,  1px 0 0 lighten(bg_color(info), 6%), -1px 0 0 darken(bg_color(info), 8%) inset;
+        border-radius: border_radius(large);
+        display: inline-block;
+        padding: 0 20px;
+        vertical-align: middle;
+        & .button-group__button {
+            background-color: bg_color(heavy);
+            border-radius: border_radius(large) 0 0 border_radius(large);
+            cursor: pointer;
+            display: inline-block;
+            font-size: font_size(small);
+            line-height: 36px;
+            margin: 12px 0;
+            padding: 0 20px;
+            position: relative;
+            transition: background-color 0.2s ease;
+            vertical-align: top;
+            & + .button-group__button {
+                border-left: 1px solid darken(bg_color(heavy), 8%);
+                border-radius: 0 border_radius(large) border_radius(large) 0;
+                box-shadow: 1px 0 0 lighten(bg_color(heavy), 10%) inset;
+            }
+            & .button__item {
+                @include size(auto, 20px);
+                background-color: bg_color(strong);
+                border-radius: border_radius(large);
+                font-size: font_size(mini);
+                line-height: 20px;
+                padding: 0 5px;
+                position: absolute;
+                top: -10px;
+                left: 70%;
+            }
+            &:hover {
+                background-color: darken(bg_color(heavy), 6%);
+            }
+        }
+    }
+}
+
+
+

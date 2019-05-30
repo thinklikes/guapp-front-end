@@ -6,6 +6,9 @@ $bg_color: (
     default     : #f8e3bf,
     primary     : #fffcf4,
     accent      : #ffc85e,
+    strong      : #c73e3a,
+    info        : #6699a1,
+    heavy       : #342628,
     weak        : #ffffff
 );
 @function bg_color($name) {
@@ -30,7 +33,7 @@ $text_color: (
     success         : #90b44b,
     accent          : #ed784a,
     strong          : #c73e3a,
-    warning         : #e9cd4c,
+    warning         : #e2943b,
     alert           : #70649a,
     weak            : #888888,
     default_invert  : #ffffff
@@ -46,6 +49,7 @@ $text_color: (
 
 $border_color: (
     default         : #d9dadb,
+    heavy           : #342628,
     weak            : #f9f9f9,
 );
 @function border_color($name) {

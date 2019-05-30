@@ -1,16 +1,17 @@
 <template>
   <MainSection>
-      <el-row :gutter="40">
-        <el-col :xs="24" :sm="8" :lg="6">
-          <panel-group @handleSetLineChartData="handleSetLineChartData" />
-        </el-col>
-        <el-col :xs="24" :sm="16" :lg="18">
-          <MainSectionBody>
-            <MainSectionTitle>月來客數</MainSectionTitle>
-            <line-chart :chart-data="lineChartData" />
-          </MainSectionBody>
-        </el-col>
-      </el-row>
+    <div class="u_clearfix"><Appointment /></div>
+    <el-row :gutter="40">
+      <el-col :xs="24" :sm="8" :lg="6">
+        <panel-group @handleSetLineChartData="handleSetLineChartData" />
+      </el-col>
+      <el-col :xs="24" :sm="16" :lg="18">
+        <MainSectionBody>
+          <MainSectionTitle>月來客數</MainSectionTitle>
+          <line-chart :chart-data="lineChartData" />
+        </MainSectionBody>
+      </el-col>
+    </el-row>
 
     <!-- <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8">
@@ -48,6 +49,7 @@
 import MainSection from '@/components/MainSection/MainSection'
 import MainSectionTitle from '@/components/MainSection/MainSectionTitle'
 import MainSectionBody from '@/components/MainSection/MainSectionBody'
+import Appointment from './components/Appointment'
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
 import RaddarChart from './components/RaddarChart'
@@ -82,6 +84,7 @@ export default {
     MainSection,
     MainSectionTitle,
     MainSectionBody,
+    Appointment,
     PanelGroup,
     LineChart,
     RaddarChart,
