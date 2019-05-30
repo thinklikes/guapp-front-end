@@ -1,6 +1,7 @@
 <template>
   <MainSection>
     <div class="u_clearfix"><Appointment /></div>
+    <MainSectionBody><Schedule /></MainSectionBody>
     <el-row :gutter="40">
       <el-col :xs="24" :sm="8" :lg="6">
         <panel-group @handleSetLineChartData="handleSetLineChartData" />
@@ -50,6 +51,7 @@ import MainSection from '@/components/MainSection/MainSection'
 import MainSectionTitle from '@/components/MainSection/MainSectionTitle'
 import MainSectionBody from '@/components/MainSection/MainSectionBody'
 import Appointment from './components/Appointment'
+import Schedule from './components/Schedule'
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
 import RaddarChart from './components/RaddarChart'
@@ -85,6 +87,7 @@ export default {
     MainSectionTitle,
     MainSectionBody,
     Appointment,
+    Schedule,
     PanelGroup,
     LineChart,
     RaddarChart,
