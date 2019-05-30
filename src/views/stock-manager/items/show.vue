@@ -6,7 +6,7 @@
       :empty-text="loadingStr"
       class="box-card">
       <div slot="header" class="clearfix">
-        <span>{{ data.name }}</span>
+        <span>{{ data.code }} {{ data.name }}</span>
       </div>
       <div class="text item">
         建立時間： {{ data.created_at }}

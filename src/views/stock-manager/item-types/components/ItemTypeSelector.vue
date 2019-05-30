@@ -1,10 +1,9 @@
 <template>
   <el-select
-    v-model="selectedValue"
+    v-model="selected"
     ref="selector"
-    placeholder="請選擇"
-    filterable
-    @change="handleChange">
+    :placeholder="$t('selector.placeholder')"
+    filterable>
     <template
       v-for="grand in options">
       <el-option-group
@@ -58,7 +57,17 @@
     data() {
       return {
         options: [],
-        selectedValue: this.value
+        selected: this.value,
+      }
+    },
+
+    watch: {
+      value(val)  {
+        this.selected = val;
+      },
+      selected(val, oldVal)  {
+        this.$emit('input', val);
+        this.$emit('change');
       }
     },
 
@@ -71,9 +80,7 @@
     },
 
     methods: {
-      handleChange(event) {
-        this.$emit('input', this.selectedValue);
-      }
+
     }
   }
 </script>

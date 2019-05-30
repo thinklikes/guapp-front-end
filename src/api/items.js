@@ -25,9 +25,13 @@ export function create(data) {
     url: process.env.VUE_APP_BACKEND_PREFIX + '/items',
     method: 'post',
     data: {
-      'id': data.id,
-      'parent_id': data.parent_id,
-      'name': data.label
+      'code': data.code,
+      'name': data.name,
+      'item_type_id': data.itemTypeId,
+      'item_unit_id': data.itemUnitId,
+      'buying_prize': data.buyingPrize,
+      'selling_prize': data.sellingPrize,
+      'note': data.note
     }
   })
 }
@@ -37,7 +41,13 @@ export function update(data) {
     url: process.env.VUE_APP_BACKEND_PREFIX + '/items/' + data.id,
     method: 'put',
     data: {
-      'name': data.label
+      'code': data.code,
+      'name': data.name,
+      'item_type_id': data.itemTypeId,
+      'item_unit_id': data.itemUnitId,
+      'buying_prize': data.buyingPrize,
+      'selling_prize': data.sellingPrize,
+      'note': data.note
     }
   })
 }

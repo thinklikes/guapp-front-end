@@ -179,5 +179,33 @@ export default {
     tagsView: '開啟 Tags-View',
     fixedHeader: '固定 Header',
     sidebarLogo: '側邊欄 Logo'
+  },
+  selector: {
+    placeholder: '請選擇'
+  },
+  form: {
+    submit: '送出',
+    reset: '重置',
+    'created-successfully': '新增成功',
+    'updated-successfully': '更新成功'
+  },
+  items: {
+    label: {
+      code: '品項代碼',
+      name: '品項名稱',
+      itemTypeId: '品項類型',
+      itemUnitId: '品項單位',
+      buyingPrize: '進貨價格',
+      sellingPrize: '銷售價格',
+      note: '品項備註'
+    },
+    placeholder: {
+      code: '請輸入品項代碼',
+      name: '請輸入品項名稱',
+      itemTYpeId: '請輸入品項類型',
+      itemUnitId: '請輸入品項單位',
+      buyingPrize: '請輸入進貨價格',
+      sellingPrize: '請輸入銷售價格'
+    }
   }
 }

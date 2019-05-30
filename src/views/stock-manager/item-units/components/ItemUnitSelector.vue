@@ -1,9 +1,8 @@
 <template>
   <el-select
-    v-model="selectedValue"
-    placeholder="請選擇"
-    filterable
-    @change="$emit('change', selectedValue)">
+    v-model="selected"
+    :placeholder="$t('selector.placeholder')"
+    filterable>
       <el-option
         v-for="unit in options"
         :key="unit.id"
@@ -21,21 +20,30 @@
   export default {
     name: 'ItemUnitSelector',
     props: {
-      default: {
+      value: {
         type: Number,
         default: null
       }
     },
+    
+    watch: {
+      value(val)  {
+        this.selected = val;
+      },
+      selected(val, oldVal)  {
+        this.$emit('input', val);
+        this.$emit('change');
+      }
+    },
+
     data() {
       return {
         options: [],
-        selectedValue: null,
+        selected: this.value,
       }
     },
 
     created() {
-      this.selectedValue = this.default;
-
       fetchList().then(response => {
         this.options = response.contents
       }).catch(e => {
