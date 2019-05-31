@@ -168,26 +168,26 @@ export const constantRoutes = [
           {
             path: 'list',
             component: () => import('@/views/buying-manager/suppliers/list'),
-            name: 'ItemList',
+            name: 'SupplierList',
             meta: { title: 'suppliers-list', icon: 'list' }
           },
           {
             path: 'create',
             component: () => import('@/views/buying-manager/suppliers/create'),
-            name: 'CreateItem',
+            name: 'CreateSupplier',
             meta: { title: 'suppliers-create', icon: 'edit' }
           },
           {
             path: 'edit/:id(\\d+)',
             component: () => import('@/views/buying-manager/suppliers/create'),
-            name: 'EditItem',
+            name: 'EditSupplier',
             meta: { title: 'suppliers-edit', icon: 'edit' },
             hidden: true
           },
           {
             path: 'show/:id(\\d+)',
             component: () => import('@/views/buying-manager/suppliers/show'),
-            name: 'ShowItem',
+            name: 'ShowSupplier',
             meta: { title: 'suppliers-show' },
             hidden: true
           }

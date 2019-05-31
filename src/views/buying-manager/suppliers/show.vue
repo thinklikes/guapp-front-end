@@ -1,13 +1,133 @@
 <template>
-  
+  <div class="app-container">
+    <el-card
+      v-loading="loading"
+      :data="data"
+      :empty-text="loadingStr"
+      class="box-card">
+      <div slot="header" class="clearfix">
+        <span>{{ data.code }} {{ data.name }}</span>
+      </div>
+      <div class="text item">
+        {{ $t('table.updatedAt') }}： {{ data.updated_at }}
+      </div>
+      <div class="text item">
+        {{ $t('items.label.itemTypeId') }}： {{ data.item_type.name }}
+      </div>
+      <div class="text item">
+        {{ $t('items.label.itemUnitId') }}： {{ data.item_unit.name }}
+      </div>
+      <div class="text item">
+        {{ $t('items.label.buyingPrize') }}： {{ data.buying_prize }}
+      </div>
+      <div class="text item">
+        {{ $t('items.label.itemUnitId') }}： {{ data.selling_prize }}
+      </div>
+    </el-card>
+    <span>
+      <el-button
+        size="mini"
+        @click="edit()">{{ $t('table.edit') }}</el-button>
+      <el-button
+        size="mini"
+        type="danger"
+        @click="remove()">{{ $t('table.delete') }}</el-button>
+    </span>
+  </div>
 </template>
 
 <script>
+  const defaultItem = {
+    name: '',
+    code: '',
+    item_type: {
+      'name': ''
+    },
+    item_unit: {
+      'name': ''
+    },
+    buying_prize: 0,
+    selling_prize: 0
+  };
+
+  import { fetchOne } from '@/api/items';
+  import { destroy } from '@/api/items';
+
   export default {
-    name: "show"
+    name: 'ShowItem',
+    data() {
+      return {
+        data: Object.assign({}, defaultItem),
+        id: null,
+        loadingStr: "Loading ....",
+        loading: true,
+      }
+    },
+    created() {
+      const id = this.$route.params && this.$route.params.id
+
+      this.id = id;
+
+      fetchOne(id)
+        .then(response => {
+          this.data = response.contents;
+          this.loading = false;
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    },
+    methods: {
+      edit() {
+        this.$router.push({ path: '/stock-manager/items/edit/' + this.id })
+      },
+      remove() {
+        this.$confirm(this.$t('table.deleteWarning'), this.$t('table.prompt'), {
+          confirmButtonText: this.$t('el.messagebox.confirm'),
+          cancelButtonText: this.$t('el.messagebox.cancel'),
+          type: 'warning'
+        }).then(() => {
+          destroy(this.data).then(() => {
+            this.$message({
+              type: 'success',
+              message: this.$t('form.deleted-successfully')
+            });
+            this.$router.push({ path: '/stock-manager/items/list' })
+          }).catch(e => {
+            console.log(e);
+          });
+        }).catch(e => {
+          this.$message({
+            type: 'info',
+            message: this.$t('form.deleted-cancel')
+          });
+        });
+      }
+
+    }
   }
 </script>
 
-<style scoped>
+<style>
+  .text {
+    font-size: 14px;
+  }
 
+  .item {
+    margin-bottom: 18px;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+
+  .clearfix:after {
+    clear: both
+  }
+
+  .box-card {
+    width: 480px;
+  }
 </style>

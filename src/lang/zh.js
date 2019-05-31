@@ -234,7 +234,15 @@ export default {
   },
   supplierTypes: {
     placeholder: {
-      name: '請輸入品項單位名稱'
+      name: '請輸入供應商類型'
     }
+  },
+  suppliers: {
+    label: {
+      name: '供應商名稱',
+      supplierTypeId: '供應商類型',
+      phone: '供應商電話'
+    },
+    placeholder: {}
   }
 }

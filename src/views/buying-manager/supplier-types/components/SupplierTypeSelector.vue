@@ -4,10 +4,10 @@
     :placeholder="$t('selector.placeholder')"
     filterable>
       <el-option
-        v-for="unit in options"
-        :key="unit.id"
-        :label="unit.label"
-        :value="unit.id">
+        v-for="supplierType in options"
+        :key="supplierType.id"
+        :label="supplierType.label"
+        :value="supplierType.id">
       </el-option>
   </el-select>
 </template>
@@ -15,10 +15,10 @@
 <el-radio></el-radio>
 
 <script>
-  import {fetchList} from '@/api/item-units'
+  import {fetchList} from '@/api/supplier-types'
 
   export default {
-    name: 'ItemUnitSelector',
+    name: 'SupplierTypeSelector',
     props: {
       value: {
         type: Number,
