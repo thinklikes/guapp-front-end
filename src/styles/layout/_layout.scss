@@ -16,7 +16,7 @@
 
 .main-section {
     background-color: bg_color(primary);
-    background: linear-gradient(45deg, bg_color(primary) 50%, rgba(#ffffff, 0) 50%), linear-gradient(-45deg, bg_color(accent) 70%, bg_color(primary) 70%);
+    background: linear-gradient(45deg, bg_color(primary) 50%, rgba(#ffffff, 0) 50%), linear-gradient(-45deg, bg_color(warning) 70%, bg_color(primary) 70%);
     border-radius: border_radius(large);
     box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
@@ -30,7 +30,7 @@
 }
 
 .main-section__body {
-    background-color: bg_color(weak);
+    background-color: bg_color(weakest);
     border-radius: border_radius(medium);
     margin-bottom: 20px;
     padding: 20px 2vw;
@@ -47,7 +47,7 @@
         }
     }
     & .card-panel-icon-wrapper {
-        background-color: bg_color(weak);
+        background-color: bg_color(weakest);
         border-radius: border_radius(rounded);
         box-shadow: 0 0 3px shadow_color(dark);
         color: text_color(accent);
@@ -124,10 +124,12 @@
                 border-radius: border_radius(large);
                 font-size: font_size(mini);
                 line-height: 20px;
+                min-width: 20px;
                 padding: 0 5px;
                 position: absolute;
                 top: -10px;
                 left: 70%;
+                text-align: center;
             }
             &:hover {
                 background-color: darken(bg_color(heavy), 6%);

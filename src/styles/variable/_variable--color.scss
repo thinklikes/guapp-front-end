@@ -5,11 +5,14 @@
 $bg_color: (
     default     : #f8e3bf,
     primary     : #fffcf4,
-    accent      : #ffc85e,
+    accent      : #ed784a,
     strong      : #c73e3a,
+    warning     : #ffc85e,
     info        : #6699a1,
+    alert       : #70649a,
     heavy       : #342628,
-    weak        : #ffffff
+    weak        : #fbfbfb,
+    weakest     : #ffffff
 );
 @function bg_color($name) {
     @return map-get($bg_color, $name);

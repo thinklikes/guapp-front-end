@@ -1,0 +1,21 @@
+// ************************************************************
+// elementui--tabs
+// ************************************************************
+
+.el-tabs__item {
+    font-size: font_size(medium);
+    &:hover {
+        color: text_color(warning);
+    }
+    &.is-active {
+        color: text_color(accent);
+    }
+}
+
+.el-tabs__active-bar {
+    background-color: bg_color(accent);
+}
+
+.el-tabs__nav-wrap::after {
+    background-color: bg_color(default);
+}

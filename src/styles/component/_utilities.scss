@@ -179,7 +179,7 @@ $float: (
     &::after {
         @include pseudo;
         @include size(0, 1px);
-        background-color: bg_color(alert);
+        background-color: darken(bg_color(alert), 10%);
         top: 100%;
         left: 50%;
         transform: translateX(-50%);
