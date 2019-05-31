@@ -83,7 +83,118 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/stock-manager',
+    component: Layout,
+    redirect: '/stock-manager/items/list',
+    name: 'StockManager',
+    meta: {
+      title: 'stock-manager'
+    },
+    children: [
+      {
+        path: 'item-types',
+        component: () => import('@/views/stock-manager/item-types'),
+        name: 'ItemTypes',
+        meta: { title: 'item-types' }
+      },
+      {
+        path: 'item-units',
+        component: () => import('@/views/stock-manager/item-units'),
+        name: 'ItemUnits',
+        meta: { title: 'item-units' }
+      },
+      {
+        path: 'items',
+        component: () => import('@/views/stock-manager/items'),
+        redirect: '/stock-manager/items/list',
+        name: 'Items',
+        meta: {
+          title: 'items'
+        },
+        children: [
+          {
+            path: 'list',
+            component: () => import('@/views/stock-manager/items/list'),
+            name: 'ItemList',
+            meta: { title: 'items-list', icon: 'list' }
+          },
+          {
+            path: 'create',
+            component: () => import('@/views/stock-manager/items/create'),
+            name: 'CreateItem',
+            meta: { title: 'items-create', icon: 'edit' }
+          },
+          {
+            path: 'edit/:id(\\d+)',
+            component: () => import('@/views/stock-manager/items/create'),
+            name: 'EditItem',
+            meta: { title: 'items-edit', icon: 'edit' },
+            hidden: true
+          },
+          {
+            path: 'show/:id(\\d+)',
+            component: () => import('@/views/stock-manager/items/show'),
+            name: 'ShowItem',
+            meta: { title: 'items-show' },
+            hidden: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/buying-manager',
+    component: Layout,
+    redirect: '/buying-manager/suppliers/list',
+    name: 'BuyingManager',
+    meta: {
+      title: 'buying-manager'
+    },
+    children: [
+      {
+        path: 'supplier-types',
+        component: () => import('@/views/buying-manager/supplier-types'),
+        name: 'SupplierTypes',
+        meta: { title: 'supplier-types' }
+      },
+      {
+        path: 'suppliers',
+        component: () => import('@/views/buying-manager/suppliers'),
+        name: 'Suppliers',
+        meta: { title: 'suppliers' },
+        redirect: '/buying-manager/suppliers/list',
+        children: [
+          {
+            path: 'list',
+            component: () => import('@/views/buying-manager/suppliers/list'),
+            name: 'ItemList',
+            meta: { title: 'suppliers-list', icon: 'list' }
+          },
+          {
+            path: 'create',
+            component: () => import('@/views/buying-manager/suppliers/create'),
+            name: 'CreateItem',
+            meta: { title: 'suppliers-create', icon: 'edit' }
+          },
+          {
+            path: 'edit/:id(\\d+)',
+            component: () => import('@/views/buying-manager/suppliers/create'),
+            name: 'EditItem',
+            meta: { title: 'suppliers-edit', icon: 'edit' },
+            hidden: true
+          },
+          {
+            path: 'show/:id(\\d+)',
+            component: () => import('@/views/buying-manager/suppliers/show'),
+            name: 'ShowItem',
+            meta: { title: 'suppliers-show' },
+            hidden: true
+          }
+        ]
+      }
+    ]
+  },
   {
     path: '/documentation',
     component: Layout,
@@ -120,67 +231,6 @@ export const constantRoutes = [
         component: () => import('@/views/profile/index'),
         name: 'Profile',
         meta: { title: 'profile', icon: 'user', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/stock-manager',
-    component: Layout,
-    redirect: '/items',
-    name: 'StockManager',
-    meta: {
-      title: 'stock-manager',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'item-types',
-        component: () => import('@/views/stock-manager/item-types'),
-        name: 'ItemTypes',
-        meta: { title: 'item-types' }
-      },
-      {
-        path: 'item-units',
-        component: () => import('@/views/stock-manager/item-units'),
-        name: 'ItemUnits',
-        meta: { title: 'item-units' }
-      },
-      {
-        path: 'items',
-        component: () => import('@/views/stock-manager/items'),
-        redirect: '/items/list',
-        name: 'Items',
-        meta: {
-          title: 'items'
-        },
-        children: [
-          {
-            path: 'list',
-            component: () => import('@/views/stock-manager/items/list'),
-            name: 'ItemList',
-            meta: { title: 'items-list', icon: 'list' }
-          },
-          {
-            path: 'create',
-            component: () => import('@/views/stock-manager/items/create'),
-            name: 'CreateItem',
-            meta: { title: 'items-create', icon: 'edit' }
-          },
-          {
-            path: 'edit/:id(\\d+)',
-            component: () => import('@/views/stock-manager/items/create'),
-            name: 'EditItem',
-            meta: { title: 'items-edit', icon: 'edit' },
-            hidden: true
-          },
-          {
-            path: 'show/:id(\\d+)',
-            component: () => import('@/views/stock-manager/items/show'),
-            name: 'ShowItem',
-            meta: { title: 'items-show' },
-            hidden: true
-          }
-        ]
       }
     ]
   }
@@ -234,7 +284,7 @@ export const asyncRoutes = [
       }
     ]
   },
-
+  */
   {
     path: '/icon',
     component: Layout,
@@ -247,7 +297,7 @@ export const asyncRoutes = [
       }
     ]
   },
-  */
+
   /** when your routing map is too long, you can split it into small modules **/
   componentsRouter,
   nestedRouter,

@@ -885,35 +885,17 @@ const contents = {
         'name': '彩色凝膠（罐裝）'
       }
     },
-    {
-      'id': 101,
-      'name': 'Ruyi Gel - 138 靛藍色 5ml',
-      'item_type_id': '9',
-      'item_type': {
-        'id': 9,
-        'name': '彩色凝膠（罐裝）'
-      }
-    },
-    {
-      'id': 102,
-      'name': 'Ruyi Gel - 139 尼加拉藍 5ml',
-      'item_type_id': '9',
-      'item_type': {
-        'id': 9,
-        'name': '彩色凝膠（罐裝）'
-      }
-    }
   ],
   'first_page_url': 'http://guapp.test/api/items?page=1',
   'from': 1,
-  'last_page': 10,
+  'last_page': 1,
   'last_page_url': 'http://guapp.test/api/items?page=10',
   'next_page_url': 'http://guapp.test/api/items?page=2',
   'path': 'http://guapp.test/api/items',
   'per_page': '100',
   'prev_page_url': null,
   'to': 100,
-  'total': 901
+  'total': 100
 }
 
 export default [

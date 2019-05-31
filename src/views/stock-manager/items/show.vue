@@ -9,29 +9,29 @@
         <span>{{ data.code }} {{ data.name }}</span>
       </div>
       <div class="text item">
-        建立時間： {{ data.created_at }}
+        {{ $t('table.updatedAt') }}： {{ data.updated_at }}
       </div>
       <div class="text item">
-        品項類別： {{ data.item_type.name }}
+        {{ $t('items.label.itemTypeId') }}： {{ data.item_type.name }}
       </div>
       <div class="text item">
-        品項單位： {{ data.item_unit.name }}
+        {{ $t('items.label.itemUnitId') }}： {{ data.item_unit.name }}
       </div>
       <div class="text item">
-        進貨價格： {{ data.buying_prize }}
+        {{ $t('items.label.buyingPrize') }}： {{ data.buying_prize }}
       </div>
       <div class="text item">
-        銷售價格： {{ data.selling_prize }}
+        {{ $t('items.label.itemUnitId') }}： {{ data.selling_prize }}
       </div>
     </el-card>
     <span>
       <el-button
         size="mini"
-        @click="edit()">Edit</el-button>
+        @click="edit()">{{ $t('table.edit') }}</el-button>
       <el-button
         size="mini"
         type="danger"
-        @click="remove()">Delete</el-button>
+        @click="remove()">{{ $t('table.delete') }}</el-button>
     </span>
   </div>
 </template>
@@ -82,15 +82,15 @@
         this.$router.push({ path: '/stock-manager/items/edit/' + this.id })
       },
       remove() {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm(this.$t('table.deleteWarning'), this.$t('table.prompt'), {
+          confirmButtonText: this.$t('el.messagebox.confirm'),
+          cancelButtonText: this.$t('el.messagebox.cancel'),
           type: 'warning'
         }).then(() => {
           destroy(this.data).then(() => {
             this.$message({
               type: 'success',
-              message: '删除成功!'
+              message: this.$t('form.deleted-successfully')
             });
             this.$router.push({ path: '/stock-manager/items/list' })
           }).catch(e => {
@@ -99,7 +99,7 @@
         }).catch(e => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('form.deleted-cancel')
           });
         });
       }

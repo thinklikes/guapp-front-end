@@ -5,7 +5,7 @@
         <el-button
           type="text"
           size="mini"
-          @click="() => append()">
+          @click="append">
           {{ $t('table.add') }}
         </el-button>
         <el-input
@@ -13,22 +13,19 @@
           v-model="filterText">
         </el-input>
         <el-tree
-          ref="itemTypeTree"
+          ref="dataTree"
           v-loading="loading"
           node-key="id"
           :filter-node-method="filterNode"
           :empty-text="loadingStr"
           :data="data"
-          :expand-on-click-node="false"
-          @node-drop="handleDrop"
-          draggable
-          :allow-drop="allowDrop">
+          :expand-on-click-node="false">
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <el-input
               :ref="'input' + node.key"
               type="text"
               size="mini"
-              :placeholder="$t('itemTypes.placeholder.name')"
+              :placeholder="$t('supplierTypes.placeholder.name')"
               v-model="data.label"
               v-show="showField(node)"
               @blur="() => blurField(node)"
@@ -48,12 +45,6 @@
               <el-button
                 type="text"
                 size="mini"
-                @click="() => append(node)">
-                {{ $t('table.append') }}
-              </el-button>
-              <el-button
-                type="text"
-                size="mini"
                 @click="() => remove(node, data)">
                 {{ $t('table.delete') }}
               </el-button>
@@ -64,25 +55,21 @@
     </div>
   </div>
 </template>
-<script>
-  import { fetchList } from '@/api/item-types'
-  import { create } from '@/api/item-types'
-  import { update } from '@/api/item-types'
-  import { updatePriority } from '@/api/item-types'
-  import { destroy } from '@/api/item-types'
 
-  const MAX_PATH_NODES = 3;
+<script>
+  import { fetchList } from '@/api/supplier-types'
+  import { create } from '@/api/supplier-types'
+  import { update } from '@/api/supplier-types'
+  import { destroy } from '@/api/supplier-types'
 
   export default {
-    name: 'ItemTypes',
+    name: 'SupplierTypes',
     data() {
       return {
         data: [],
         loadingStr: "Loading ....",
         loading: true,
         editField : '',
-        oldParentKeyBeforeDragging: '',
-        oldIndexBeforeDragging: 0,
         filterText: '',
       }
     },
@@ -98,7 +85,7 @@
 
     watch: {
       filterText(val) {
-        this.$refs.itemTypeTree.filter(val);
+        this.$refs.dataTree.filter(val);
       }
     },
 
@@ -108,15 +95,11 @@
         return data.label.indexOf(value) !== -1;
       },
 
-      append(parentNode = null) {
-        const newChild = {label: 'new item', children: [] };
-        newChild.parent_id = parentNode == null ? 0 :parentNode.data.id;
+      append() {
+        const newChild = {label: 'new one', children: [] };
         create(newChild).then(response => {
           newChild.id = response.contents.id;
-          this.$refs.itemTypeTree.append(newChild, parentNode);
-          if (parentNode) {
-            parentNode.expand()
-          }
+          this.$refs.dataTree.append(newChild);
         }).catch(e => {
           console.log(e);
         });
@@ -128,17 +111,16 @@
           cancelButtonText: this.$t('el.messagebox.cancel'),
           type: 'warning'
         }).then(() => {
-          this.$refs.itemTypeTree.remove(node);
           destroy(data).then(() => {
+            this.$refs.dataTree.remove(node);
             this.$message({
               type: 'success',
               message: this.$t('form.deleted-successfully')
             });
           }).catch(e => {
-              console.log(e);
+            console.log(e);
           });
-
-        }).catch(() => {
+        }).catch(e => {
           this.$message({
             type: 'info',
             message: this.$t('form.deleted-cancel')
@@ -146,67 +128,19 @@
         });
       },
 
-      focusField(node){
+      focusField(node) {
         this.editField = node.key;
 
         this.$nextTick(() => this.$refs["input" + node.key].focus());
       },
 
-      blurField(node){
+      blurField(node) {
         update(node.data);
         this.editField = '';
       },
 
-      showField(node){
+      showField(node) {
         return this.editField === node.key
-      },
-
-      handleDrop(draggingNode, dropNode, dropType, ev) {
-        let parent;
-
-        if ((dropType === 'before' || dropType === 'after')) {
-          parent = dropNode.parent;
-        } else if (dropType === 'inner') {
-          parent = dropNode
-        }
-
-        let parentId = parent.data.id ? parent.data.id : 0;
-
-        let children = parent.data.children || parent.data;
-
-        children = Object.values(children).map(item => item.id);
-
-        updatePriority(
-          draggingNode.data, parentId, children
-        );
-      },
-
-      allowDrop(draggingNode, dropNode, dropType) {
-        // return false;
-        let subChildren = draggingNode.data.children;
-        let levelOfCurrent = subChildren == null ? 1 : 2;
-        let parent;
-
-        if (subChildren != null) {
-          subChildren.forEach(function (subChild) {
-            if (subChild.children != null) {
-              levelOfCurrent += 1;
-              return false;
-            }
-          });
-        }
-
-        if ((dropType === 'prev' || dropType === 'next')) {
-          parent = dropNode.parent;
-        } else if (dropType === 'inner') {
-          parent = dropNode
-        }
-
-        let parentLevel = parent.label === undefined
-          ? 0
-          : parent.level;
-
-        return (parentLevel + levelOfCurrent) <= MAX_PATH_NODES;
       }
     }
   };
@@ -222,4 +156,3 @@
     padding-right: 8px;
   }
 </style>
-

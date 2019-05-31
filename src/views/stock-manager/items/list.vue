@@ -5,7 +5,7 @@
         <div class="filter-container">
           <el-input
             v-model="queryString"
-            placeholder="品項代號或品項名稱"
+            :placeholder="$t('items.label.code') + '/' + $t('items.label.name')"
             style="width: 200px;"
             class="filter-item"
             @keyup.enter.native="handleFilter" />
@@ -36,19 +36,19 @@
           :data="data"
           style="width: 100%">
           <el-table-column
-            label="品項代號">
+            :label="$t('items.label.code')">
             <template slot-scope="scope">
               <span style="margin-left: 10px">{{ scope.row.code }}</span>
             </template>
           </el-table-column>
           <el-table-column
-            label="品項類型">
+            :label="$t('items.label.itemTypeId')">
             <template slot-scope="scope">
               <span style="margin-left: 10px">{{ scope.row.item_type.name }}</span>
             </template>
           </el-table-column>
           <el-table-column
-            label="品項名稱">
+            :label="$t('items.label.name')">
             <template slot-scope="scope">
               <span style="margin-left: 10px">
                 <router-link :to="'/stock-manager/items/show/'+scope.row.id" class="link-type">
@@ -143,7 +143,7 @@
           this.loading = false;
           this.parseResponseValues(response);
           if (this.data.length === 0) {
-            this.loadingStr = '暫無資料';
+            this.loadingStr = this.$t('el.tree.emptyText');
           }
           scrollTo(0, 0)
         }).catch(e => {

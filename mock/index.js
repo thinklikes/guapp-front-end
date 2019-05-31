@@ -8,6 +8,7 @@ import search from './remote-search'
 import itemTypes from './item-types'
 import itemUnits from './item-units'
 import items from './items'
+import supplierTypes from './supplier-types'
 
 const mocks = [
   ...user,
@@ -17,6 +18,7 @@ const mocks = [
   ...itemTypes,
   ...itemUnits,
   ...items,
+  ...supplierTypes
 ]
 
 // for front mock

@@ -70,7 +70,14 @@ export default {
     'items-list': '品項列表',
     'items-create': '新增品項',
     'items-show': '品項資料',
-    'items-edit': '修改品項'
+    'items-edit': '修改品項',
+    'buying-manager': '進貨管理',
+    'suppliers': '供應商管理',
+    'suppliers-list': '供應商列表',
+    'suppliers-create': '新增供應商',
+    'suppliers-show': '供應商資料',
+    'suppliers-edit': '修改供應商',
+    'supplier-types': '供應商類別'
   },
   navbar: {
     dashboard: '首頁',
@@ -98,7 +105,7 @@ export default {
     editPermission: '編輯權限',
     roles: '你的權限',
     switchRoles: '切換權限',
-    tips: '在某些情況下，不適合使用 v-permission。例如：Element-UI 的 el-tab 或 el-table-column 以及其它動態渲染 dom 的場景。你只能通過手動設置 v-if 來實現。',
+    tips: '在某些情況下，不適合使用 v-permission。例如：Element-UI 的 el-tab 或 el-table-column 以及其它動態渲染 dom 的場景。你只能通過append手動設置 v-if 來實現。',
     delete: '刪除',
     confirm: '確定',
     cancel: '取消'
@@ -140,7 +147,12 @@ export default {
     draft: '草稿',
     delete: '刪除',
     cancel: '取 消',
-    confirm: '確 定'
+    confirm: '確 定',
+    append: '附加一筆',
+    prompt: '提示',
+    deleteWarning: '是否刪除?',
+    createdAt: '建立時間',
+    updatedAt: '更新時間'
   },
   example: {
     warning: '創建和編輯頁面是不能被 keep-alive 緩存的，因為keep-alive 的 include 目前不支持根據路由來緩存，所以目前都是基於 component name 來進行緩存的。如果你想類似的實現緩存效果，可以使用 localStorage 等瀏覽器緩存方案。或者不要使用 keep-alive 的 include，直接緩存所有頁面。詳情見'
@@ -187,7 +199,9 @@ export default {
     submit: '送出',
     reset: '重置',
     'created-successfully': '新增成功',
-    'updated-successfully': '更新成功'
+    'updated-successfully': '更新成功',
+    'deleted-successfully': '刪除成功',
+    'deleted-cancel': '取消刪除'
   },
   items: {
     label: {
@@ -202,10 +216,25 @@ export default {
     placeholder: {
       code: '請輸入品項代碼',
       name: '請輸入品項名稱',
-      itemTYpeId: '請輸入品項類型',
+      itemTypeId: '請輸入品項類型',
       itemUnitId: '請輸入品項單位',
       buyingPrize: '請輸入進貨價格',
       sellingPrize: '請輸入銷售價格'
+    }
+  },
+  itemTypes: {
+    placeholder: {
+      name: '請輸入品項類型名稱'
+    }
+  },
+  itemUnits: {
+    placeholder: {
+      name: '請輸入品項單位名稱'
+    }
+  },
+  supplierTypes: {
+    placeholder: {
+      name: '請輸入品項單位名稱'
     }
   }
 }

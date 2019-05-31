@@ -5,15 +5,15 @@
         <el-button
           type="text"
           size="mini"
-          @click="() => append()">
-          Add Unit
+          @click="append">
+          {{ $t('table.add') }}
         </el-button>
         <el-input
-          placeholder="输入关键字进行过滤"
+          :placeholder="$t('table.search')"
           v-model="filterText">
         </el-input>
         <el-tree
-          ref="itemUnitTree"
+          ref="dataTree"
           v-loading="loading"
           node-key="id"
           :filter-node-method="filterNode"
@@ -25,7 +25,7 @@
               :ref="'input' + node.key"
               type="text"
               size="mini"
-              placeholder="请输入内容"
+              :placeholder="$t('itemUnits.placeholder.name')"
               v-model="data.label"
               v-show="showField(node)"
               @blur="() => blurField(node)"
@@ -40,13 +40,13 @@
                 type="text"
                 size="mini"
                 @click="() => focusField(node)">
-                Edit
+                {{ $t('table.edit') }}
               </el-button>
               <el-button
                 type="text"
                 size="mini"
                 @click="() => remove(node, data)">
-                Delete
+                {{ $t('table.delete') }}
               </el-button>
             </span>
           </span>
@@ -85,7 +85,7 @@
 
     watch: {
       filterText(val) {
-        this.$refs.itemUnitTree.filter(val);
+        this.$refs.dataTree.filter(val);
       }
     },
 
@@ -96,25 +96,26 @@
       },
 
       append() {
-        const newChild = {label: 'new unit', children: [] };
+        const newChild = {label: 'new one', children: [] };
         create(newChild).then(response => {
-          this.$refs.itemUnitTree.append(newChild);
+          newChild.id = response.contents.id;
+          this.$refs.dataTree.append(newChild);
         }).catch(e => {
           console.log(e);
         });
       },
 
       remove(node, data) {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm(this.$t('table.deleteWarning'), this.$t('table.prompt'), {
+          confirmButtonText: this.$t('el.messagebox.confirm'),
+          cancelButtonText: this.$t('el.messagebox.cancel'),
           type: 'warning'
         }).then(() => {
           destroy(data).then(() => {
-            this.$refs.itemUnitTree.remove(node);
+            this.$refs.dataTree.remove(node);
             this.$message({
               type: 'success',
-              message: '删除成功!'
+              message: this.$t('form.deleted-successfully')
             });
           }).catch(e => {
             console.log(e);
@@ -122,7 +123,7 @@
         }).catch(e => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: this.$t('form.deleted-cancel')
           });
         });
       },
