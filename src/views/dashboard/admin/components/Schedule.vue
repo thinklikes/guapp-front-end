@@ -19,7 +19,7 @@
             />
             <el-table-column
                 prop="name"
-                label="稱謂"
+                label="顧客稱謂"
                 min-width="180"
             >
                 <template slot-scope="scope">
@@ -29,12 +29,12 @@
             <el-table-column
                 prop="subject"
                 label="預約項目"
-                min-width="150"
+                min-width="140"
             />
             <el-table-column
                 prop="desc"
-                label="預約內容"
-                min-width="190"
+                label="其他"
+                min-width="180"
             >
                 <template slot-scope="scope">
                    {{ desc(scope.row.desc) }}
@@ -64,10 +64,13 @@
     </el-tab-pane>
     <el-dialog title="本次預約消費記錄" :visible.sync="dialogFormVisible">
         <el-form :model="form">
-            <el-form-item label="客人稱謂" :label-width="formLabelWidth">
+            <el-form-item label="消費時間" :label-width="formLabelWidth">
+                <el-input v-model="form.time" disabled />
+            </el-form-item>
+            <el-form-item label="顧客稱謂" :label-width="formLabelWidth">
                 <el-input v-model="form.name" disabled />
             </el-form-item>
-            <el-form-item label="客人稱謂" :label-width="formLabelWidth">
+            <el-form-item label="抵達狀態" :label-width="formLabelWidth">
                 <el-radio-group v-model="form.arrivalTime">
                     <el-radio-button label="準時" />
                     <el-radio-button label="遲到十分內" />
@@ -77,17 +80,52 @@
             </el-form-item>
             <el-form-item label="消費項目" :label-width="formLabelWidth">
                 <el-cascader
+                    class="is_full"
                     v-model="form.subject"
                     :options="options"
+                    clearable
                 />
             </el-form-item>
-            <el-form-item label="消費內容" :label-width="formLabelWidth">
+            <el-form-item label="延甲" :label-width="formLabelWidth" v-show="formDesc() == 1">
+                <el-radio-group v-model="form.extension">
+                    <el-radio :label="0">0</el-radio>
+                    <el-radio :label="1">1</el-radio>
+                    <el-radio :label="2">2</el-radio>
+                    <el-radio :label="3">3</el-radio>
+                    <el-radio :label="4">4</el-radio>
+                    <el-radio :label="5">5</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="卸甲" :label-width="formLabelWidth" v-show="formDesc() == 1 || formDesc() == 2">
+                <el-radio-group v-model="form.remove">
+                    <el-radio-button label="本店" />
+                    <el-radio-button label="他店" />
+                    <el-radio-button label="否" />
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="備註" :label-width="formLabelWidth">
+                <el-input v-model="form.remark" type="textarea" resize="none" />
+            </el-form-item>
+            <el-form-item label="操作前後" :label-width="formLabelWidth">
+                <el-upload
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    list-type="picture-card"
+                    :on-preview="handlePictureCardPreview"
+                    :on-remove="handleRemove">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+            </el-form-item>
+            <el-form-item label="消費金額" :label-width="formLabelWidth">
+                <el-input v-model="form.amount" />
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+            <el-button class="is_normal" @click="dialogFormVisible = false">取消</el-button>
+            <el-button class="is_normal" type="primary" @click="dialogFormVisible = false">確定</el-button>
         </div>
+    </el-dialog>
+    <el-dialog :visible.sync="dialogVisible">
+        <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
   </el-tabs>
 </template>
@@ -248,9 +286,14 @@ export default {
             }],
             dialogFormVisible: false,
             form: {
+                time: '',
                 name: '',
                 arrivalTime: '',
-                subject: []
+                subject: [],
+                extension: '',
+                remove: '',
+                remark: '',
+                amount: ''
             },
             value: [],
             options: [{
@@ -258,7 +301,20 @@ export default {
                 label: '手部凝膠',
                 children: [{
                     value: 'tehui',
-                    label: '特惠款'
+                    label: '特惠款',
+                    children: [{
+                        value: 'a',
+                        label: 'A',
+                    }, {
+                        value: 'b',
+                        label: 'B',
+                    }, {
+                        value: 'c',
+                        label: 'C',
+                    }, {
+                        value: 'd',
+                        label: 'D',
+                    }]
                 }, {
                     value: 'gaojeo',
                     label: '高階'
@@ -330,11 +386,14 @@ export default {
                     label: '改型'
                 }]
             }],
-            formLabelWidth: '120px'
+            formLabelWidth: '120px',
+            dialogImageUrl: '',
+            dialogVisible: false
         }
     },
     methods: {
         handleForm(row) {
+            this.form.time = row.date + ' ' + row.time
             this.form.name = row.name
             this.dialogFormVisible = true
         },
@@ -344,6 +403,25 @@ export default {
                 key == 0 ? result += `${value.title}：${value.content}` : result += `，${value.title}：${value.content}`
             }
             return result
+        },
+        formDesc() {
+            switch(this.form.subject[0]) {
+                case 'handGel':
+                    return 1
+                case 'handCare':
+                    return 2
+                case 'makeup':
+                    return 3
+                default:
+                    return 0
+            }
+        },
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handlePictureCardPreview(file) {
+            this.dialogImageUrl = file.url;
+            this.dialogVisible = true;
         }
     }
 }

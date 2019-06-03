@@ -9,6 +9,7 @@ $bg_color: (
     strong      : #c73e3a,
     warning     : #ffc85e,
     info        : #6699a1,
+    success     : #90b44b,
     alert       : #70649a,
     heavy       : #342628,
     weak        : #fbfbfb,
@@ -36,9 +37,9 @@ $text_color: (
     success         : #90b44b,
     accent          : #ed784a,
     strong          : #c73e3a,
-    warning         : #e2943b,
+    warning         : #ff9926,
     alert           : #70649a,
-    weak            : #888888,
+    weak            : #cccccc,
     default_invert  : #ffffff
 );
 @function text_color($name) {
@@ -51,9 +52,11 @@ $text_color: (
 }
 
 $border_color: (
-    default         : #d9dadb,
-    heavy           : #342628,
-    weak            : #f9f9f9,
+    default         : #cccccc,
+    accent          : #ed784a,
+    strong          : #c73e3a,
+    heavy           : #aaaaaa,
+    weak            : #e5e5e5,
 );
 @function border_color($name) {
     @return map-get($border_color, $name);

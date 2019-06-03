@@ -3,20 +3,20 @@
 // ************************************************************
 
 $button-size: (
-    mini: 28px,
-    small: 36px,
-    medium: 44px,
-    large: 48px,
+    mini: 32px,
+    small: 38px,
+    medium: 46px,
+    large: 52px,
 );
 @function button-size($name) {
     @return map-get($button-size, $name);
 }
 
 $button-length: (
-    short: 120px,
-    normal: 150px,
-    long: 240px,
-    longest: 320px,
+    short: 100px,
+    normal: 120px,
+    long: 160px,
+    longest: 200px,
     half: calc(50% - 10px),
     full: 100%
 );
@@ -29,10 +29,10 @@ $button-length: (
 
 
 $el-size: (
-    mini: 36px,
-    small: 36px,
-    medium: 44px,
-    large: 60px,
+    mini: 38px,
+    small: 38px,
+    medium: 46px,
+    large: 52px,
 );
 @function el-size($name) {
     @return map-get($el-size, $name);

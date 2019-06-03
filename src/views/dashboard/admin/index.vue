@@ -8,7 +8,7 @@
       </el-col>
       <el-col :xs="24" :sm="16" :lg="18">
         <MainSectionBody>
-          <MainSectionTitle>月來客數</MainSectionTitle>
+          <MainSectionTitle>{{ currentLineChartTitle }}</MainSectionTitle>
           <line-chart :chart-data="lineChartData" />
         </MainSectionBody>
       </el-col>
@@ -63,18 +63,22 @@ import BoxCard from './components/BoxCard'
 
 const lineChartData = {
   visitis: {
+    title: '月來客數',
     expectedData: [100, 120, 161, 134, 105, 160, 165],
     actualData: [120, 82, 91, 154, 162, 140, 145]
   },
   baby: {
+    title: '月學員數',
     expectedData: [200, 192, 120, 144, 160, 130, 140],
     actualData: [180, 160, 151, 106, 145, 150, 130]
   },
   purchases: {
+    title: '月進貨額',
     expectedData: [80, 100, 121, 104, 105, 90, 100],
     actualData: [120, 90, 100, 138, 142, 130, 130]
   },
   shoppings: {
+    title: '月銷貨額',
     expectedData: [130, 140, 141, 142, 145, 150, 160],
     actualData: [120, 82, 91, 154, 162, 140, 130]
   }
@@ -99,12 +103,14 @@ export default {
   },
   data() {
     return {
+      currentLineChartTitle: '月來客數',
       lineChartData: lineChartData.visitis
     }
   },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
+      this.currentLineChartTitle = this.lineChartData.title
     }
   }
 }

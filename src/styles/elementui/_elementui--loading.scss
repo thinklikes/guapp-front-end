@@ -1,0 +1,11 @@
+// ************************************************************
+// elementui--loading
+// ************************************************************
+
+.el-progress-circle {}
+.el-progress-circle__track {
+    stroke: bg_color(primary);
+}
+.el-progress-circle__path {
+    stroke: bg_color(warning);
+}
