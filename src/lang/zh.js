@@ -72,12 +72,12 @@ export default {
     'items-show': '品項資料',
     'items-edit': '修改品項',
     'buying-manager': '進貨管理',
-    'suppliers': '供應商管理',
-    'suppliers-list': '供應商列表',
-    'suppliers-create': '新增供應商',
-    'suppliers-show': '供應商資料',
-    'suppliers-edit': '修改供應商',
-    'supplier-types': '供應商類別'
+    'suppliers': '廠商管理',
+    'suppliers-list': '廠商列表',
+    'suppliers-create': '新增廠商',
+    'suppliers-show': '廠商資料',
+    'suppliers-edit': '修改廠商',
+    'supplier-types': '廠商類別'
   },
   navbar: {
     dashboard: '首頁',
@@ -153,6 +153,12 @@ export default {
     deleteWarning: '是否刪除?',
     createdAt: '建立時間',
     updatedAt: '更新時間'
+  },
+  common: {
+    colon: '：'
+  },
+  link: {
+    open: '開啟連結'
   },
   example: {
     warning: '創建和編輯頁面是不能被 keep-alive 緩存的，因為keep-alive 的 include 目前不支持根據路由來緩存，所以目前都是基於 component name 來進行緩存的。如果你想類似的實現緩存效果，可以使用 localStorage 等瀏覽器緩存方案。或者不要使用 keep-alive 的 include，直接緩存所有頁面。詳情見'
@@ -234,15 +240,26 @@ export default {
   },
   supplierTypes: {
     placeholder: {
-      name: '請輸入供應商類型'
+      name: '請輸入廠商類型'
     }
   },
   suppliers: {
     label: {
-      name: '供應商名稱',
-      supplierTypeId: '供應商類型',
-      phone: '供應商電話'
+      name: '廠商名稱',
+      supplierTypeId: '廠商類型',
+      phone: '廠商電話',
+      address: '廠商地址',
+      facebook: 'facebook',
+      website: '廠商網址',
+      note: '備註'
     },
-    placeholder: {}
+    placeholder: {
+      name: '請填入廠商名稱',
+      supplierTypeId: '請填入廠商類型'
+    },
+    typeError: {
+      facebook: 'facebook網址錯誤',
+      website: '廠商網址錯誤'
+    }
   }
 }

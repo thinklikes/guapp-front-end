@@ -52,10 +52,18 @@
             </template>
           </el-table-column>
           <el-table-column
-            :label="$t('suppliers.label.phone')">
+            :label="$t('suppliers.label.facebook')">
             <template slot-scope="scope">
               <span style="margin-left: 10px">
-                <span>{{ scope.row.phone }}</span>
+                <span class="u_link" @click="handOpenNewLink(scope.row.facebook)">{{ scope.row.facebook }}</span>
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            :label="$t('suppliers.label.website')">
+            <template slot-scope="scope">
+              <span style="margin-left: 10px">
+                <span class="u_link" @click="handOpenNewLink(scope.row.website)">{{ scope.row.website }}</span>
               </span>
             </template>
           </el-table-column>
@@ -166,6 +174,10 @@
 
         this.requestPage();
       },
+
+      handOpenNewLink(url) {
+        window.open(url, "_blank");
+      }
     }
   };
 </script>

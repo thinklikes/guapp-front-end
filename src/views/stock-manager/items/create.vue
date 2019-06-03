@@ -74,6 +74,7 @@
   import {default as ItemUnitSelector} from '../item-units/components/ItemUnitSelector'
 
   export default {
+    name: 'CreateItem',
     components: {ItemTypeSelector, ItemUnitSelector},
 
     computed: {
@@ -144,13 +145,12 @@
 
     methods: {
       submitForm(formName) {
-        console.log(this.ruleForm);
         this.$refs[formName].validate((valid) => {
           if (valid) {
             if ( ! this.isEdit) {
               create(this.ruleForm)
                 .then(response => {
-                  this.$message.success(this.$t('created-successfully'));
+                  this.$message.success(this.$t('form.created-successfully'));
                 })
                 .catch(e => {
                   console.log(e)
@@ -158,7 +158,7 @@
             } else {
               update(this.ruleForm)
                 .then(response => {
-                  this.$message.success(this.$t('updated-successfully'))
+                  this.$message.success(this.$t('form.updated-successfully'))
                 })
                 .catch(e => {
                   console.log(e)

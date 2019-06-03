@@ -6,22 +6,30 @@
       :empty-text="loadingStr"
       class="box-card">
       <div slot="header" class="clearfix">
-        <span>{{ data.code }} {{ data.name }}</span>
+        <span>{{ data.name }}</span>
       </div>
       <div class="text item">
-        {{ $t('table.updatedAt') }}： {{ data.updated_at }}
+        {{ $t('table.updatedAt') }}{{ $t('common.colon') }}{{ data.updated_at }}
       </div>
       <div class="text item">
-        {{ $t('items.label.itemTypeId') }}： {{ data.item_type.name }}
+        {{ $t('suppliers.label.supplierTypeId') }}{{ $t('common.colon') }}{{ data.supplier_type.name }}
       </div>
       <div class="text item">
-        {{ $t('items.label.itemUnitId') }}： {{ data.item_unit.name }}
+        {{ $t('suppliers.label.phone') }}{{ $t('common.colon') }}{{ data.phone }}
       </div>
       <div class="text item">
-        {{ $t('items.label.buyingPrize') }}： {{ data.buying_prize }}
+        {{ $t('suppliers.label.address') }}{{ $t('common.colon') }}{{ data.address }}
       </div>
       <div class="text item">
-        {{ $t('items.label.itemUnitId') }}： {{ data.selling_prize }}
+        {{ $t('suppliers.label.facebook') }}{{ $t('common.colon') }}
+        <span class="u_link" @click="handOpenNewLink(data.facebook)">{{ data.facebook }}</span>
+      </div>
+      <div class="text item">
+        {{ $t('suppliers.label.website') }}{{ $t('common.colon') }}
+        <span class="u_link" @click="handOpenNewLink(data.website)">{{ data.website }}</span>
+      </div>
+      <div class="text item">
+        {{ $t('suppliers.label.note') }}{{ $t('common.colon') }}{{ data.note }}
       </div>
     </el-card>
     <span>
@@ -37,27 +45,33 @@
 </template>
 
 <script>
-  const defaultItem = {
+  const URI = '/buying-manager/suppliers';
+
+  const defaultData = {
+    address: '',
+    created_at: null,
+    deleted_at: null,
+    facebook: '',
     name: '',
-    code: '',
-    item_type: {
-      'name': ''
+    note: '',
+    phone: '',
+    supplier_type: {
+      id: 0,
+      name: ''
     },
-    item_unit: {
-      'name': ''
-    },
-    buying_prize: 0,
-    selling_prize: 0
+    supplier_type_id: 0,
+    updated_at: null,
+    website: '',
   };
 
-  import { fetchOne } from '@/api/items';
-  import { destroy } from '@/api/items';
+  import { fetchOne } from '@/api/suppliers';
+  import { destroy } from '@/api/suppliers';
 
   export default {
-    name: 'ShowItem',
+    name: 'ShowSuppliers',
     data() {
       return {
-        data: Object.assign({}, defaultItem),
+        data: Object.assign({}, defaultData),
         id: null,
         loadingStr: "Loading ....",
         loading: true,
@@ -79,7 +93,7 @@
     },
     methods: {
       edit() {
-        this.$router.push({ path: '/stock-manager/items/edit/' + this.id })
+        this.$router.push({ path: URI + '/edit/' + this.id })
       },
       remove() {
         this.$confirm(this.$t('table.deleteWarning'), this.$t('table.prompt'), {
@@ -92,7 +106,7 @@
               type: 'success',
               message: this.$t('form.deleted-successfully')
             });
-            this.$router.push({ path: '/stock-manager/items/list' })
+            this.$router.push({ path: URI + '/list' })
           }).catch(e => {
             console.log(e);
           });
@@ -102,6 +116,10 @@
             message: this.$t('form.deleted-cancel')
           });
         });
+      },
+
+      handOpenNewLink(url) {
+        window.open(url, "_blank");
       }
 
     }

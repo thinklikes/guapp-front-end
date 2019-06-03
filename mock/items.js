@@ -884,7 +884,7 @@ const contents = {
         'id': 9,
         'name': '彩色凝膠（罐裝）'
       }
-    },
+    }
   ],
   'first_page_url': 'http://guapp.test/api/items?page=1',
   'from': 1,

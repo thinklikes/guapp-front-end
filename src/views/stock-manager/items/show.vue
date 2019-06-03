@@ -9,19 +9,19 @@
         <span>{{ data.code }} {{ data.name }}</span>
       </div>
       <div class="text item">
-        {{ $t('table.updatedAt') }}： {{ data.updated_at }}
+        {{ $t('table.updatedAt') }}{{ $t('common.colon') }}{{ data.updated_at }}
       </div>
       <div class="text item">
-        {{ $t('items.label.itemTypeId') }}： {{ data.item_type.name }}
+        {{ $t('items.label.itemTypeId') }}{{ $t('common.colon') }}{{ data.item_type.name }}
       </div>
       <div class="text item">
-        {{ $t('items.label.itemUnitId') }}： {{ data.item_unit.name }}
+        {{ $t('items.label.itemUnitId') }}{{ $t('common.colon') }}{{ data.item_unit.name }}
       </div>
       <div class="text item">
-        {{ $t('items.label.buyingPrize') }}： {{ data.buying_prize }}
+        {{ $t('items.label.buyingPrize') }}{{ $t('common.colon') }}{{ data.buying_prize }}
       </div>
       <div class="text item">
-        {{ $t('items.label.itemUnitId') }}： {{ data.selling_prize }}
+        {{ $t('items.label.itemUnitId') }}{{ $t('common.colon') }}{{ data.selling_prize }}
       </div>
     </el-card>
     <span>
@@ -37,7 +37,9 @@
 </template>
 
 <script>
-  const defaultItem = {
+  const URI = '/stock-manager/items';
+
+  const defaultData = {
     name: '',
     code: '',
     item_type: {
@@ -57,7 +59,7 @@
     name: 'ShowItem',
     data() {
       return {
-        data: Object.assign({}, defaultItem),
+        data: Object.assign({}, defaultData),
         id: null,
         loadingStr: "Loading ....",
         loading: true,
@@ -79,7 +81,7 @@
     },
     methods: {
       edit() {
-        this.$router.push({ path: '/stock-manager/items/edit/' + this.id })
+        this.$router.push({ path: URI + '/edit/' + this.id })
       },
       remove() {
         this.$confirm(this.$t('table.deleteWarning'), this.$t('table.prompt'), {
@@ -92,7 +94,7 @@
               type: 'success',
               message: this.$t('form.deleted-successfully')
             });
-            this.$router.push({ path: '/stock-manager/items/list' })
+            this.$router.push({ path: URI + '/list' })
           }).catch(e => {
             console.log(e);
           });
