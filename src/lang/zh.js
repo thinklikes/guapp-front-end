@@ -77,7 +77,12 @@ export default {
     'suppliers-create': '新增廠商',
     'suppliers-show': '廠商資料',
     'suppliers-edit': '修改廠商',
-    'supplier-types': '廠商類別'
+    'supplier-types': '廠商類別',
+    'warehouses': '倉庫管理',
+    'warehouses-list': '倉庫列表',
+    'warehouses-create': '新增倉庫',
+    'warehouses-show': '倉庫資料',
+    'warehouses-edit': '修改倉庫'
   },
   navbar: {
     dashboard: '首頁',
@@ -226,6 +231,17 @@ export default {
       itemUnitId: '請輸入品項單位',
       buyingPrize: '請輸入進貨價格',
       sellingPrize: '請輸入銷售價格'
+    }
+  },
+  warehouses: {
+    label: {
+      code: '倉庫代碼',
+      name: '倉庫名稱',
+      comment: '倉庫說明'
+    },
+    placeholder: {
+      code: '請輸入倉庫代碼',
+      name: '請輸入倉庫名稱'
     }
   },
   itemTypes: {

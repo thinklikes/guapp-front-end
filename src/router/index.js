@@ -140,6 +140,43 @@ export const constantRoutes = [
             hidden: true
           }
         ]
+      },
+      {
+        path: 'warehouses',
+        component: () => import('@/views/stock-manager/warehouses'),
+        redirect: '/stock-manager/warehouses/list',
+        name: 'Warehouses',
+        meta: {
+          title: 'warehouses'
+        },
+        children: [
+          {
+            path: 'list',
+            component: () => import('@/views/stock-manager/warehouses/list'),
+            name: 'WarehouseList',
+            meta: { title: 'warehouses-list', icon: 'list' }
+          },
+          {
+            path: 'create',
+            component: () => import('@/views/stock-manager/warehouses/create'),
+            name: 'CreateWarehouse',
+            meta: { title: 'warehouses-create', icon: 'edit' }
+          },
+          {
+            path: 'edit/:id(\\d+)',
+            component: () => import('@/views/stock-manager/warehouses/create'),
+            name: 'EditWarehouse',
+            meta: { title: 'warehouses-edit', icon: 'edit' },
+            hidden: true
+          },
+          {
+            path: 'show/:id(\\d+)',
+            component: () => import('@/views/stock-manager/warehouses/show'),
+            name: 'ShowWarehouse',
+            meta: { title: 'warehouses-show' },
+            hidden: true
+          }
+        ]
       }
     ]
   },
