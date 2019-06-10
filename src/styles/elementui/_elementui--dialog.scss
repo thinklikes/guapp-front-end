@@ -6,19 +6,20 @@
     text-align: center;
 }
 .el-dialog {
-    border-radius: 0;
+    border-radius: border_radius(medium);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     display: inline-block;
     margin-bottom: 3vh;
     max-width: calc(100% - 20px);
     text-align: left;
     padding-bottom: 10px;
-    width: 420px;
+    // width: 420px;
 }
 .el-dialog__header {
+    border-radius: border_radius(medium) border_radius(medium) 0 0;
     background-color: bg_color(secondary);
     margin-bottom: 0;
-    padding: 5px 20px 5px 2vw;
+    padding: 5px 20px 5px 4vw;
     position: relative;
 }
 .el-dialog__title {
@@ -28,7 +29,7 @@
 }
 .el-dialog__headerbtn {
     top: 50%;
-    right: 25px;
+    right: 4vw;
     transform: translateY(-50%);
 }
 .el-dialog__headerbtn .el-dialog__close,
@@ -38,20 +39,12 @@
 }
 .el-dialog__body {
     color: text_color(default);
-    padding: 0;
-}
-.el-dialog__content {
-    padding: 20px 4vw 0;
-    & .el-form-item {
-        margin-bottom: 20px;
-    }
+    padding: 20px 4vw;
 }
 
 .el-dialog__footer {
-    border-top: 1px solid border_color(warning);
     font-size: 0;
-    padding: 20px 4vw 10px;
-    text-align: center;
+    padding: 10px 4vw;
     & .el-button.el-button--small {
         height: button-size(medium);
         width: 120px;

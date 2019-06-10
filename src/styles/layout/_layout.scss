@@ -16,11 +16,14 @@
 
 .main-section {
     background-color: bg_color(primary);
-    background: linear-gradient(45deg, bg_color(primary) 50%, rgba(#ffffff, 0) 50%), linear-gradient(-45deg, bg_color(warning) 70%, bg_color(primary) 70%);
     border-radius: border_radius(large);
     box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
     padding: 40px 4vw;
+}
+
+.main-section--dashboard {
+    background: linear-gradient(45deg, bg_color(primary) 50%, rgba(#ffffff, 0) 50%), linear-gradient(-45deg, bg_color(secondary) 70%, bg_color(primary) 70%);
 }
 
 .main-section__title {

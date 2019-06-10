@@ -147,11 +147,11 @@
 
 
 
-// @include el-button(default, default, bg_color(weak), border_color(default), text_color(default));
-// @include el-button(default, hover, darken(bg_color(weak), 8%), darken(border_color(default), 8%), text_color(default));
+@include el-button(default, default, bg_color(weakest), border_color(default), text_color(default));
+@include el-button(default, hover, bg_color(weakest), darken(border_color(accent), 8%), text_color(accent));
 
-// @include el-button(primary, default, bg_color(warning), border_color(warning), text_color(default_invert));
-// @include el-button(primary, hover, darken(bg_color(warning), 8%), darken(border_color(warning), 8%), text_color(default_invert));
+@include el-button(primary, default, bg_color(warning), border_color(warning), text_color(default_invert));
+@include el-button(primary, hover, darken(bg_color(warning), 8%), darken(border_color(warning), 8%), text_color(default_invert));
 
 // @include el-button--plain(primary, default, lighten(bg_color(accent), 25.5%), darken(border_color(accent), 12%), darken(text_color(accent), 12%));
 // @include el-button--plain(primary, hover, bg_color(accent), border_color(accent), text_color(default_invert));

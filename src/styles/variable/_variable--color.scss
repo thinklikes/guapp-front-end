@@ -5,9 +5,10 @@
 $bg_color: (
     default     : #f8e3bf,
     primary     : #fffcf4,
+    secondary   : #ffc85e,
     accent      : #ed784a,
     strong      : #c73e3a,
-    warning     : #ffc85e,
+    warning     : #ff9926,
     info        : #6699a1,
     success     : #90b44b,
     alert       : #70649a,
@@ -55,6 +56,7 @@ $border_color: (
     default         : #cccccc,
     accent          : #ed784a,
     strong          : #c73e3a,
+    warning         : #ffc85e,
     heavy           : #aaaaaa,
     weak            : #e5e5e5,
 );

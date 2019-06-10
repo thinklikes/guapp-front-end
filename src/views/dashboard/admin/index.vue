@@ -1,5 +1,5 @@
 <template>
-  <MainSection>
+  <MainSection class="main-section--dashboard">
     <div class="u_clearfix"><Appointment /></div>
     <MainSectionBody><Schedule /></MainSectionBody>
     <el-row :gutter="40">
