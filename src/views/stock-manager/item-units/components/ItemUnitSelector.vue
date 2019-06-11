@@ -1,54 +1,55 @@
 <template>
-  <el-select
-    v-model="selected"
-    :placeholder="$t('selector.placeholder')"
-    filterable>
-      <el-option
-        v-for="unit in options"
-        :key="unit.id"
-        :label="unit.label"
-        :value="unit.id">
-      </el-option>
-  </el-select>
+    <el-select
+        v-model="selected"
+        :placeholder="$t('selector.placeholder')"
+        filterable
+    >
+        <el-option
+            v-for="unit in options"
+            :key="unit.id"
+            :label="unit.label"
+            :value="unit.id"
+        />
+    </el-select>
 </template>
 
 <el-radio></el-radio>
 
 <script>
-  import {fetchList} from '@/api/item-units'
+import { fetchList } from '@/api/item-units'
 
-  export default {
+export default {
     name: 'ItemUnitSelector',
     props: {
-      value: {
-        type: Number,
-        default: null
-      }
-    },
-    
-    watch: {
-      value(val)  {
-        this.selected = val;
-      },
-      selected(val, oldVal)  {
-        this.$emit('input', val);
-        this.$emit('change');
-      }
+        value: {
+            type: Number,
+            default: null
+        }
     },
 
     data() {
-      return {
-        options: [],
-        selected: this.value,
-      }
+        return {
+            options: [],
+            selected: this.value
+        }
+    },
+
+    watch: {
+        value(val) {
+            this.selected = val
+        },
+        selected(val, oldVal) {
+            this.$emit('input', val)
+            this.$emit('change')
+        }
     },
 
     created() {
-      fetchList().then(response => {
-        this.options = response.contents
-      }).catch(e => {
-        console.log(e);
-      });
-    },
-  }
+        fetchList().then(response => {
+            this.options = response.contents
+        }).catch(e => {
+            console.log(e)
+        })
+    }
+}
 </script>
