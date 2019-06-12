@@ -47,7 +47,7 @@
                     >
                         <template slot-scope="scope">
                             <span style="margin-left: 10px">
-                                <router-link :to="'/stock-manager/warehouses/show/'+scope.row.id" class="link-type">
+                                <router-link :to="mainPATH + '/show/' + scope.row.id" class="link-type">
                                     <span>{{ scope.row.name }}</span>
                                 </router-link>
                             </span>
@@ -75,6 +75,8 @@
 <script>
 import { fetchList } from '@/api/warehouses'
 
+const mainPATH = '/stock-manager/warehouses'
+
 export default {
     name: 'ItemsList',
     data() {
@@ -85,7 +87,8 @@ export default {
             currentPage: 1,
             total: 0,
             perPage: 50,
-            queryString: ''
+            queryString: '',
+            mainPATH: mainPATH
         }
     },
     watch: {
@@ -102,7 +105,7 @@ export default {
 
     methods: {
         add() {
-            this.$router.push({ path: '' })
+            this.$router.push({ path: mainPATH + '/create' })
         },
 
         changeSize(size) {

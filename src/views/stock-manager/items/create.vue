@@ -35,6 +35,8 @@ import { update } from '@/api/items'
 import { default as ItemTypeSelector } from '../item-types/components/ItemTypeSelector'
 import { default as ItemUnitSelector } from '../item-units/components/ItemUnitSelector'
 
+const mainPATH = '/stock-manager/items'
+
 export default {
     name: 'CreateItem',
     components: { ItemTypeSelector, ItemUnitSelector },
@@ -129,6 +131,7 @@ export default {
                         create(this.ruleForm)
                             .then(response => {
                                 this.$message.success(this.$t('form.created-successfully'))
+                                this.$router.push({ path: mainPATH + '/show/' + response.contents.id })
                             })
                             .catch(e => {
                                 console.log(e)
@@ -137,6 +140,7 @@ export default {
                         update(this.ruleForm)
                             .then(response => {
                                 this.$message.success(this.$t('form.updated-successfully'))
+                                this.$router.push({ path: mainPATH + '/show/' + this.id })
                             })
                             .catch(e => {
                                 console.log(e)

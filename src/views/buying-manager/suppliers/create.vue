@@ -74,6 +74,8 @@ import { create } from '@/api/suppliers'
 import { update } from '@/api/suppliers'
 import { default as SupplierTypeSelector } from '../supplier-types/components/SupplierTypeSelector'
 
+const mainPATH = '/buying-manager/suppliers'
+
 export default {
     name: 'CreateSupplier',
     components: { SupplierTypeSelector },
@@ -152,6 +154,7 @@ export default {
                         create(this.ruleForm)
                             .then(response => {
                                 this.$message.success(this.$t('form.created-successfully'))
+                                this.$router.push({ path: mainPATH + '/show/' + response.contents.id })
                             })
                             .catch(e => {
                                 console.log(e)
@@ -160,6 +163,7 @@ export default {
                         update(this.ruleForm)
                             .then(response => {
                                 this.$message.success(this.$t('form.updated-successfully'))
+                                this.$router.push({ path: mainPATH + '/show/' + this.id })
                             })
                             .catch(e => {
                                 console.log(e)

@@ -88,6 +88,8 @@
 import { fetchList } from '@/api/items'
 import { default as ItemTypeSelector } from '../item-types/components/ItemTypeSelector'
 
+const mainPATH = '/stock-manager/items'
+
 export default {
     name: 'ItemsList',
     components: { ItemTypeSelector },
@@ -100,7 +102,8 @@ export default {
             total: 0,
             perPage: 50,
             queryString: '',
-            typeId: null
+            typeId: null,
+            mainPATH: mainPATH
         }
     },
     watch: {
@@ -117,7 +120,7 @@ export default {
 
     methods: {
         add() {
-            this.$router.push({ path: '/stock-manager/items/create' })
+            this.$router.push({ path: mainPATH + '/create' })
         },
 
         changeSize(size) {

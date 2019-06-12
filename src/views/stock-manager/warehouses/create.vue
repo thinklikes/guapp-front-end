@@ -8,7 +8,7 @@
         label-width="100px"
     >
         <el-form-item
-            :label="$t('items.label.code')"
+            :label="$t('warehouses.label.code')"
             prop="code"
         >
             <el-input
@@ -16,7 +16,7 @@
             />
         </el-form-item>
         <el-form-item
-            :label="$t('items.label.name')"
+            :label="$t('warehouses.label.name')"
             prop="name"
         >
             <el-input
@@ -24,42 +24,10 @@
             />
         </el-form-item>
         <el-form-item
-            :label="$t('items.label.itemTypeId')"
-            prop="itemTypeId"
-        >
-            <ItemTypeSelector
-                ref="itemType"
-                v-model="ruleForm.itemTypeId"
-            />
-        </el-form-item>
-        <el-form-item
-            :label="$t('items.label.itemUnitId')"
-            prop="itemUnitId"
-        >
-            <ItemUnitSelector
-                ref="itemUnit"
-                v-model="ruleForm.itemUnitId"
-            />
-        </el-form-item>
-        <el-form-item
-            :label="$t('items.label.buyingPrize')"
+            :label="$t('warehouses.label.comment')"
         >
             <el-input
-                v-model="ruleForm.buyingPrize"
-            />
-        </el-form-item>
-        <el-form-item
-            :label="$t('items.label.sellingPrize')"
-        >
-            <el-input
-                v-model="ruleForm.sellingPrize"
-            />
-        </el-form-item>
-        <el-form-item
-            :label="$t('items.label.note')"
-        >
-            <el-input
-                v-model="ruleForm.note"
+                v-model="ruleForm.comment"
             />
         </el-form-item>
         <el-form-item>
@@ -70,41 +38,25 @@
 </template>
 
 <script>
-import { fetchOne } from '@/api/items'
-import { create } from '@/api/items'
-import { update } from '@/api/items'
-import { default as ItemTypeSelector } from '../item-types/components/ItemTypeSelector'
-import { default as ItemUnitSelector } from '../item-units/components/ItemUnitSelector'
+import { fetchOne } from '@/api/warehouses'
+import { create } from '@/api/warehouses'
+import { update } from '@/api/warehouses'
+
+const mainPATH = '/stock-manager/warehouses'
 
 export default {
-    name: 'CreateItem',
-    components: { ItemTypeSelector, ItemUnitSelector },
-
+    name: 'CreateWarehouse',
     data() {
         return {
             loading: true,
             id: null,
-            ruleForm: {
-                code: '',
-                name: '',
-                itemTypeId: null,
-                itemUnitId: null,
-                buyingPrize: null,
-                sellingPrize: null,
-                note: ''
-            },
+            ruleForm: {},
             rules: {
                 code: [
-                    { required: true, message: this.$t('items.placeholder.code'), trigger: 'blur' }
+                    { required: true, message: this.$t('warehouses.placeholder.code'), trigger: 'blur' }
                 ],
                 name: [
-                    { required: true, message: this.$t('items.placeholder.name'), trigger: 'blur' }
-                ],
-                itemTypeId: [
-                    { required: true, message: this.$t('items.placeholder.itemTypeId'), trigger: 'change' }
-                ],
-                itemUnitId: [
-                    { required: true, message: this.$t('items.placeholder.itemUnitId'), trigger: 'change' }
+                    { required: true, message: this.$t('warehouses.placeholder.name'), trigger: 'blur' }
                 ]
             }
         }
@@ -134,11 +86,7 @@ export default {
                     id: this.id,
                     code: data.code,
                     name: data.name,
-                    itemTypeId: parseInt(data.item_type_id),
-                    itemUnitId: parseInt(data.item_unit_id),
-                    buyingPrize: data.buying_prize,
-                    sellingPrize: data.selling_prize,
-                    note: data.note
+                    comment: data.comment
                 }
             })
             .catch(e => {
@@ -154,6 +102,7 @@ export default {
                         create(this.ruleForm)
                             .then(response => {
                                 this.$message.success(this.$t('form.created-successfully'))
+                                this.$router.push({ path: mainPATH + '/show/' + response.contents.id })
                             })
                             .catch(e => {
                                 console.log(e)
@@ -162,6 +111,7 @@ export default {
                         update(this.ruleForm)
                             .then(response => {
                                 this.$message.success(this.$t('form.updated-successfully'))
+                                this.$router.push({ path: mainPATH + '/show/' + this.id })
                             })
                             .catch(e => {
                                 console.log(e)

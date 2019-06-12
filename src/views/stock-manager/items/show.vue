@@ -22,7 +22,7 @@
                 {{ $t('items.label.buyingPrize') }}{{ $t('common.colon') }}{{ data.buying_prize }}
             </div>
             <div class="text item">
-                {{ $t('items.label.itemUnitId') }}{{ $t('common.colon') }}{{ data.selling_prize }}
+                {{ $t('items.label.sellingPrize') }}{{ $t('common.colon') }}{{ data.selling_prize }}
             </div>
         </el-card>
         <span>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-const URI = '/stock-manager/items'
+const mainPath = '/stock-manager/items'
 
 const defaultData = {
     name: '',
@@ -84,7 +84,7 @@ export default {
     },
     methods: {
         edit() {
-            this.$router.push({ path: URI + '/edit/' + this.id })
+            this.$router.push({ path: mainPath + '/edit/' + this.id })
         },
         remove() {
             this.$confirm(this.$t('table.deleteWarning'), this.$t('table.prompt'), {
@@ -97,7 +97,7 @@ export default {
                         type: 'success',
                         message: this.$t('form.deleted-successfully')
                     })
-                    this.$router.push({ path: URI + '/list' })
+                    this.$router.push({ path: mainPath + '/list' })
                 }).catch(e => {
                     console.log(e)
                 })

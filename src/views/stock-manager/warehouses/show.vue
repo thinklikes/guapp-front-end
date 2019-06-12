@@ -31,7 +31,7 @@
 </template>
 
 <script>
-const URI = '/stock-manager/warehouses'
+const mainPath = '/stock-manager/warehouses'
 
 const defaultData = {
     name: '',
@@ -68,7 +68,7 @@ export default {
     },
     methods: {
         edit() {
-            this.$router.push({ path: URI + '/edit/' + this.id })
+            this.$router.push({ path: mainPath + '/edit/' + this.id })
         },
         remove() {
             this.$confirm(this.$t('table.deleteWarning'), this.$t('table.prompt'), {
@@ -81,7 +81,7 @@ export default {
                         type: 'success',
                         message: this.$t('form.deleted-successfully')
                     })
-                    this.$router.push({ path: URI + '/list' })
+                    this.$router.push({ path: mainPath + '/list' })
                 }).catch(e => {
                     console.log(e)
                 })

@@ -52,7 +52,7 @@
                     >
                         <template slot-scope="scope">
                             <span style="margin-left: 10px">
-                                <router-link :to="'/buying-manager/suppliers/show/'+scope.row.id" class="link-type">
+                                <router-link :to="mainPATH + '/show/'+scope.row.id" class="link-type">
                                     <span>{{ scope.row.name }}</span>
                                 </router-link>
                             </span>
@@ -99,6 +99,8 @@
 import { fetchList } from '@/api/suppliers'
 import { default as SupplierTypeSelector } from '../supplier-types/components/SupplierTypeSelector'
 
+const mainPATH = '/buying-manager/suppliers'
+
 export default {
     name: 'SupplierList',
     components: { SupplierTypeSelector },
@@ -111,7 +113,8 @@ export default {
             total: 0,
             perPage: 50,
             queryString: '',
-            typeId: null
+            typeId: null,
+            mainPATH: mainPATH
         }
     },
     watch: {
@@ -128,7 +131,7 @@ export default {
 
     methods: {
         add() {
-            this.$router.push({ path: '/buying-manager/suppliers/create' })
+            this.$router.push({ path: mainPATH + '/create' })
         },
 
         changeSize(size) {
