@@ -78,7 +78,7 @@ import { fetchList } from '@/api/warehouses'
 const mainPATH = '/stock-manager/warehouses'
 
 export default {
-    name: 'ItemsList',
+    name: 'WarehousesList',
     data() {
         return {
             data: [],
