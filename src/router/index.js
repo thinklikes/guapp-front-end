@@ -225,6 +225,41 @@ export const constantRoutes = [
                         hidden: true
                     }
                 ]
+            },
+            {
+                path: 'purchase-orders',
+                component: () => import('@/views/buying-manager/purchase-orders'),
+                name: 'PurchaseOrders',
+                meta: { title: 'purchase-orders' },
+                redirect: '/buying-manager/purchase-orders/list',
+                children: [
+                    {
+                        path: 'list',
+                        component: () => import('@/views/buying-manager/purchase-orders/list'),
+                        name: 'PurchaseOrderList',
+                        meta: { title: 'purchase-orders-list' }
+                    },
+                    {
+                        path: 'create',
+                        component: () => import('@/views/buying-manager/purchase-orders/create'),
+                        name: 'CreatePurchaseOrder',
+                        meta: { title: 'purchase-orders-create' }
+                    },
+                    {
+                        path: 'edit/:id(\\d+)',
+                        component: () => import('@/views/buying-manager/purchase-orders/create'),
+                        name: 'EditPurchaseOrder',
+                        meta: { title: 'purchase-orders-edit' },
+                        hidden: true
+                    },
+                    {
+                        path: 'show/:id(\\d+)',
+                        component: () => import('@/views/buying-manager/purchase-orders/show'),
+                        name: 'ShowPurchaseOrder',
+                        meta: { title: 'purchase-orders-show' },
+                        hidden: true
+                    }
+                ]
             }
         ]
     }

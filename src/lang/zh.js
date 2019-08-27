@@ -82,7 +82,12 @@ export default {
         'warehouses-list': '倉庫列表',
         'warehouses-create': '新增倉庫',
         'warehouses-show': '倉庫資料',
-        'warehouses-edit': '修改倉庫'
+        'warehouses-edit': '修改倉庫',
+        'purchase-orders': '採購單管理',
+        'purchase-orders-list': '採購單列表',
+        'purchase-orders-create': '新增採購單',
+        'purchase-orders-show': '採購單資料',
+        'purchase-orders-edit': '修改採購單'
     },
     navbar: {
         dashboard: '首頁',
