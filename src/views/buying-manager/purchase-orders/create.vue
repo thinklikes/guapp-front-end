@@ -7,58 +7,18 @@
         :rules="rules"
         label-width="100px"
     >
+        <div slot="header" class="clearfix">
+            <span>{{ ruleForm.code }}</span>
+        </div>
         <el-form-item
             :label="$t('suppliers.label.name')"
-            prop="name"
+            prop="supplierId"
         >
-            <el-input
-                v-model="ruleForm.name"
-            />
-        </el-form-item>
-        <el-form-item
-            :label="$t('suppliers.label.supplierTypeId')"
-            prop="supplierTypeId"
-        >
-            <SupplierTypeSelector
-                ref="supplierType"
-                v-model="ruleForm.supplierTypeId"
-            />
-        </el-form-item>
-        <el-form-item
-            :label="$t('suppliers.label.phone')"
-        >
-            <el-input
-                v-model="ruleForm.phone"
-            />
-        </el-form-item>
-        <el-form-item
-            :label="$t('suppliers.label.address')"
-        >
-            <el-input
-                v-model="ruleForm.address"
-            />
-        </el-form-item>
-        <el-form-item
-            :label="$t('suppliers.label.facebook')"
-            prop="facebook"
-        >
-            <el-input
-                v-model="ruleForm.facebook"
-            />
-        </el-form-item>
-        <el-form-item
-            :label="$t('suppliers.label.website')"
-            prop="website"
-        >
-            <el-input
-                v-model="ruleForm.website"
-            />
-        </el-form-item>
-        <el-form-item
-            :label="$t('suppliers.label.note')"
-        >
-            <el-input
-                v-model="ruleForm.note"
+            <SupplierSelector
+                ref="suppliers"
+                v-model="ruleForm.supplierId"
+                :init-options="initOptions"
+                @change="changed"
             />
         </el-form-item>
         <el-form-item>
@@ -69,42 +29,28 @@
 </template>
 
 <script>
-import { fetchOne } from '@/api/suppliers'
-import { create } from '@/api/suppliers'
-import { update } from '@/api/suppliers'
-import { default as SupplierTypeSelector } from '../supplier-types/components/SupplierTypeSelector'
+import { fetchOne } from '@/api/purchase-orders'
+import { create } from '@/api/purchase-orders'
+import { update } from '@/api/purchase-orders'
+import { default as SupplierSelector } from '../suppliers/components/SupplierSelector'
 
-const mainPATH = '/buying-manager/suppliers'
+const mainPATH = '/buying-manager/purchase-orders'
 
 export default {
-    name: 'CreateSupplier',
-    components: { SupplierTypeSelector },
+    name: 'CreatePurchaseOrder',
+    components: { SupplierSelector },
 
     data() {
         return {
             loading: true,
             id: null,
+            initOptions: {},
             ruleForm: {
-                name: '',
-                supplierTypeId: null,
-                phone: null,
-                address: null,
-                facebook: null,
-                website: null,
-                note: ''
+                supplierId: null
             },
             rules: {
-                name: [
-                    { required: true, message: this.$t('suppliers.placeholder.name'), trigger: 'blur' }
-                ],
-                supplierTypeId: [
-                    { required: true, message: this.$t('suppliers.placeholder.supplierTypeId'), trigger: 'change' }
-                ],
-                facebook: [
-                    { type: 'url', message: this.$t('suppliers.typeError.facebook'), trigger: 'blur' }
-                ],
-                website: [
-                    { type: 'url', message: this.$t('suppliers.typeError.website'), trigger: 'blur' }
+                supplierId: [
+                    { type: 'number', message: this.$t('suppliers.placeholder.name'), trigger: 'change' }
                 ]
             }
         }
@@ -130,15 +76,16 @@ export default {
             .then(response => {
                 const data = response.contents
                 this.loading = false
+                this.initOptions = data.supplier
                 this.ruleForm = {
                     id: this.id,
-                    name: data.name,
-                    supplierTypeId: parseInt(data.supplier_type_id),
-                    phone: data.phone,
-                    address: data.address,
-                    facebook: data.facebook,
-                    website: data.website,
-                    note: data.note
+                    code: data.code,
+                    supplierId: data.supplier_id
+                    // phone: data.phone,
+                    // address: data.address,
+                    // facebook: data.facebook,
+                    // website: data.website,
+                    // note: data.note
                 }
             })
             .catch(e => {
@@ -147,6 +94,9 @@ export default {
     },
 
     methods: {
+        changed() {
+            console.log(this.ruleForm.supplierId)
+        },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {

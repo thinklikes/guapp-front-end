@@ -10,12 +10,10 @@
                         class="filter-item"
                         @keyup.enter.native="handleFilter"
                     />
-
                     <SupplierTypeSelector
                         v-model="typeId"
                         class="filter-item"
                     />
-
                     <el-button
                         class="filter-item"
                         type="primary"
@@ -41,39 +39,42 @@
                     style="width: 100%"
                 >
                     <el-table-column
-                        :label="$t('suppliers.label.supplierTypeId')"
+                        :label="$t('purchaseOrders.label.code')"
                     >
                         <template slot-scope="scope">
-                            <span style="margin-left: 10px">{{ scope.row.supplier_type.name }}</span>
+                            <span style="margin-left: 10px">
+                                <router-link :to="mainPATH + '/show/'+scope.row.id" class="link-type">
+                                    <span>{{ scope.row.code }}</span>
+                                </router-link>
+                            </span>
                         </template>
                     </el-table-column>
                     <el-table-column
                         :label="$t('suppliers.label.name')"
                     >
                         <template slot-scope="scope">
-                            <span style="margin-left: 10px">
-                                <router-link :to="mainPATH + '/show/'+scope.row.id" class="link-type">
-                                    <span>{{ scope.row.name }}</span>
-                                </router-link>
-                            </span>
+                            <span style="margin-left: 10px">{{ scope.row.supplier.name }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column
-                        :label="$t('suppliers.label.facebook')"
+                        :label="$t('table.createdAt')"
                     >
                         <template slot-scope="scope">
-                            <span style="margin-left: 10px">
-                                <span class="u_link" @click="handOpenNewLink(scope.row.facebook)">{{ scope.row.facebook }}</span>
-                            </span>
+                            <span style="margin-left: 10px">{{ scope.row.created_at }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column
-                        :label="$t('suppliers.label.website')"
+                        :label="$t('table.updatedAt')"
                     >
                         <template slot-scope="scope">
-                            <span style="margin-left: 10px">
-                                <span class="u_link" @click="handOpenNewLink(scope.row.website)">{{ scope.row.website }}</span>
-                            </span>
+                            <span style="margin-left: 10px">{{ scope.row.updated_at }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                        :label="$t('purchaseOrders.label.receivingDate')"
+                    >
+                        <template slot-scope="scope">
+                            <span style="margin-left: 10px">{{ scope.row.receiving_date }}</span>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -96,13 +97,13 @@
     </div>
 </template>
 <script>
-import { fetchList } from '@/api/suppliers'
+import { fetchList } from '@/api/purchase-orders'
 import { default as SupplierTypeSelector } from '../supplier-types/components/SupplierTypeSelector'
 
-const mainPATH = '/buying-manager/suppliers'
+const mainPATH = '/buying-manager/purchase-orders'
 
 export default {
-    name: 'SupplierList',
+    name: 'PurchaseOrdersList',
     components: { SupplierTypeSelector },
     data() {
         return {

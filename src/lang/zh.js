@@ -162,7 +162,12 @@ export default {
         prompt: '提示',
         deleteWarning: '是否刪除?',
         createdAt: '建立時間',
-        updatedAt: '更新時間'
+        updatedAt: '更新時間',
+        note: '備註',
+        subtotal: '小計',
+        total: '合計',
+        quantity: '數量',
+        noteOfItem: '品項備註'
     },
     common: {
         colon: '：'
@@ -281,6 +286,35 @@ export default {
         typeError: {
             facebook: 'facebook網址錯誤',
             website: '廠商網址錯誤'
+        }
+    },
+    purchaseOrders: {
+        label: {
+            code: '採購單編號',
+            receivingDate: '收貨日期'
+        },
+        placeholder: {
+            // name: '請填入廠商名稱',
+            // supplierTypeId: '請填入廠商類型'
+        },
+        typeError: {
+            // facebook: 'facebook網址錯誤',
+            // website: '廠商網址錯誤'
+        }
+    },
+    purchaseOrderItems: {
+        label: {
+            quantity: '採購數量',
+            price: '價格',
+            price_rate: '折扣'
+        },
+        placeholder: {
+            // supplierId: '請填入廠商名稱'
+            // supplierTypeId: '請填入廠商類型'
+        },
+        typeError: {
+            // facebook: 'facebook網址錯誤',
+            // website: '廠商網址錯誤'
         }
     }
 }

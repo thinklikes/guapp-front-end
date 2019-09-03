@@ -7,32 +7,77 @@
             class="box-card"
         >
             <div slot="header" class="clearfix">
-                <span>{{ data.name }}</span>
+                <span>{{ data.code }}</span>
+            </div>
+            <div class="text item">
+                {{ $t('suppliers.label.name') }}{{ $t('common.colon') }}{{ data.supplier.name }}
+            </div>
+            <div class="text item">
+                {{ $t('table.createdAt') }}{{ $t('common.colon') }}{{ data.created_at }}
             </div>
             <div class="text item">
                 {{ $t('table.updatedAt') }}{{ $t('common.colon') }}{{ data.updated_at }}
             </div>
             <div class="text item">
-                {{ $t('suppliers.label.supplierTypeId') }}{{ $t('common.colon') }}{{ data.supplier_type.name }}
+                {{ $t('purchaseOrders.label.receivingDate') }}{{ $t('common.colon') }}{{ data.receiving_date }}
             </div>
             <div class="text item">
-                {{ $t('suppliers.label.phone') }}{{ $t('common.colon') }}{{ data.phone }}
-            </div>
-            <div class="text item">
-                {{ $t('suppliers.label.address') }}{{ $t('common.colon') }}{{ data.address }}
-            </div>
-            <div class="text item">
-                {{ $t('suppliers.label.facebook') }}{{ $t('common.colon') }}
-                <span class="u_link" @click="handOpenNewLink(data.facebook)">{{ data.facebook }}</span>
-            </div>
-            <div class="text item">
-                {{ $t('suppliers.label.website') }}{{ $t('common.colon') }}
-                <span class="u_link" @click="handOpenNewLink(data.website)">{{ data.website }}</span>
-            </div>
-            <div class="text item">
-                {{ $t('suppliers.label.note') }}{{ $t('common.colon') }}{{ data.note }}
+                {{ $t('table.note') }}{{ $t('common.colon') }}{{ data.note }}
             </div>
         </el-card>
+        <br>
+        <el-table
+            v-loading="loading"
+            :empty-text="loadingStr"
+            :data="data.purchase_order_items"
+            show-summary
+            :summary-method="getSummaries"
+            style="width: 100%"
+        >
+            <el-table-column
+                :label="$t('items.label.name')"
+            >
+                <template slot-scope="scope">
+                    <span>{{ scope.row.item.name }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                :label="$t('table.quantity')"
+            >
+                <template slot-scope="scope">
+                    <span>{{ parseFloat(scope.row.quantity) }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                :label="$t('purchaseOrderItems.label.price')"
+            >
+                <template slot-scope="scope">
+                    <span>{{ parseFloat(scope.row.price) }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                :label="$t('purchaseOrderItems.label.price_rate')"
+            >
+                <template slot-scope="scope">
+                    <span>{{ parseFloat(scope.row.price_rate) * 100 }}%</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                :label="$t('table.subtotal')"
+            >
+                <template slot-scope="scope">
+                    <span>{{ parseFloat(scope.row.price) * parseFloat(scope.row.price_rate) * scope.row.quantity }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                :label="$t('table.noteOfItem')"
+            >
+                <template slot-scope="scope">
+                    <span>{{ scope.row.note }}</span>
+                </template>
+            </el-table-column>
+        </el-table>
+        <br>
         <span>
             <el-button
                 size="mini"
@@ -48,30 +93,39 @@
 </template>
 
 <script>
-const mainPath = '/buying-manager/suppliers'
+const mainPath = '/buying-manager/purchase-orders'
 
 const defaultData = {
-    address: '',
-    created_at: null,
-    deleted_at: null,
-    facebook: '',
-    name: '',
-    note: '',
-    phone: '',
-    supplier_type: {
-        id: 0,
-        name: ''
+    'code': '',
+    'receiving_date': '',
+    'employee_id': 0,
+    'supplier_id': 0,
+    'tax_type': '',
+    'note': '',
+    'created_at': '',
+    'updated_at': '',
+    'supplier': {
+        'name': ''
     },
-    supplier_type_id: 0,
-    updated_at: null,
-    website: ''
+    'purchase_order_items': [
+        {
+            'quantity': '',
+            'price': '',
+            'price_rate': '',
+            'note': '',
+            'item': {
+                'id': 0,
+                'name': ''
+            }
+        }
+    ]
 }
 
-import { fetchOne } from '@/api/suppliers'
-import { destroy } from '@/api/suppliers'
+import { fetchOne } from '@/api/purchase-orders'
+import { destroy } from '@/api/purchase-orders'
 
 export default {
-    name: 'ShowSuppliers',
+    name: 'ShowPurchaseOrders',
     data() {
         return {
             data: Object.assign({}, defaultData),
@@ -80,19 +134,28 @@ export default {
             loading: true
         }
     },
+    computed: {
+        summary: function() {
+            let sum = 0
+            let result = 0
+            this.data.purchase_order_items.forEach((item) => {
+                result = (item.quantity) * parseFloat(item.price) * parseFloat(item.price_rate)
+                sum += result
+            })
+            return sum
+        }
+    },
     created() {
         const id = this.$route.params && this.$route.params.id
 
         this.id = id
 
-        fetchOne(id)
-            .then(response => {
-                this.data = response.contents
-                this.loading = false
-            })
-            .catch(e => {
-                console.log(e)
-            })
+        fetchOne(id).then(response => {
+            this.data = response.contents
+            this.loading = false
+        }).catch(e => {
+            console.log(e)
+        })
     },
     methods: {
         edit() {
@@ -120,7 +183,22 @@ export default {
                 })
             })
         },
-
+        getSummaries(param) {
+            const { columns } = param
+            const sums = []
+            columns.forEach((column, index) => {
+                if (index === 0) {
+                    sums[index] = this.$t('table.total')
+                    return
+                }
+                if (index === 4) {
+                    sums[index] = this.summary
+                    return
+                }
+                sums[index] = '-'
+            })
+            return sums
+        },
         handOpenNewLink(url) {
             window.open(url, '_blank')
         }
@@ -130,25 +208,25 @@ export default {
 </script>
 
 <style>
-  .text {
-    font-size: 14px;
-  }
+    .text {
+        font-size: 14px;
+    }
 
-  .item {
-    margin-bottom: 18px;
-  }
+    .item {
+        margin-bottom: 18px;
+    }
 
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        content: "";
+    }
 
-  .clearfix:after {
-    clear: both
-  }
+    .clearfix:after {
+        clear: both
+    }
 
-  .box-card {
-    width: 480px;
-  }
+    .box-card {
+        width: 480px;
+    }
 </style>

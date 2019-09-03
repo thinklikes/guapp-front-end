@@ -11,6 +11,7 @@ import items from './items'
 import supplierTypes from './supplier-types'
 import suppliers from './suppliers'
 import warehouses from './warehouses'
+import purchaseOrders from './purchase-orders'
 
 const mocks = [
     ...user,
@@ -22,7 +23,8 @@ const mocks = [
     ...items,
     ...supplierTypes,
     ...suppliers,
-    ...warehouses
+    ...warehouses,
+    ...purchaseOrders
 ]
 
 // for front mock

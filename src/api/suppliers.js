@@ -4,7 +4,7 @@ export function fetchList(queryItem) {
     let url = process.env.VUE_APP_BACKEND_PREFIX + '/suppliers?perPage=' + queryItem.perPage
     url += '&page=' + queryItem.currentPage + '&queryString=' + queryItem.queryString
     if (queryItem.typeId) {
-        url += '&itemTypeId=' + queryItem.typeId
+        url += '&supplierTypeId=' + queryItem.typeId
     }
 
     return request({
