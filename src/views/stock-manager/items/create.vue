@@ -32,8 +32,8 @@
 import { fetchOne } from '@/api/items'
 import { create } from '@/api/items'
 import { update } from '@/api/items'
-import { default as ItemTypeSelector } from '../item-types/components/ItemTypeSelector'
-import { default as ItemUnitSelector } from '../item-units/components/ItemUnitSelector'
+import { default as ItemTypeSelector } from '@/components/Selectors/ItemTypeSelector'
+import { default as ItemUnitSelector } from '@/components/Selectors/ItemUnitSelector'
 
 const mainPATH = '/stock-manager/items'
 

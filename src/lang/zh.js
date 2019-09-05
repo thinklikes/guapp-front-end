@@ -288,25 +288,27 @@ export default {
             website: '廠商網址錯誤'
         }
     },
-    purchaseOrders: {
+    orders: {
         label: {
             code: '採購單編號',
+            taxType: '稅別',
             receivingDate: '收貨日期'
         },
         placeholder: {
             // name: '請填入廠商名稱',
-            // supplierTypeId: '請填入廠商類型'
+            taxType: '請填入稅別'
         },
         typeError: {
             // facebook: 'facebook網址錯誤',
             // website: '廠商網址錯誤'
         }
     },
-    purchaseOrderItems: {
+    details: {
         label: {
-            quantity: '採購數量',
+            quantity: '數量',
             price: '價格',
-            price_rate: '折扣'
+            price_rate: '折扣',
+            note: '品項備註'
         },
         placeholder: {
             // supplierId: '請填入廠商名稱'

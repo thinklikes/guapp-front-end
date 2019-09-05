@@ -2,13 +2,12 @@
     <el-select
         v-model="selected"
         :placeholder="$t('selector.placeholder')"
-        filterable
     >
         <el-option
-            v-for="unit in options"
-            :key="unit.id"
-            :label="unit.label"
-            :value="unit.id"
+            v-for="item in options"
+            :key="item.id"
+            :label="item.label"
+            :value="item.id"
         />
     </el-select>
 </template>
@@ -16,21 +15,24 @@
 <el-radio></el-radio>
 
 <script>
-import { fetchList } from '@/api/item-units'
 
 export default {
-    name: 'ItemUnitSelector',
+    name: 'TaxTypeSelector',
     props: {
         value: {
-            type: Number,
+            type: [Number, String],
             default: null
         }
     },
 
     data() {
         return {
-            options: [],
-            selected: this.value
+            options: [
+                { id: 0, label: '免稅' },
+                { id: 1, label: '稅外加' },
+                { id: 2, label: '稅內含' }
+            ],
+            selected: null
         }
     },
 
@@ -42,14 +44,6 @@ export default {
             this.$emit('input', val)
             this.$emit('change')
         }
-    },
-
-    created() {
-        fetchList().then(response => {
-            this.options = response.contents
-        }).catch(e => {
-            console.log(e)
-        })
     }
 }
 </script>

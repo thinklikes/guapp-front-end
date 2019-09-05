@@ -55,6 +55,7 @@ export default {
     },
     methods: {
         remoteMethod(query) {
+            this.loading = true
             if (query !== '') {
                 const queryItem = {
                     currentPage: null,
@@ -63,8 +64,10 @@ export default {
                     typeId: null
                 }
                 fetchList(queryItem).then(response => {
+                    this.loading = false
                     this.options = response.contents.data
                 }).catch(e => {
+                    this.loading = false
                     console.log(e)
                 })
             } else {

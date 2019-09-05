@@ -97,7 +97,7 @@
 </template>
 <script>
 import { fetchList } from '@/api/suppliers'
-import { default as SupplierTypeSelector } from '../supplier-types/components/SupplierTypeSelector'
+import { default as SupplierTypeSelector } from '@/components/Selectors/SupplierTypeSelector'
 
 const mainPATH = '/buying-manager/suppliers'
 

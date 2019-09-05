@@ -86,7 +86,7 @@
 </template>
 <script>
 import { fetchList } from '@/api/items'
-import { default as ItemTypeSelector } from '../item-types/components/ItemTypeSelector'
+import { default as ItemTypeSelector } from '../../../components/Selectors/ItemTypeSelector'
 
 const mainPATH = '/stock-manager/items'
 

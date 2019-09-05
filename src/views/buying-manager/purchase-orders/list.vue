@@ -39,7 +39,7 @@
                     style="width: 100%"
                 >
                     <el-table-column
-                        :label="$t('purchaseOrders.label.code')"
+                        :label="$t('orders.label.code')"
                     >
                         <template slot-scope="scope">
                             <span style="margin-left: 10px">
@@ -71,7 +71,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        :label="$t('purchaseOrders.label.receivingDate')"
+                        :label="$t('orders.label.receivingDate')"
                     >
                         <template slot-scope="scope">
                             <span style="margin-left: 10px">{{ scope.row.receiving_date }}</span>
@@ -98,7 +98,7 @@
 </template>
 <script>
 import { fetchList } from '@/api/purchase-orders'
-import { default as SupplierTypeSelector } from '../supplier-types/components/SupplierTypeSelector'
+import { default as SupplierTypeSelector } from '@/components/Selectors/SupplierTypeSelector'
 
 const mainPATH = '/buying-manager/purchase-orders'
 

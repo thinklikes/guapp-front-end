@@ -5,21 +5,19 @@
         filterable
     >
         <el-option
-            v-for="supplierType in options"
-            :key="supplierType.id"
-            :label="supplierType.label"
-            :value="supplierType.id"
+            v-for="unit in options"
+            :key="unit.id"
+            :label="unit.label"
+            :value="unit.id"
         />
     </el-select>
 </template>
 
-<el-radio></el-radio>
-
 <script>
-import { fetchList } from '@/api/supplier-types'
+import { fetchList } from '@/api/item-units'
 
 export default {
-    name: 'SupplierTypeSelector',
+    name: 'ItemUnitSelector',
     props: {
         value: {
             type: Number,

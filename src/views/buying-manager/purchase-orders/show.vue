@@ -19,17 +19,14 @@
                 {{ $t('table.updatedAt') }}{{ $t('common.colon') }}{{ data.updated_at }}
             </div>
             <div class="text item">
-                {{ $t('purchaseOrders.label.receivingDate') }}{{ $t('common.colon') }}{{ data.receiving_date }}
-            </div>
-            <div class="text item">
-                {{ $t('table.note') }}{{ $t('common.colon') }}{{ data.note }}
+                {{ $t('orders.label.receivingDate') }}{{ $t('common.colon') }}{{ data.receiving_date }}
             </div>
         </el-card>
         <br>
         <el-table
             v-loading="loading"
             :empty-text="loadingStr"
-            :data="data.purchase_order_items"
+            :data="data.details"
             show-summary
             :summary-method="getSummaries"
             style="width: 100%"
@@ -49,14 +46,14 @@
                 </template>
             </el-table-column>
             <el-table-column
-                :label="$t('purchaseOrderItems.label.price')"
+                :label="$t('details.label.price')"
             >
                 <template slot-scope="scope">
                     <span>{{ parseFloat(scope.row.price) }}</span>
                 </template>
             </el-table-column>
             <el-table-column
-                :label="$t('purchaseOrderItems.label.price_rate')"
+                :label="$t('details.label.price_rate')"
             >
                 <template slot-scope="scope">
                     <span>{{ parseFloat(scope.row.price_rate) * 100 }}%</span>
@@ -67,13 +64,6 @@
             >
                 <template slot-scope="scope">
                     <span>{{ parseFloat(scope.row.price) * parseFloat(scope.row.price_rate) * scope.row.quantity }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column
-                :label="$t('table.noteOfItem')"
-            >
-                <template slot-scope="scope">
-                    <span>{{ scope.row.note }}</span>
                 </template>
             </el-table-column>
         </el-table>
@@ -107,7 +97,7 @@ const defaultData = {
     'supplier': {
         'name': ''
     },
-    'purchase_order_items': [
+    'details': [
         {
             'quantity': '',
             'price': '',

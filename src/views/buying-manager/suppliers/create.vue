@@ -72,7 +72,7 @@
 import { fetchOne } from '@/api/suppliers'
 import { create } from '@/api/suppliers'
 import { update } from '@/api/suppliers'
-import { default as SupplierTypeSelector } from '../supplier-types/components/SupplierTypeSelector'
+import { default as SupplierTypeSelector } from '@/components/Selectors/SupplierTypeSelector'
 
 const mainPATH = '/buying-manager/suppliers'
 
