@@ -1,12 +1,192 @@
-// ************************************************************
-// layout
-// ************************************************************
+$navbar-height: 62px;
+$navbar__menu-height: 46px;
+$sidebar-width: 260px;
 
-#app {
-    & .app-main {
-        margin: 0 auto;
-        max-width: calc(#{$layout-max-width} + 8vw);
-        padding: 50px 4vw 40px;
+body {
+    background-image: linear-gradient(-45deg, rgba(bg-color(primary), 0.3) 0%, bg-color(lighter) 100%);
+    color: text-color(primary);
+}
+
+.main-wrap {
+    @include animate(main-wrap, 0.75s);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 25px 30px 0;
+    position: relative;
+}
+
+.navbar {
+    @include size(100%, $navbar-height);
+    background-color: bg-color(default);
+    box-shadow: 0 10px 16px -16px shadow-color(dark);
+    color: text-color(secondary);
+    padding: 0 30px;
+}
+.navbar__logo {
+    // background: url("#{$img_path}logo.svg") 20px center no-repeat;
+    background-size: 46px;
+    font-size: font-size(large);
+    font-weight: bold;
+    height: $navbar-height;
+    line-height: $navbar-height;
+    min-width: $sidebar-width;
+    padding-left: 78px;
+    & .logo__text {
+        background-image: radial-gradient(ellipse at center, text-color(accent) 0%, text-color(strong) 100%);
+        background-clip: text;
+        color: transparent;
+    }
+}
+.navbar__menu {
+    $menu__item--width: 90px;
+    line-height: $navbar-height;
+    margin-left: calc(8px + 0.5vw);
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    z-index: 5;
+    & .menu__item {
+        cursor: pointer;
+        display: inline-block;
+        transition: color 0.2s;
+        vertical-align: middle;
+        width: $menu__item--width;
+        &:hover {
+            color: text-color(default);
+            & ~ .menu__decoration {
+                top: 70%;
+            }
+        }
+    }
+    & .router-link-active {
+        color: text-color(info);
+        cursor: default;
+        &:hover {
+            color: text-color(info);
+            & ~ .menu__decoration {
+                opacity: 0.4;
+            }
+        }
+    }
+    @for $i from 1 through 7 {
+        .menu__item:nth-of-type(#{$i}):hover ~ .menu__decoration {
+            left: $menu__item--width * $i - $menu__item--width;
+        }
+    }
+    & .menu__decoration {
+        @include animate(rotate, 3.8s, infinite);
+        @include size(98px);
+        animation-timing-function: linear;
+        background-color: rgba(bg-color(warning), 0.15);
+        border-radius: 40px;
+        position: absolute;
+        top: 120%;
+        left: 45%;
+        transition: all 1s;
+        z-index: -1;
+        &:last-of-type {
+            @include size(92px);
+            animation-duration: 3.2s;
+            background-color: rgba(bg-color(primary), 0.7);
+            border-radius: 37px;
+            margin: 2px 0 0 3px;
+        }
+    }
+}
+
+
+
+
+
+.navbar__setting {
+    font-size: font-size(mini);
+    & .setting__item {
+        background-color: bg-color(weak);
+        border-radius: 0 border-radius(large) border-radius(large) 0;
+        cursor: pointer;
+        height: 21px;
+        line-height: 21px;
+        margin-right: 12px;
+        padding: 0 10px;
+        position: relative;
+        transition: color 0.2s;
+        &:hover {
+            color: text-color(primary);
+            & .item__icon {
+                @include animate(rotate, 1s, infinite);
+                animation-timing-function: linear;
+            }
+        }
+    }
+    & .item__image {
+        @include size(36px);
+        background-color: bg-color(weak );
+        border-radius: border-radius(rounded);
+        position: absolute;
+        left: -28px;
+    }
+    & .item__text {
+        display: inline-block;
+        min-width: 40px;
+        padding-right: 5px;
+    }
+    & .item__icon {
+        font-size: font-size(small);
+    }
+    & .setting__button {
+        cursor: pointer;
+        font-size: font-size(huge);
+        height: $navbar-height;
+        margin: 0 12px;
+        position: relative;
+        transition: color 0.2s;
+        &:hover {
+            color: text-color(primary);
+        }
+    }
+    & .button__sup {
+        background-color: bg-color(accent);
+        border-radius: border-radius(default);
+        color: text-color(default_invert);
+        font-size: font-size(mini);
+        height: 18px;
+        line-height: 18px;
+        padding: 0 4px;
+        position: absolute;
+        top: 20%;
+        left: 64%;
+        text-align: center;
+        min-width: 18px;
+    }
+}
+
+
+
+
+
+.sidebar {
+    @include size($sidebar-width, calc(100vh - #{$navbar-height + 50px}));
+    background-color: rgba(lighten(bg-color(light), 5%), 0.75);
+    border-radius: border-radius(default);
+    box-shadow: 0 2px 4px rgba(bg-color(heavy), 0.35);
+    overflow: hidden;
+    position: relative;
+    & .sidebar__toggle {
+        @include size(20px, 80px);
+        align-items: center;
+        background-color: bg-color(light);
+        border-radius: border-radius(large) 0 0 border-radius(large);
+        box-shadow: 0 0 4px rgba(bg-color(heavy), 0.45) inset;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        top: 5vh;
+        right: 100%;
+    }
+    & .sidebar__menu {
+        max-height: calc(100vh - #{$navbar-height + 50px});
     }
 }
 
@@ -15,131 +195,89 @@
 
 
 .main-section {
-    background-color: bg_color(primary);
-    border-radius: border_radius(large);
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05);
+    background-color: bg-color(default);
+    border-radius: border-radius(default);
+    box-shadow: 0 2px 6px rgba(bg-color(heavy), 0.15);
+    padding: 20px 10px;
+    width: calc(100% - #{$sidebar-width + 8px} - 0.5vw);
+}
+.main-section__inner {
+    height: calc(100vh - #{$navbar-height + 95px});
+    padding: 0 10px;
+}
+.main-section__header {
+    border-bottom: 1px solid border-color(default);
+    line-height: 36px;
     margin-bottom: 20px;
-    padding: 40px 4vw;
-}
-
-.main-section--dashboard {
-    background: linear-gradient(45deg, bg_color(primary) 50%, rgba(#ffffff, 0) 50%), linear-gradient(-45deg, bg_color(secondary) 70%, bg_color(primary) 70%);
-}
-
-.main-section__title {
-    color: text_color(secondary);
-    font-size: font_size(huge);
-    margin-bottom: 20px;
-}
-
-.main-section__body {
-    background-color: bg_color(weakest);
-    border-radius: border_radius(medium);
-    margin-bottom: 20px;
-    padding: 20px 2vw;
-}
-
-.panel-group {
-    & .card-panel {
-        color: text_color(weak);
-        cursor: pointer;
-        font-size: font_size(mini);
-        height: 108px;
-        & + .card-panel {
-            box-shadow: 0 1px 0 rgba(#000000, 0.02) inset, 0 2px 0 rgba(#000000, 0.005) inset;
+    padding: 0 20px 15px;
+    position: relative;
+    & .header__title {
+        @include animate(main-section, 0.75s, 1, both, 0.2s);
+        color: text-color(secondary);
+        font-size: font-size(huge);
+    }
+    & .header__radio {
+        @include animate(main-section, 0.75s, 1, both, 0.2s);
+        position: absolute;
+        right: 20px;
+        bottom: -1px;
+        @include multi-lang {
+            right: 10px;
         }
     }
-    & .card-panel-icon-wrapper {
-        background-color: bg_color(weakest);
-        border-radius: border_radius(rounded);
-        box-shadow: 0 0 3px shadow_color(dark);
-        color: text_color(accent);
-        float: left;
-        font-size: 28px;
-        margin-top: 22px;
-        padding: 16px;
-
+    & .header__button-group {
+        @include animate(main-section, 0.75s, 1, both, 0.2s);
     }
-    & .card-panel-description {
-        float: right;
-        margin-top: 29px;
+    @include multi-lang {
+        padding: 0 10px 15px;
     }
-    & .card-panel-text {
-        line-height: 18px;
-        font-size: font_size(medium);
-        margin-bottom: 12px;
-    }
-    & .card-panel-num {
-        font-size: font_size(large);
-        color: text_color(default);
+}
+.main-section__content {
+    @include animate(main-section, 0.75s, 1, both, 0.2s);
+    padding: 0 20px;
+    @include multi-lang {
+        padding: 0 10px;
     }
 }
 
-.appointment-panel {
-    background-color: lighten(bg_color(info), 8%);
-    border-radius: border_radius(large);
-    color: text_color(default_invert);
-    float: right;
-    font-size: 0;
-    line-height: 0;
-    margin-bottom: 20px;
-    & .appointment-panel__title {
-        display: inline-block;
-        font-size: font_size(medium);
-        line-height: 60px;
-        padding-right: 15px;
-        vertical-align: middle;
+.main-section__block {
+    background-color: darken(mix(bg-color(lighter), bg-color(weak), 65%), 2%);
+    border-radius: border-radius(default);
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    &::after {
+        clear: both;
+        content: "";
+        display: block;
+        height: 0;
+        visibility: hidden;
     }
-    & .appointment-panel__icon {
-        color: text_color(secondary);
-        display: inline-block;
-        font-size: 32px;
-        margin: 0 10px 0 20px;
-        vertical-align: middle;
+    @include multi-lang {
+        padding-right: 10px;
+        padding-left: 10px;
     }
-    & .appointment-panel__button-group {
-        background-color: bg_color(info);
-        box-shadow: -1px 0 0 darken(bg_color(info), 10%), 1px 0 0 lighten(bg_color(info), 8%) inset,  1px 0 0 lighten(bg_color(info), 6%), -1px 0 0 darken(bg_color(info), 8%) inset;
-        border-radius: border_radius(large);
-        display: inline-block;
-        padding: 0 20px;
-        vertical-align: middle;
-        & .button-group__button {
-            background-color: bg_color(heavy);
-            border-radius: border_radius(large) 0 0 border_radius(large);
-            cursor: pointer;
-            display: inline-block;
-            font-size: font_size(small);
-            line-height: 36px;
-            margin: 12px 0;
-            padding: 0 20px;
-            position: relative;
-            transition: background-color 0.2s ease;
-            vertical-align: top;
-            & + .button-group__button {
-                border-left: 1px solid darken(bg_color(heavy), 8%);
-                border-radius: 0 border_radius(large) border_radius(large) 0;
-                box-shadow: 1px 0 0 lighten(bg_color(heavy), 10%) inset;
-            }
-            & .button__item {
-                @include size(auto, 20px);
-                background-color: bg_color(strong);
-                border-radius: border_radius(large);
-                font-size: font_size(mini);
-                line-height: 20px;
-                min-width: 20px;
-                padding: 0 5px;
-                position: absolute;
-                top: -10px;
-                left: 70%;
-                text-align: center;
-            }
-            &:hover {
-                background-color: darken(bg_color(heavy), 6%);
-            }
+}
+
+
+
+
+
+#nprogress .bar {
+    background-color: bg-color(secondary) !important;
+}
+
+
+
+@media #{$medium-screen} {
+    .main-section__inner {
+        height: calc(100vh - #{$navbar-height + 110px});
+    }
+    .sidebar {
+        height: calc(100vh - #{$navbar-height + 70px});
+        & .sidebar__menu {
+            max-height: calc(100vh - #{$navbar-height + 70px});
         }
     }
 }
-
-
-

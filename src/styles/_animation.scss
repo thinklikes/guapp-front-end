@@ -1,0 +1,59 @@
+@keyframes tada {
+    0% {
+        transform: scaleX(1)
+    }
+    10%,
+    20% {
+        transform: scale3d(0.8, 0.8, 0.8) rotate(-4deg)
+    }
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: scale3d(1.15, 1.15, 1.15) rotate(4deg)
+    }
+    40%,
+    60%,
+    80% {
+        transform: scale3d(1.15, 1.15, 1.15) rotate(-4deg)
+    }
+    to {
+        transform: scaleX(1)
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes main-wrap {
+    from {
+        top: 0;
+    }
+    55% {
+        top: 10px;
+    }
+    to {
+        top: 0;
+    }
+}
+
+@keyframes main-section {
+    from {
+        opacity: 0;
+        transform: translateX(0);
+    }
+    55% {
+        transform: translateX(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

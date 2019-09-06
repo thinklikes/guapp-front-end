@@ -1,0 +1,23 @@
+$s_language: "zh_cn", "zh_tw", "en_us";
+
+@mixin multi-lang($multi-lang: "nzh") {
+    @if $multi-lang == "all" {
+        @each $s_lang in $s_language {
+            .lang--#{$s_lang} & {
+                @content;
+            }
+        }
+    } @else if $multi-lang == "nzh" {
+        @each $s_lang in $s_language {
+            @if $s_lang != "zh_cn" and $s_lang !="zh_tw" {
+                .lang--#{$s_lang} & {
+                    @content;
+                }
+            }
+        }
+    } @else {
+        .lang--#{$multi-lang} & {
+            @content;
+        }
+    }
+}

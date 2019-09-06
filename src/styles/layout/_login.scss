@@ -1,125 +1,109 @@
-// ************************************************************
-// login
-// ************************************************************
-
+// 背景
 .login {
-    background-image: radial-gradient(40% 81%, bg_color(primary) 9%, bg_color(default) 82%);
+    background-image: radial-gradient(ellipse at center, bg-color(lighter) 35%, bg-color(primary) 100%);
+    color: text-color(default);
     min-height: 100%;
-    position: relative;
-    width: 100%;
 }
-.login__inner {
+.login__background {
+    fill: bg-color(heavy);
+    min-width: 1600px;
+    position: fixed;
+    bottom: -56vh;
+}
+.login__decoration {
+    min-width: 1280px;
+    position: fixed;
+    bottom: -18vh;
+    & path {
+        fill: bg-color(warning);
+    }
+    & + & {
+        bottom: -9vh;
+        & path {
+            fill: bg-color(default);
+        }
+    }
+}
+
+
+
+.login__language-select {
+    position: absolute;
+    top: calc(10vh + 12px);
+    right: 12px;
+}
+
+
+
+//
+.login__section {
     margin: 0 auto;
-    max-width: calc(100% - 20px);
-    padding: 15vh 0 1vh;
-    width: 400px;
-}
-
-.login__header {
-    padding: 0 0 20px;
+    max-width: 420px;
+    min-width: 300px;
+    padding: 10vh 0 20px;
+    position: relative;
     text-align: center;
-    transition: all 0.3s ease;
-    & .header__logo {
-        @include size(75px, 60px);
-        background: url('views/default/assets/images/logo.svg') center center no-repeat;
-        display: inline-block;
-        margin: 0 10px 0 0;
-        vertical-align: middle;
-    }
-    & .header__title {
-        color: text_color(strong);
-        display: inline-block;
-        font-size: 1.8rem;
+    z-index: 10;
+    & .section__header {
+        // background: bg-color(default) url("#{$img_path}logo.svg") center 35px no-repeat;
+        background-size: 120px;
+        border-radius: border-radius(large) border-radius(large) 0 0;
+        font-size: font-size(huge);
         font-weight: bold;
+        padding-top: 145px;
+    }
+    & .header__text {
+        background-image: radial-gradient(ellipse at center, text-color(accent) 0%, text-color(strong) 100%);
+        background-clip: text;
+        color: transparent;
+    }
+    & .section__footer {
+        font-size: font-size(small);
+        line-height: 1.5;
+        padding-top: 20px;
+        text-shadow: 1px 1px 0 rgba(text-color(default_invert), 0.5);
+    }
+    & .footer__copyright {
+        color: text-color(secondary);
+        padding-bottom: 10px;
+    }
+    & .footer__service {
+        padding-right: 5px;
         vertical-align: middle;
     }
-}
-.login__content {
-    background-image: linear-gradient(180deg, #efebec 10%, #ffffff 100%);
-    border-radius: border_radius(large);
-    box-shadow: 0 20px 30px -10px rgba(107, 87, 89, 0.1), inset 0 -1px 0 0 rgba(107, 87, 89, 0.3), inset 0 1px 0 0 #ffffff;
-    overflow: hidden;
-    padding: 1px 0 20px;
-    text-align: center;
-}
-.login__form {
-    min-height: 250px;
-    & .form__item--verification-code {
-        position: relative;
-    }
-    & .item--verification-code__image {
-        @include size(130px, 42px);
-        box-shadow: 0 -20px 30px -10px rgba(107, 87, 89, 0.1), inset 1px 2px 0 0 rgba(107, 87, 89, 0.3), inset -2px -3px 0 0 #ffffff;
-        border-radius: border_radius(large);
-        display: inline-block;
-        font-size: 0;
-        position: absolute;
-        top: 9px;
-        right: 20px;
-        user-select: none;
-        vertical-align: top;
-    }
-    & .image__symbol {
-        @include size(100px, 100%);
-        border-radius: border_radius(large) 0 0 border_radius(large);
-        display: inline-block;
-        vertical-align: top;
-    }
-    & .image__reload {
-        @include size(28px, 100%);
+    & .footer__icon {
         cursor: pointer;
-        display: inline-block;
-        line-height: 40px;
-        text-align: center;
-        transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-        & .i_reload {
-            transition: transform 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
-        &:hover {
-            & .i_reload {
-                transform: rotate(-30deg);
-            }
-        }
-        &:active {
-            & .i_reload {
-                @include animate(rotate__reload, 0.2s);
-            }
-        }
+        fill: bg-color(secondary);
+        font-size: 1.5em;
+        margin: 0 4px;
+        vertical-align: middle;
     }
-    & .form__success {
-        text-align: center;
-        height: 350px;
-        fill: bg_color(primary);
-        fill-rule: evenodd;
-        position: relative;
-    }
-    & .success__icon {
-        @include size(80px);
-        @include animate(rotate__success, 2.5s);
-        background-color: bg_color(warning);
-        border-radius: border_radius(rounded);
-        padding: 17px;
-        position: absolute;
-        top: calc(50% - 40px);
-        left: calc(50% - 40px);
-        transform: rotateY(0deg);
-        transform-style: preserve-3d;
-    }
-    & .success__text {
-        color: text_color(default);
-        font-size: 1.5rem;
-        position: absolute;
-        top: 69%;
-        right: 0;
-        left: 0;
+    @include multi-lang {
+        max-width: 500px;
     }
 }
 
-.login__link {
-    margin-top: 20px;
-    text-align: center;
+
+// 登錄表單
+.login__form {
+    background-color: bg-color(default);
+    border-radius: 0 0 border-radius(large) border-radius(large);
+    box-shadow: 0 6px 4px -6px rgba(bg-color(heavy), 0.3);
+    padding: 30px 3vw 30px;
+    & .form__verification-code {
+        & .el-input {
+            width: calc(100% - 120px);
+        }
+        & .verification-code__image {
+            background: bg-color(weakest);
+            border-radius: border-radius(large);
+            cursor: pointer;
+            line-height: 40px;
+            padding: 0 2px;
+        }
+        & img {
+            border-radius: inherit;
+            vertical-align: middle;
+        }
+    }
 }
-
-
-
-

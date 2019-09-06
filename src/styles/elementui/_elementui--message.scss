@@ -1,0 +1,22 @@
+.el-message {
+    border-radius: border-radius(default);
+    box-shadow: 0 4px 12px shadow-color(light);
+    min-height: 70px;
+    & .el-icon-success {
+        color: text-color(info);
+    }
+}
+.el-message__icon {
+    font-size: font-size(huge);
+}
+.el-message__content {
+    font-size: font-size(medium);
+}
+
+.el-message--success {
+    background-color: bg-color(weakest);
+    border-color: border-color(secondary);
+    & .el-message__content {
+        color: text-color(info);
+    }
+}

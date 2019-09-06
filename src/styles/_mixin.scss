@@ -1,0 +1,133 @@
+@mixin clearfix {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+@mixin scrollBar {
+    &::-webkit-scrollbar-track-piece {
+        background: #d3dce6;
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #99a9bf;
+        border-radius: 20px;
+    }
+}
+
+@mixin relative {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+@mixin pct($pct) {
+    width: #{$pct};
+    position: relative;
+    margin: 0 auto;
+}
+
+@mixin triangle($width, $height, $color, $direction) {
+    $width: $width/2;
+    $color-border-style: $height solid $color;
+    $transparent-border-style: $width solid transparent;
+    height: 0;
+    width: 0;
+
+    @if $direction==up {
+        border-bottom: $color-border-style;
+        border-left: $transparent-border-style;
+        border-right: $transparent-border-style;
+    }
+
+    @else if $direction==right {
+        border-left: $color-border-style;
+        border-top: $transparent-border-style;
+        border-bottom: $transparent-border-style;
+    }
+
+    @else if $direction==down {
+        border-top: $color-border-style;
+        border-left: $transparent-border-style;
+        border-right: $transparent-border-style;
+    }
+
+    @else if $direction==left {
+        border-right: $color-border-style;
+        border-top: $transparent-border-style;
+        border-bottom: $transparent-border-style;
+    }
+}
+
+@mixin size($width, $height: $width) {
+    height: $height;
+    width: $width;
+}
+
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
+    content: $content;
+    display: $display;
+    position: $pos;
+}
+
+@mixin animate($name, $duration, $count: 1, $mode: both, $delay: 0s) {
+    animation-iteration-count: $count;
+    animation-delay: $delay;
+    animation-duration: $duration;
+    animation-fill-mode: $mode;
+    animation-name: $name;
+}
+
+@mixin not($ignore_list...) {
+    @if (length($ignore_list) == 1) {
+        $ignore_list: nth($ignore_list, 1);
+    }
+    $not-output: "";
+    @each $not in $ignore_list {
+        $not-output: $not-output + ":not(#{$not})";
+    }
+    &#{$not-output} {
+        @content;
+    }
+}
+
+@mixin background_image($imgpath, $position: center center, $repeat: no-repeat) {
+    background: {
+        image: url($imgpath);
+        position: $position;
+        repeat: $repeat;
+    }
+}
+
+@mixin triangle($colour, $direction, $size: 6px, $position: absolute) {
+    @include pseudo($pos: $position);
+    height: 0;
+    width: 0;
+    @if $direction == down {
+        border-top: $size solid $colour;
+        border-right: $size solid transparent;
+        border-left: $size solid transparent;
+        margin-top: 0 - round($size / 2.5);
+    } @else if $direction == up {
+        border-right: $size solid transparent;
+        border-bottom: $size solid $colour;
+        border-left: $size solid transparent;
+        margin-bottom: 0 - round($size / 2.5);
+    } @else if $direction == right {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-left: $size solid $colour;
+        margin-right: -$size;
+    } @else if  $direction == left {
+        border-top: $size solid transparent;
+        border-right: $size solid $colour;
+        border-bottom: $size solid transparent;
+        margin-left: -$size;
+    }
+}

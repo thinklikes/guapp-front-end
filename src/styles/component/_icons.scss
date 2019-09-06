@@ -30,17 +30,17 @@
     vertical-align: middle;
 }
 
-$icons: (
-    'alert',
-    'close',
-    'lock',
-    'user',
-    'verification-code',
-    'cal'
-);
+// $icons: (
+//     'alert',
+//     'close',
+//     'lock',
+//     'user',
+//     'verification-code',
+//     'cal'
+// );
 
-@each $icon in $icons {
-    @include icon(#{$icon}, 20px);
-}
+// @each $icon in $icons {
+//     @include icon(#{$icon}, 20px);
+// }
 
-@include icon(reload, 18px);
+// @include icon(reload, 18px);

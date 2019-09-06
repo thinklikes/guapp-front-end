@@ -1,7 +1,3 @@
-// ************************************************************
-// utilities
-// ************************************************************
-
 @mixin generate($name, $value) {
     $short_name: str_slice($name, 1, 1);
     $total_value: $value;
@@ -19,7 +15,7 @@
     }
 }
 
-@mixin generate_trbl($name, $value, $max: 4) {
+@mixin generate_trbl($name, $value, $max: 5) {
 	$short_name: str_slice($name, 1, 1);
 	$direction: top, right, bottom, left;
 
@@ -142,31 +138,13 @@ $float: (
 
 
 
-.u_hr {
-    background-color: border_color(weak);
-    border-top: 1px solid border_color(secondary);
-    height: 1px;
-    margin-bottom: 10px;
-}
-.u_vr,
-.u_vr--higher {
-    @include size(1px, 44px);
-    background-color: border_color(default);
-    margin: 0 auto;
-}
-.u_vr--higher {
-    height: 120px;
-}
-
-
-
 .u_link {
-    color: text_color(alert);
+    color: text_color(warning);
     cursor: default;
     font-weight: bold;
     position: relative;
     &:not(.is_active):hover {
-        color: darken(text_color(alert), 10%);
+        color: text_color(accent);
         cursor: pointer;
         transition: color 0.2s ease;
         &::after {
@@ -174,12 +152,12 @@ $float: (
         }
     }
     &.is_active {
-        color: text_color(alert);
+        color: text_color(warning);
     }
     &::after {
         @include pseudo;
         @include size(0, 1px);
-        background-color: darken(bg_color(alert), 10%);
+        background-color: bg_color(accent);
         top: 100%;
         left: 50%;
         transform: translateX(-50%);
