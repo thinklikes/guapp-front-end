@@ -1,0 +1,90 @@
+.checkbox-group {
+	font-size: font-size(small);
+	line-height: 26px;
+	padding-bottom: 20px;
+}
+
+.checkbox-group__check-all-header {
+	padding: 8px 20px;
+}
+
+.checkbox-group__check-all-content {
+	border-radius: border-radius(default);
+	border: 1px solid border-color(default);
+	margin-bottom: 10px;
+	& .check-all-content__title {
+		background: linear-gradient(0deg, rgba(bg-color(light), 0.5) 0%, bg-color(default) 30%);
+		border-radius: border-radius(default) border-radius(default) 0 0;
+		padding: 8px 20px;
+	}
+	& .check-all-content__subtitle {
+		background-color: bg-color(weakest);
+		padding: 8px 20px;
+	}
+	& .check-all-content__body {
+		padding: 6px 20px;
+	}
+}
+
+
+
+
+
+.page-list {
+    margin-bottom: 15px;
+    & .page-list__desc {
+        max-width: calc(100% - 388px - 1vw);
+        width: calc(60% - 8px - 1vw);
+        & .desc__title {
+            border-bottom: 1px dashed border-color(default);
+            color: text-color(default);
+            font-size: font-size(small);
+            line-height: 2.5;
+            padding: 0 20px;
+        }
+        & .desc__body {
+            flex: 1;
+            line-height: 2.2;
+        }
+        & .body__item {
+            border: 1px solid border-color(default);
+            border-radius: border-radius(default);
+            font-size: font-size(small);
+            margin-top: 15px;
+            min-width: 265px;
+            padding: 15px 20px;
+            width: 40%;
+            & + .body__item {
+                max-width: calc(100% - 290px);
+                width: calc(60% - 20px);
+            }
+        }
+        & .item__text {
+            color: text-color(secondary);
+        }
+        & .item__value {
+            background-color: #f2f4f9;
+            border-radius: 4px;
+            line-height: 2.2;
+            margin: 4px 0;
+            text-align: center;
+            width: 90px;
+        }
+    }
+    & .page-list__chart {
+        display: flex;
+        font-size: font-size(medium);
+        line-height: 2;
+        min-width: 420px;
+        padding: 0 0 0 20px;
+        position: relative;
+        width: 40%;
+        & > * {
+            flex: 1;
+        }
+        & .chart__title {
+            position: absolute;
+            top: 0;
+        }
+    }
+}

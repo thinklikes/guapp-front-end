@@ -1,15 +1,36 @@
-// ************************************************************
-// elementui--form
-// ************************************************************
-
-.el-input--medium {
-    font-size: font_size(medium);
+.is_half:nth-of-type(even) {
+    margin-left: 20px;
 }
-.el-input__inner {
+.el-input__inner,
+.el-textarea__inner {
+    background-color: bg-color(weakest);
+    border-color: transparent;
+    border-radius: border-radius(large);
+    color: text-color(default);
+    font-size: font-size(small);
     height: el-size(medium);
     line-height: el-size(medium);
+    padding: 0 25px;
     transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    &::placeholder {
+        color: text-color(weak);
+    }
+    &:hover {
+        background-color: bg-color(weaker);
+        border-color: transparent;
+    }
+    &:focus {
+        background-color: bg-color(weak);
+        border-color: transparent;
+    }
 }
+.el-textarea__inner {
+    border-radius: border-radius(default);
+    height: auto;
+    line-height: 1.5;
+    padding: 5px 25px;
+}
+
 @each $size, $value in $el-size {
     .el-select--#{$size},
     .el-input--#{$size} {
@@ -31,32 +52,37 @@
             padding: 0 20px;
         }
     }
-    @if ($size == large) {
-        .el-input--#{$size} {
-            & .el-input-group__append,
-            & .el-input-group__prepend {
-                background-color: bg_color(warning);
-                color: text_color(default_invert);
-                border-color: border_color(warning);
-                min-width: 90px;
-            }
+    .el-input--#{size} {
+        & .el-input-group__append,
+        & .el-input-group__prepend {
+            background-color: bg-color(warning);
+            color: text-color(default_invert);
         }
-    } @else {
-        .el-input--#{size} {
-            & .el-input-group__append,
-            & .el-input-group__prepend {
-                background-color: bg_color(warning);
-                color: text_color(default_invert);
-                border-color: border_color(warning);
+    }
+    @if $size == 'mini' {
+        .el-select--#{$size},
+        .el-input--#{$size} {
+            & .el-input__inner {
+                font-size: font-size(mini);
+                padding: 0 15px;
+            }
+            &.el-input--suffix .el-input__inner {
+                    padding-right: 36px;
+            }
+            & .el-input__suffix {
+                right: 8px;
             }
         }
     }
 }
 @each $length, $value in $el-length {
-    .el-cascader.is_#{$length},
     .el-select.is_#{$length},
-    .el-input.is_#{$length} {
+    .el-input.is_#{$length},
+    .el-input-number.is_#{$length} {
         width: $value;
+    }
+    .el-radio-group.is_#{$length} .el-radio-button .el-radio-button__inner {
+        min-width: $value;
     }
 }
 
@@ -67,9 +93,9 @@
 // form
 .el-form {
     & .form__error {
-        color: text_color(alert);
+        color: text-color(strong);
         line-height: 24px;
-        margin-top: 20px;
+        margin: 15px 0;
         min-height: 26px;
         padding-left: 57px;
         position: relative;
@@ -84,60 +110,64 @@
         }
     }
     & .error__text {
-        font-size: 1rem;
+        font-size: font-size(small);
         vertical-align: middle;
-    }    
+    }
 }
 .el-dialog {
     & .form__error {
-        padding-left: 30px;
+        margin-bottom: 0;
+        padding-left: 0;
+        text-align: center;
         & .i_alert {
-            left: 0;
+            margin-right: 8px;
+            position: static;
+            vertical-align: middle;
         }
     }
-    & .error__text {
-        font-size: 0.875rem;
-    }    
 }
 .el-form-item {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     &.is-error {
         & .el-input__inner,
         & .el-input__inner:focus,
         & .el-textarea__inner,
         & .el-textarea__inner:focus {
-            background-color: rgba(bg_color(strong), 0.05);
-            border-color: border_color(strong);
-            // & ~ .el-input-group__append {
-            //     border-color: border_color(strong);
-            // }
+            background-color: bg-color(strong);
+            border-color: transparent;
+            &::placeholder {
+                color: mix(text-color(weak), text-color(strong), 90%);
+            }
         }
     }
     &.is-success {
         & .el-input__inner,
         & .el-textarea__inner {
-            border-color: border_color(default);
+            border-color: transparent;
             &:hover {
-                border-color: border_color(heavy);
+                background-color: bg-color(weaker);
+                border-color: transparent;
             }
         }
         & .el-input__inner:focus,
         & .el-textarea__inner:focus {
-            border-color: border_color(heavy);
+            background-color: bg-color(weak);
+            border-color: transparent;
         }
     }
-}
-.el-textarea__inner {
-    border-color: border_color(default);
-    &:focus {
-        border-color: border_color(heavy);
+    &.is_strong {
+        & .el-form-item__label,
+        & .el-form-item__text {
+            color: text-color(strong);
+        }
     }
 }
 .el-form--inline {
     font-size: 0;
+    margin-bottom: 5px;
     & .el-form-item {
         margin-right: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         padding-right: 10px;
         &:last-of-type {
             border-right: none;
@@ -152,28 +182,51 @@
 }
 
 .el-form-item__label {
-    color: text_color(secondary);
-    font-size: 1rem;
+    color: text-color(default);
+    font-size: font-size(small);
+    padding-right: 6px;
+    position: relative;
 }
 .el-form--label-top .el-form-item__label {
     padding-bottom: 0;
 }
 .el-form-item__content {
-    color: text_color(secondary);
-    font-size: 1rem;
+    color: text-color(secondary);
+    font-size: font-size(small);
+    line-height: el-size(medium);
+}
+.el-form-item__text {
+    color: text-color(weak);
+    padding-left: 25px;
 }
 .el-form-item--medium {
    & .el-form-item__label,
    & .el-form-item__content {
-        line-height: 46px;
+        line-height: el-size(medium);
+        min-height: el-size(medium);
     }
 }
+.el-form-item--small {
+    &.el-form-item {
+        margin-bottom: 20px;
+    }
+   & .el-form-item__label,
+   & .el-form-item__content {
+        line-height: el-size(small);
+        min-height: el-size(small);
+    }
+}
+
 .el-form-item__error {
-    color: text_color(strong);
-    padding-top: 2px;
+    color: text-color(strong);
+    left: 25px;
 }
 .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before {
-    color: text_color(accent);
+    color: text-color(accent);
+    margin-right: 0;
+    position: absolute;
+    left: 0;
+    transform: translateX(-200%);
 }
 
 
@@ -187,10 +240,10 @@
     }
 }
 .el-input__prefix {
-  left: 20px;
-  & .el-input__icon {
-    height: 100%;
-  }
+    left: 20px;
+    & .el-input__icon {
+        height: 100%;
+    }
 }
 // suffix
 .el-input--suffix {
@@ -199,11 +252,10 @@
   }
 }
 .el-input__suffix {
-    color: text_color(weak);
-    right: 15px;
-    & .el-input__icon {
-        height: 100%;
-    }
+  right: 15px;
+  & .el-input__icon {
+    height: 100%;
+  }
 }
 
 
@@ -212,37 +264,21 @@
 
 // el-input
 .el-input {
+    line-height: 0;
     & .el-icon-circle-close {
-    }
-}
-.el-input__inner {
-    border-color: border_color(default);
-    color: text_color(primary);
-    font-size: 1rem;
-    &::placeholder {
-      color: text_color(weak);
-    }
-    &:hover {
-        border-color: border_color(heavy);
-
-    & ~ .el-input-group__append {
-            border-color: border_color(heavy);
+        // @include background_image("#{$icon-path}i_close.svg");
+        @include size(20px, 100%);
+        background-size: 20px;
+        transition: none;
+        &::before {
+            display: none;
         }
-    }
-    &:focus {
-        border-color: border_color(heavy);
-        // & ~ .el-input-group__append {
-        //     border-color: border_color(accent);
-        // }
     }
 }
 .el-input.is-disabled .el-input__inner {
-    background-color: bg_color(weak);
-    border-color: border_color(weak);
-    color: text_color(weak);
-    & ~ .el-input-group__append {
-        border-color: border_color(default);
-    }
+    background-color: bg-color(weak);
+    border-color: border-color(default);
+    color: text-color(weak);
 }
 
 
@@ -254,11 +290,14 @@
 
 .el-input-group__append,
 .el-input-group__prepend {
-    background-color: bg_color(weak);
-    border-color: border_color(default);
-    border-radius: border-radius(default);
-    color: text_color(default);
+    background-color: bg-color(weak);
+    border: none;
+    border-radius: border-radius(large);
+    box-shadow: -1px 0 1px shadow_color(light) inset, 2px 0 1px border_color(default_invert);
+    color: text-color(default);
+    min-width: 3em;
     padding: 0 8px;
+    text-align: center;
 }
 
 .el-input-group__prepend {
@@ -266,9 +305,12 @@
     border-bottom-right-radius: 0;
 }
 
+
 .el-input-group__append {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    min-width: 44px;
+    padding: 0;
     text-align: center;
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     & span {
@@ -280,19 +322,51 @@
 
 
 
+.el-input-number {
+    &.is-controls-right {
+        & .el-input__inner {
+            padding: 0 28px 0 5px;
+        }
+        & .el-input-number__increase {
+            border-radius: 0 border-radius(large) 0 0;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+        }
+        & .el-input-number__decrease {
+            border-left-color: transparent;
+            border-radius: 0 0 border-radius(large);
+        }
+    }
+}
+.el-input-number__decrease,
+.el-input-number__increase {
+    background: bg-color(weakest);
+    color: text-color(default);
+    &:hover {
+        color: text-color(info);
+        &:not(.is-disabled) ~ .el-input .el-input__inner:not(.is-disabled) {
+            border-color: transparent;
+        }
+    }
+}
+
+
+
+
 //
 .el-checkbox {
-    color: text_color(secondary);
+    color: text-color(primary);
     transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     &:hover {
-        color: text_color(accent);
+        color: text-color(default);
     }
 }
 .el-checkbox__inner {
     @include size(20px);
-    border-color: border_color(accent);
+    border-color: border-color(primary);
+    border-radius: border-radius(small);
     &:hover {
-        border-color: border_color(accent);
+        border-color: border-color(secondary);
     }
     &::after {
         border-width: 2px;
@@ -301,20 +375,34 @@
         transform: rotate(45deg) scale(0);
     }
 }
-.el-checkbox__input.is-checked {
+.el-checkbox__input.is-checked,
+.el-checkbox__input.is-indeterminate {
     & .el-checkbox__inner {
-        background-color: bg_color(accent);
-        border-color: border_color(accent);
+        background-color: bg-color(secondary);
+        border-color: border-color(secondary);
         &::after {
             transform: rotate(45deg) scale(1.25);
         }
     }
     & + .el-checkbox__label {
-        color: text_color(accent);
+        color: text-color(default);
     }
 }
-.el-checkbox__input.is-focus .el-checkbox__inner {
-    border-color: border_color(accent);
+.el-checkbox__input.is-indeterminate .el-checkbox__inner::before {
+    height: 4px;
+    top: 7px;
+}
+.el-checkbox__input.is-focus:not(.is-checked) .el-checkbox__inner {
+    border-color: border-color(primary);
+}
+.el-checkbox__input.is-disabled {
+    & .el-checkbox__inner {
+        background-color: bg-color(weakest);
+        border-color: border-color(default);
+    }
+    & + span.el-checkbox__label {
+        color: text-color(weak);
+    }
 }
 .el-checkbox__label {
     padding-left: 8px;
@@ -324,15 +412,14 @@
 
 
 
-// 
-.el-cascader,
+//
 .el-select {
     &:hover .el-input__inner,
     & .el-input__inner:focus,
     & .el-input.is-focus .el-input__inner,
     & .el-input__inner:focus:hover,
     & .el-input.is-focus .el-input__inner:hover {
-        border-color: border_color(heavy);
+        border-color: transparent;
     }
     & .el-input .el-select__caret {
         color: #999999;
@@ -342,50 +429,29 @@
     line-height: el-size(small);
 }
 .el-select-dropdown__item {
-    color: text_color(default);
+    color: text-color(default);
     height: el-size(small);
-    font-size: 0.875rem;
+    font-size: font-size(small);
     line-height: el-size(small);
     &.selected {
-        color: text_color(accent);
+        color: text-color(info);
+        &.hover,
+        &:hover {
+            background-color: bg-color(default);
+        }
     }
     &.hover,
     &:hover {
-        background-color: bg_color(weak);
+        background-color: bg-color(weaker);
     }
 }
 .el-popper {
-    border: none;
-    border-radius: 0;
-    box-shadow: 6px 6px 12px 0 shadow_color(dark);
-    &[x-placement^="top"],
-    &[x-placement^="bottom"] {
-        margin: 0;
-        .popper__arrow {
-            display: none;
-        }   
-    }
+    border-color: border-color(default);
+    border-radius: border-radius(default);
+    box-shadow: 0 3px 6px 0 shadow-color(light);
 }
 
-.el-cascader__label {
-    font-size: font_size(medium);
-    line-height: 46px;
-}
-.el-cascader-menu__item {
-    font-size: font_size(medium);
-    height: 46px;
-    line-height: 30px;
-    &:hover,
-    &:focus:not(:active) {
-        background-color: bg_color(weak);
-    }
-    &.is-active {
-        color: text_color(accent);
-    }
-}
-.el-cascader .el-icon-circle-close:hover {
-    color: text_color(warning);
-}
+
 
 
 
@@ -394,16 +460,16 @@
     line-height: 28px;
     height: 28px;
     &.is-checked .el-switch__core {
-        background: border_color(accent);
-        border-color: border_color(accent);
+        background: border-color(secondary);
+        border-color: border-color(secondary);
         &::after {
             margin-left: -24px;
         }
     }
 }
 .el-switch__core {
-    background: border_color(primary);
-    border-color: border_color(primary);
+    background: border-color(weak);
+    border-color: border-color(weak);
     border-radius: 14px;
     height: 28px;
     &:after {
@@ -417,74 +483,67 @@
 
 
 
-//
+// radio
 .el-radio {
-    font-size: font_size(medium);
+    color: text-color(primary);
 }
 .el-radio__inner,
 .el-radio__inner:hover {
-    border-color: border_color(default);
+    border-color: border-color(default);
 }
 .el-radio__input.is-checked {
     & .el-radio__inner {
-        border-color: border_color(accent);
-        background: bg_color(accent);
+        background: bg-color(secondary);
+        border-color: border-color(secondary);
     }
     & + .el-radio__label {
-        color: text_color(accent);
+        color: text-color(info);
         font-weight: bold;
     }
 }
 
 .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-    background-color: bg_color(accent);
-    border-color: border_color(accent);
-    box-shadow: -1px 0 0 border_color(accent);
-    min-width: 73px;
+    background-color: bg-color(default);
+    border-color: border-color(default);
+    border-bottom-color: border-color(default_invert);
+    box-shadow: -1px 0 0 border-color(default);
+    color: text-color(default);
 }
 .el-radio-button {
     &:first-child .el-radio-button__inner {
-        border-left-color: border_color(default);
+        border-radius: border-radius(default) 0 0 0;
+    }
+    &:last-child .el-radio-button__inner {
+        border-radius: 0 border-radius(default) 0 0;
     }
     &:focus:not(.is-focus):not(:active):not(.is-disabled) {
         box-shadow: none;
     }
 }
-
 .el-radio-button__inner {
-    border-color: border_color(default);
-    color: text_color(default);
-    min-width: 73px;
+    background-color: bg-color(lighter);
+    color: text-color(secondary);
     &:hover {
-        background-color: bg_color(weak);
-        color: text_color(default);
+        background-color: bg-color(lighter);
+        color: text-color(primary);
     }
 }
 
 
-.el-radio-button--medium .el-radio-button__inner {
-    font-size: font_size(medium);
+
+
+
+.el-divider {
+    background-color: border-color(default);
+}
+.el-divider__text {
+    color: text-color(primary);
 }
 
 
 
 
 
-.el-upload--picture-card {
-    background-color: bg_color(weak);
-    border-color: border_color(default);
-    &:hover,
-    &:focus {
-        border-color: border_color(accent);
-        color: text_color(accent);
-    }
+.el-scrollbar__wrap {
+    box-sizing: content-box;
 }
-.el-upload-list--picture-card {
-    & .el-upload-list__item {
-        border-color: border_color(default);
-    }
-    & .el-upload-list__item-status-label {
-        background: bg_color(success);
-    }
-}
-

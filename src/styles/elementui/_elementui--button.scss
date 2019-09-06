@@ -1,7 +1,3 @@
-// ************************************************************
-// _elementui--button
-// ************************************************************
-
 .el-button {
     @each $length, $value in $button-length {
         &.is_#{$length} {
@@ -13,29 +9,22 @@
         &.el-button--#{$size} {
             height: $value;
             @if($i == 4) {
+                font-size: 1rem;
                 padding-left: #{$i * 5px + 10px};
                 padding-right: #{$i * 5px + 10px};
-                & > span {
-                    font-size: 1rem;
-                }
             } @else {
                 padding-left: #{$i * 5px + 5px};
                 padding-right: #{$i * 5px + 5px};
             }
             @if ($size == mini) {
+                font-size: 0.75rem;
                 & [class*="el-icon"] {
-                    font-size: 1rem;
-                }
-                & > span {
                     font-size: 0.75rem;
                 }
                 & .svg-icon {
                     @include size(0.75rem !important);
                 }
             }
-            & > span {
-                line-height: #{$value - 2};
-            }
         }
     }
 }
@@ -44,94 +33,74 @@
 
 
 
-@mixin el-button($name, $status, $bg_color, $border_color, $text_color) {
-    @if $status == default {
+@mixin el-button($name, $bg-color-1, $bg-color-2, $text-color) {
+    @if $name == success {
+        .el-button--#{$name},
+        .el-button--#{$name}:not(.is-disabled):focus,
+        .el-button--#{$name}:not(.is-disabled):not(:focus):hover {
+            background-image: linear-gradient(135deg, #{$bg-color-1} 0%, #{$bg-color-2} 20%, #{$bg-color-1} 40%, #{$bg-color-2} 60%, #{$bg-color-1} 80%, #{$bg-color-2} 100%);
+            color: $text-color;
+        }
+    } @else {
         .el-button--#{$name},
         .el-button--#{$name}:not(.is-disabled):focus {
-            background-color: $bg_color;
-            border-color: $border_color;
-            color: $text_color;
+            background-color: $bg-color-1;
+            color: $text-color;
         }
-    } @else {
-        .el-button--#{$name} {
-            &:not(.is-disabled):#{$status} {
-                background-color: $bg_color;
-                border-color: $border_color;
-                color: $text_color;
-            }
+        .el-button--#{$name}:not(.is-disabled):not(:focus):hover {
+            background-color: $bg-color-2;
+            color: $text-color;
         }
     }
 }
-@mixin el-button--plain($name, $status, $bg_color, $border_color, $text_color) {
-    @if $status == default {
-        .el-button--#{$name}.is-plain,
-        .el-button--#{$name}.is-plain:not(.is-disabled):focus {
-            background-color: $bg_color;
-            border-color: $border_color;
-            color: $text_color;
-        }
-    } @else {
-        .el-button--#{$name}.is-plain {
-            &:not(.is-disabled):#{$status} {
-                background-color: $bg_color;
-                border-color: $border_color;
-                color: $text_color;
-            }
-        }
+@mixin el-button--plain($name, $bg-color, $border-color, $text-color) {
+    .el-button--#{$name}.is-plain,
+    .el-button--#{$name}.is-plain:not(.is-disabled):focus {
+        background: lighten($bg-color, 42%);
+        color: darken($text-color, 5%);
     }
-}
-
-.button-group {
-  border-top: 1px solid border_color(warning);
-  font-size: 0;
-  line-height: 0;
-  padding-top: 15px;
-  text-align: center;
+    .el-button--#{$name}.is-plain:not(.is-disabled):not(:focus):hover {
+        background: lighten($bg-color, 37%);
+        color: darken($text-color, 12%);
+    }
 }
 
 .el-button {
-    border-radius: border_radius(default);
-    box-shadow: 0 20px 30px -10px rgba(107, 87, 89, 0.1), inset 0 -1px 0 0 rgba(107, 87, 89, 0.3), inset 0 1px 0 0 #ffffff;
-    border-style: solid;
-    border-width: 1px;
+    align-items: center;
+    background-position-x: 50%;
+    background-size: 500%;
+    border-radius: border-radius(large);
+    border: none;
     cursor: pointer;
-    font-size: 0;
-    line-height: 0;
-    padding: 0 15px;
+    display: inline-flex;
+    font-size: font-size(small);
+    height: 44px;
+    justify-content: center;
+    padding: 0 20px;
     transition: all 0.2s linear;
     & + .el-button {
         margin-left: 6px;
     }
     & [class*="el-icon"] {
-        font-size: 1.25rem;
+        font-size: 0.875rem;
         fill: currentColor;
+        margin-right: 5px;
     }
     & .svg-icon {
-        @include size(1.25rem !important);
-        & + .el-button__text {
-            margin-left: 5px;
-        }
+        margin-right: 5px;
     }
     & > span {
         align-items: center;
         display: inline-flex;
-        font-size: 1rem;
         justify-content: center;
     }
-    & > .el-icon-loading {
-        display: none;
-        & + span {
-            margin-left: 0;
-        }
+    &:not(.is-disabled):focus {
+        background-size: 500%;
+        background-position-x: 50%;
     }
-    &:before {
-        display: none;
-    }
-}
-.el-button--small,
-.el-button--mini {
-    & > span {
-        font-size: 0.875rem;
+    &:not(.is-disabled):hover {
+        @include animate(transition, 0.5s);
+        background-size: 500%;
     }
 }
 
@@ -139,22 +108,31 @@
 .el-button.is-disabled:focus,
 .el-button.is-disabled:hover {
     background-color: #f2f2f2;
-    border-color: border_color(default);
-    color: text_color(default);
+    border-color: border-color(default);
+    color: text-color(default);
+}
+
+@keyframes transition {
+    from {
+        background-position-x: 0%;
+    }
+    to {
+        background-position-x: 50%;
+    }
 }
 
 
 
 
+@include el-button(success, #1796bb, #a6dac4, text-color(default_invert));
 
-@include el-button(default, default, bg_color(weakest), border_color(default), text_color(default));
-@include el-button(default, hover, bg_color(weakest), darken(border_color(accent), 8%), text_color(accent));
+@include el-button(default, bg-color(weak), darken(bg-color(weak), 2%), text-color(default));
+@include el-button(primary, bg-color(secondary), darken(bg-color(secondary), 5%), text-color(default_invert));
+@include el-button(warning, lighten(bg-color(warning), 5%), bg-color(warning), text-color(default_invert));
+@include el-button(danger, bg-color(accent), darken(bg-color(accent), 5%), text-color(default_invert));
 
-@include el-button(primary, default, bg_color(warning), border_color(warning), text_color(default_invert));
-@include el-button(primary, hover, darken(bg_color(warning), 8%), darken(border_color(warning), 8%), text_color(default_invert));
 
-// @include el-button--plain(primary, default, lighten(bg_color(accent), 25.5%), darken(border_color(accent), 12%), darken(text_color(accent), 12%));
-// @include el-button--plain(primary, hover, bg_color(accent), border_color(accent), text_color(default_invert));
 
-// @include el-button--plain(alert, default, lighten(bg_color(alert), 28%), border_color(alert), text_color(alert));
-// @include el-button--plain(alert, hover, lighten(bg_color(alert), 8%), lighten(border_color(alert), 8%), text_color(default_invert));
+@include el-button--plain(primary, bg-color(secondary), darken(bg-color(secondary), 5%), text-color(info));
+@include el-button--plain(warning, bg-color(warning), darken(bg-color(warning), 5%), text-color(warning));
+@include el-button--plain(danger, bg-color(accent), darken(bg-color(accent), 5%), text-color(strong));

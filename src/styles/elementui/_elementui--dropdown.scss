@@ -1,0 +1,22 @@
+.el-dropdown {
+    color: inherit;
+}
+.el-dropdown-menu {
+    padding: 6px 0;
+}
+.el-dropdown-menu__item {
+    color: text-color(default);
+    height: el-size(small);
+    font-size: font-size(small);
+    line-height: el-size(small);
+    &.is-disabled {
+        color: text-color(info);
+        cursor: not-allowed;
+        font-weight: bold;
+    }
+    &:focus,
+    &:not(.is-disabled):hover {
+        background-color: bg-color(weaker);
+        color: text-color(default);
+    }
+}

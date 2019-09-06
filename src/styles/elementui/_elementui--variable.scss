@@ -1,53 +1,32 @@
-// ************************************************************
-// elementui--variable
-// ************************************************************
+$button-size: (mini: 28px, small: 34px, medium: 40px, large: 50px);
 
-$button-size: (
-    mini: 32px,
-    small: 38px,
-    medium: 46px,
-    large: 52px,
-);
 @function button-size($name) {
     @return map-get($button-size, $name);
 }
 
-$button-length: (
-    short: 100px,
-    normal: 120px,
-    long: 160px,
-    longest: 200px,
-    half: calc(50% - 10px),
-    full: 100%
-);
+$button-length: (short: 120px, normal: 150px, long: 240px, longest: 320px, half: calc(50% - 10px), full: 100%);
+
 @function button-length($name) {
     @return map-get($button-length, $name);
 }
 
+$el-size: (mini: 28px, small: 34px, medium: 40px, large: 50px);
 
-
-
-
-$el-size: (
-    mini: 38px,
-    small: 38px,
-    medium: 46px,
-    large: 52px,
-);
 @function el-size($name) {
     @return map-get($el-size, $name);
 }
 
-$el-length: (
-    mini: 64px,
-    shortest: 120px,
-    short: 160px,
-    normal: 200px,
-    long: 240px,
-    longest: 320px,
-    half: calc(50% - 10px),
-    full: 100%
-);
+$el-length: (mini: 80px, shortest: 115px, short: 160px, normal: 200px, long: 240px, longest: 320px, half: calc(50% - 10px), full: 100%);
+
 @function el-length($name) {
     @return map-get($el-length, $name);
+}
+
+.el-customize {
+    .el-date-editor{
+        width: auto;
+    }
+    .el-date-editor.el-input, .el-date-editor.el-input__inner {
+        width: 100%;
+    }
 }

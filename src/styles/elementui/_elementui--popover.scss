@@ -1,23 +1,12 @@
-// ************************************************************
-// elementui--popover
-// ************************************************************
-
 .el-popover {
-    border: none;
-    box-shadow: 6px 6px 12px 0 shadow_color(dark);
-    color: text_color(secondary);
-    padding: 0;
-    & .popper__arrow {
-        display: none;
-    }
-    &[x-placement^="bottom"] {
-      margin-top: 0;
-    }
+    box-shadow: 0 3px 6px 0 shadow-color(dark);
+    color: text-color(secondary);
+    padding: 0 0 8px;
 }
 
 .el-popover__title {
-    background-color: bg_color(light);
-    color: text_color(info);
+    background-color: bg-color(light);
+    color: text-color(info);
     font-size: 1rem;
     line-height: 38px;
     margin-bottom: 0;
@@ -30,19 +19,19 @@
 }
 
 .el-popover__menu {
-    border-bottom: 1px solid border_color(default);
+    border-bottom: 1px solid border-color(default);
     font-size: 0;
     padding: 20px 25px;
     & .menu__item {
         display: inline-block;
         padding: 0 15px;
         & + .menu__item {
-            border-left: 1px solid border_color(default);
+            border-left: 1px solid border-color(default);
         }
     }
 }
 
 .el-popover__footer {
-    border-top: 1px solid border_color(warning);
+    border-top: 1px solid border-color(warning);
     padding: 15px 25px;
 }

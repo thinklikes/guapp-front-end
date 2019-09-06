@@ -1,28 +1,39 @@
-// ************************************************************
-// elementui--table
-// ************************************************************
-
 .el-table {
-    color: text_color(secondary);
+    border-radius: border-radius(default);
+    color: text-color(primary);
     & .cell {
-        line-height: 34px;
+        line-height: 30px;
+        word-break: initial;
     }
     & thead {
-        color: text_color(deweakfault);
+        color: text-color(default);
+        font-weight: bold;
     }
     & th {
-        // background: linear-gradient(0deg, rgba(178, 178, 178, 0.25) 0%, rgba(255, 255, 255, 0) 25%);
+        background: linear-gradient(0deg, rgba(bg-color(light), 0.3) 0%, bg-color(default) 35%);
+    }
+    & .el-table__fixed-right-patch {
+        background: linear-gradient(0deg, rgba(bg-color(light), 0.1) 0%, bg-color(default) 35%);
+        border-radius: 0 border-radius(default) 0 0;
+        border-bottom-color: border-color(default);
+        top: 0;
     }
     & th.is-leaf,
     & td {
-        border-bottom: 1px solid border_color(default);
+        border-bottom: 1px solid border-color(default);
+    }
+    & td.gutter,
+    & th.gutter {
+        border-bottom: 1px solid border-color(default);
+    }
+    & td {
+        padding: 6px 0;
     }
     //
     & .is-sortable {
-        font-weight: bold;
         transition: color 0.2s ease;
         &:hover {
-            color: text_color(accent);
+            color: text-color(info);
         }
     }
     & .sort-caret {
@@ -30,51 +41,66 @@
         left: 6px;
         transition: border-color 0.2s ease;
         &.ascending {
-            border-bottom-color: border_color(default);
+            border-bottom-color: border-color(default);
             top: 3px;
         }
         &.descending {
-            border-top-color: border_color(default);
+            border-top-color: border-color(default);
             bottom: 5px;
         }
     }
     & .ascending {
-        color: text_color(warning);
         & .sort-caret {
             &.ascending {
-                border-bottom-color: border_color(warning);
+                border-bottom-color: border-color(secondary);
             }
         }
     }
     & .descending {
-        color: text_color(warning);
         & .sort-caret {
             &.descending {
-                border-top-color: border_color(warning);
+                border-top-color: border-color(secondary);
             }
         }
     }
+    &::after {
+        @include pseudo;
+        @include size(10px, 100%);
+        border-radius: 0 border-radius(default) border-radius(default) 0;
+        border-right: 1px solid border-color(default);
+        background-color: transparent;
+        top: 0;
+        right: 0;
+        z-index: 10;
+    }
 }
-.el-table--medium {
-    & th {
-        padding: 11px 0;
+.el-table--small {
+    & .cell {
+        line-height: 22px;
     }
-    & td {
-        padding: 7px 0;
+    &::after {
+        display: none;
     }
+}
+.el-table--group::after,
+.el-table--border::after {
+    border-radius: 0 border-radius(default) border-radius(default) 0;
+    border-right: 1px solid border-color(default);
 }
 
-.el-table--group::after,
-.el-table--border::after,
 .el-table::before {
-    display: none;
+    border-radius: 0 0 border-radius(default) border-radius(default);
+    background-color: border-color(default);
 }
 
 .el-table--border {
-    & th,
-    & td {
-        border-right: 1px solid border_color(default);
-    }
+    border-top-color: border-color(default);
+    border-left-color: border-color(default);
+}
+.el-table--border td,
+.el-table--border th,
+.el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+    border-right-color: border-color(default);
 }
 
 
@@ -83,8 +109,9 @@
 
 //
 .el-table--striped {
+    border: 1px solid border-color(default);
     & .el-table__body tr.el-table__row--striped td {
-        background: bg_color(weak);
+        background: bg-color(weakest);
     }
 }
 
@@ -94,24 +121,23 @@
 
 //
 .el-table__empty-block {
-    border-bottom: 1px solid border_color(default);
-    min-height: 48px;
+    border-bottom: 1px solid border-color(default);
 }
 .el-table__empty-text {
-    color: text_color(weak);
-    line-height: 48px;
+    color: text-color(weak);
 }
 
 
 
 
 
+//
 .el-table__footer-wrapper {
     & td {
-        border-top-color: border_color(default);
+        border-top-color: border-color(default);
     }
     & tbody td {
-        background-color: bg_color(primary);
+        background-color: bg-color(primary);
         transition: background-color .25s ease;
     }
 }
@@ -122,10 +148,18 @@
 
 //
 .el-table--enable-row-hover .el-table__body tr:hover > td,
-.el-table__footer-wrapper tbody tr:hover > td {
-    background: darken(bg_color(weak), 3%);
+.el-table__footer-wrapper tbody tr:hover > td,
+.el-table__body tr.hover-row.current-row > td,
+.el-table__body tr.hover-row.el-table__row--striped.current-row > td,
+.el-table__body tr.hover-row.el-table__row--striped > td,
+.el-table__body tr.hover-row > td {
+    background-color: mix(bg-color(weakest), bg-color(heavy), 80%);
+    color: text-color(default);
 }
 
+.el-table--small .el-table__body tr:hover > td {
+    background-color: bg-color(default);
+}
 
 
 
@@ -139,14 +173,11 @@
         background-color: transparent;
     }
     & .cell {
-        line-height: 18px;
+        line-height: 16px;
     }
 }
 .el-table thead.is-group th {
     background-color: transparent;
-}
-.el-table--border th, .el-table--border td {
-    border-right: none;
 }
 
 
@@ -158,6 +189,43 @@
     & tr th:first-of-type,
     & tr td:first-of-type {
         background: linear-gradient(-90deg, rgba(178, 178, 178, 0.25) 0%, rgba(255, 255, 255, 0) 15%);
-        border-right: 1px solid border_color(default);
+        border-right: 1px solid border-color(default);
     }
+}
+
+
+
+
+
+.el-table__expanded-cell[class*=cell] {
+    padding: 10px 50px 0;
+}
+
+
+
+
+.el-table__fixed,
+.el-table__fixed-right {
+    box-shadow: -5px 0 5px shadow_color(light);
+}
+
+
+
+
+
+.el-table--enable-row-transition .el-table__body td {
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+
+
+
+
+.el-table--fit {
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.el-dialog .el-table {
+    font-size: font-size(mini);
 }

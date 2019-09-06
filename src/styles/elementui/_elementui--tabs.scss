@@ -1,21 +1,64 @@
-// ************************************************************
-// elementui--tabs
-// ************************************************************
+.el-tabs--card {
+    & > .el-tabs__header {
+        margin-bottom: 0;
+        & .el-tabs__nav {
+            border: none;
+            border-right: 1px solid border-color(default);
+            border-radius: border-radius(default) 0 0 0;
+        }
+        & .el-tabs__item {
+            border-bottom-color: border-color(default);
+            &:first-child {
+                border-radius: border-radius(default) 0 0 0;
+            }
+        }
+    }
+    & .el-tabs__item {
+        background-color: bg-color(lighter);
+        &.is-active {
+            background-color: bg-color(default);
+            box-shadow: none;
+        }
+    }
+    & .el-content__title {
+        background: bg-color(default);
+        box-shadow: 0 4px 10px -6px shadow-color(dark);
+        color: text-color(info);
+        font-size: font-size(medium);
+        line-height: 2;
+        padding: 10px 10px 10px 20px;
+    }
+    & .el-content__body {
+        padding: 10px 10px 10px 20px;
+        & .el-table__header-wrapper {
+            display: none;
+        }
+    }
+}
+
+.el-tabs__header {
+    margin-bottom: 30px;
+}
 
 .el-tabs__item {
-    font-size: font_size(medium);
-    &:hover {
-        color: text_color(warning);
-    }
+    color: text-color(secondary);
+    transition: color 0.2s ease;
     &.is-active {
-        color: text_color(accent);
+        color: text-color(default);
+    }
+    &:not(.is-active):hover {
+        color: text-color(primary);
     }
 }
 
 .el-tabs__active-bar {
-    background-color: bg_color(accent);
+    background-color: bg-color(secondary);
+}
+.el-tabs__nav-wrap::after {
+    background-color: bg-color(lighter);
 }
 
-.el-tabs__nav-wrap::after {
-    background-color: bg_color(default);
+.el-tabs__nav-next,
+.el-tabs__nav-prev {
+    color: text-color(secondary);
 }

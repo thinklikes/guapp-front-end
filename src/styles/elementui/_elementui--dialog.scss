@@ -1,53 +1,63 @@
-// ************************************************************
-// elementui--dialog
-// ************************************************************
-
 .el-dialog__wrapper {
     text-align: center;
 }
 .el-dialog {
-    border-radius: border_radius(medium);
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    border-radius: border-radius(default);
+    box-shadow: 0 2px 12px 0 shadow-color(default);
     display: inline-block;
-    margin-bottom: 3vh;
-    max-width: calc(100% - 20px);
     text-align: left;
     padding-bottom: 10px;
-    // width: 420px;
+    width: 460px;
+}
+.el-dialog--form--wide {
+    width: 1160px;
 }
 .el-dialog__header {
-    border-radius: border_radius(medium) border_radius(medium) 0 0;
-    background-color: bg_color(secondary);
+    background-color: bg-color(heavy);
+    border-radius: border-radius(default) border-radius(default) 0 0;
     margin-bottom: 0;
-    padding: 5px 20px 5px 4vw;
+    padding: 5px 20px 5px calc(0.6vw + 18px);
     position: relative;
 }
 .el-dialog__title {
     font-size: 1rem;
     line-height: 38px;
-    color: text_color(default_invert);
+    color: text-color(default_invert);
 }
 .el-dialog__headerbtn {
     top: 50%;
-    right: 4vw;
+    right: 25px;
     transform: translateY(-50%);
 }
 .el-dialog__headerbtn .el-dialog__close,
 .el-dialog__headerbtn:focus .el-dialog__close,
 .el-dialog__headerbtn:hover .el-dialog__close {
-    color: text_color(default_invert);
+    color: text-color(default_invert);
 }
 .el-dialog__body {
-    color: text_color(default);
-    padding: 20px 4vw;
+    color: text-color(default);
+    padding: 0;
+}
+.el-dialog__content {
+    padding: 20px calc(0.5vw + 25px);
+    & .el-content__title {
+        margin-bottom: 20px;
+    }
+    & .el-title__strong {
+        color: text-color(info);
+        padding: 0 5px;
+    }
 }
 
 .el-dialog__footer {
+    border-top: 1px solid border-color(default);
     font-size: 0;
-    padding: 10px 4vw;
-    & .el-button.el-button--small {
+    padding: 20px calc(0.5vw + 25px) 10px;
+    text-align: center;
+    & .el-button {
         height: button-size(medium);
-        width: 120px;
+        min-width: 110px;
+        padding: 0;
         & > span {
             line-height: button-size(medium) - 2;
         }

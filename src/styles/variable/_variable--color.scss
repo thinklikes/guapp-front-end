@@ -1,78 +1,57 @@
-// ************************************************************
-// variable--color
-// ************************************************************
-
-$bg_color: (
-    default     : #f8e3bf,
-    primary     : #fffcf4,
-    secondary   : #ffc85e,
-    accent      : #ed784a,
-    strong      : #c73e3a,
-    warning     : #ff9926,
-    info        : #6699a1,
-    success     : #90b44b,
-    alert       : #70649a,
-    heavy       : #342628,
-    weak        : #fbfbfb,
-    weakest     : #ffffff
+$bg-color: (
+    default     : #ffffff,
+    primary     : #a1e3e5,
+    secondary   : #38a7be,
+    accent      : #be3838,
+    strong      : #fbf9fa,
+    warning     : #b58d46,
+    light       : #cadee3,
+    lighter     : #eff1f3,
+    weak        : #f2f4f9,
+    weaker      : #f5f7fa,
+    weakest     : #f9fafc,
+    heavy       : #0f647f
 );
-@function bg_color($name) {
-    @return map-get($bg_color, $name);
+@function bg-color($name) {
+    @return map-get($bg-color, $name);
 }
 
-$sidebar_color: (
-    title       : darken(#fff6e8, 2%),
-    submenu     : lighten(#fff6e8, 1%),
-    hover       : #f6dfc2,
-    active      : #f9f9f9
-);
-@function sidebar_color($name) {
-    @return map-get($sidebar_color, $name);
-}
-
-$text_color: (
-    default         : #342628,
-    primary         : #433033,
-    secondary       : #523b3e,
-    info            : #6699a1,
-    success         : #90b44b,
-    accent          : #ed784a,
-    strong          : #c73e3a,
-    warning         : #ff9926,
-    alert           : #70649a,
-    weak            : #cccccc,
+$text-color: (
+    default         : #000000,
+    primary         : #56636f,
+    secondary       : #858c96,
+    success         : #00a573,
+    accent          : #f48720,
+    strong          : #da2428,
+    warning         : #b58d46,
+    weak            : #abbbca,
+    info            : #00a7be,
     default_invert  : #ffffff
 );
-@function text_color($name) {
-    @return map-get($text_color, $name);
+@function text-color($name) {
+    @return map-get($text-color, $name);
 }
-@each $status, $color in $text_color {
+@each $status, $color in $text-color {
     .u_color--#{$status} {
         color: $color;
     }
 }
 
-$border_color: (
-    default         : #cccccc,
-    accent          : #ed784a,
-    strong          : #c73e3a,
-    warning         : #ffc85e,
-    heavy           : #aaaaaa,
-    weak            : #e5e5e5,
+$border-color: (
+    default         : #e4e9ed,
+    primary         : #a1e3e5,
+    secondary       : #38a7be,
+    default_invert  : #ffffff
 );
-@function border_color($name) {
-    @return map-get($border_color, $name);
+@function border-color($name) {
+    @return map-get($border-color, $name);
 }
 
-$shadow_color: (
-    default : rgba(0, 0, 0, 0.05),
-    dark : rgba(0, 0, 0, 0.1),
+$shadow-color: (
+    default : rgba(0, 0, 0, 0.15),
+    dark    : rgba(0, 0, 0, 0.2),
+    light   : rgba(0, 0, 0, 0.075)
 );
-@function shadow_color($name) {
-    @return map-get($shadow_color, $name);
+@function shadow-color($name) {
+    @return map-get($shadow-color, $name);
 }
-
-  
-  
-  
-  
