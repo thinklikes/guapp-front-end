@@ -128,7 +128,7 @@ export default {
         summary: function() {
             let sum = 0
             let result = 0
-            this.data.purchase_order_items.forEach((item) => {
+            this.data.details.forEach((item) => {
                 result = (item.quantity) * parseFloat(item.price) * parseFloat(item.price_rate)
                 sum += result
             })

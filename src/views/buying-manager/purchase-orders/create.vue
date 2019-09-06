@@ -1,5 +1,4 @@
 <template>
-
     <el-form
         ref="ruleForm"
         v-loading="loading"
@@ -31,66 +30,87 @@
                 v-model="ruleForm.tax_type"
             />
         </el-form-item>
+        <el-form-item
+            :label="$t('table.fastFillDiscount')"
+        >
+            <el-col>
+                <DiscountSelector
+                    v-model="fastFillDiscount"
+                />
+            </el-col>
+        </el-form-item>
+        <el-form-item
+            :label="$t('table.fastFillQuantity')"
+        >
+            <el-input-number
+                v-model="fastFillQuantity"
+                :min="1"
+                :max="10"
+                label="描述文字"
+            />
+        </el-form-item>
         <el-form-item :label="$t('table.note')">
             <el-input v-model="ruleForm.note" type="textarea" />
         </el-form-item>
-        <hr>
-
-        <el-table
-            v-loading="loading"
-            :empty-text="loadingStr"
-            :data="ruleForm.details"
-            show-summary
-            :summary-method="getSummaries"
-            style="width: 100%"
-        >
-            <el-table-column
-                width="500"
-                :label="$t('items.label.name')"
+        <el-form-item>
+            <el-button type="primary">{{ $t('table.add') }}</el-button>
+        </el-form-item>
+        <el-form-item><hr></el-form-item>
+        <el-form-item>
+            <el-table
+                v-loading="loading"
+                :empty-text="loadingStr"
+                :data="ruleForm.details"
+                show-summary
+                :summary-method="getSummaries"
+                style="width: 100%"
             >
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.item.name" />
-                </template>
-            </el-table-column>
-            <el-table-column
-                :label="$t('table.quantity')"
-            >
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.quantity" type="number" />
-                </template>
-            </el-table-column>
-            <el-table-column
-                :label="$t('details.label.price')"
-            >
-                <template slot-scope="scope">
-                    <el-input v-model="scope.row.price" type="number" />
-                </template>
-            </el-table-column>
-            <el-table-column
-                :label="$t('details.label.price_rate')"
-            >
-                <template slot-scope="scope">
-                    <DiscountSelector
-                        :ref="test(scope)"
-                        :key="test(scope)"
-                        v-model="scope.row.price_rate"
-                    />
-                </template>
-            </el-table-column>
-            <el-table-column
-                align="right"
-                :label="$t('table.subtotal')"
-            >
-                <template slot-scope="scope">
-                    <span>{{ parseFloat(scope.row.price) * parseFloat(scope.row.price_rate) * scope.row.quantity }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column>
-                <template slot-scope="scope">
-                    <el-button type="danger" @click="deleteItem(scope.$index)">{{ $t('table.delete') }}</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
+                <el-table-column
+                    width="500"
+                    :label="$t('items.label.name')"
+                >
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.item.name" />
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    :label="$t('table.quantity')"
+                >
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.quantity" type="number" />
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    :label="$t('details.label.price')"
+                >
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.price" type="number" />
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    :label="$t('details.label.price_rate')"
+                >
+                    <template slot-scope="scope">
+                        <DiscountSelector
+                            v-model="scope.row.price_rate"
+                        />
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    align="right"
+                    :label="$t('table.subtotal')"
+                >
+                    <template slot-scope="scope">
+                        <span>{{ parseFloat(scope.row.price) * parseFloat(scope.row.price_rate) * scope.row.quantity }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column>
+                    <template slot-scope="scope">
+                        <el-button type="danger" @click="deleteItem(scope.$index)">{{ $t('table.delete') }}</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')">{{ $t('form.submit') }}</el-button>
             <el-button @click="resetForm('ruleForm')">{{ $t('form.reset') }}</el-button>
@@ -119,6 +139,8 @@ export default {
             id: null,
             code: null,
             initOptions: {},
+            fastFillQuantity: null,
+            fastFillDiscount: 1,
             ruleForm: {
                 employee_id: '1',
                 supplier_id: null,
@@ -176,33 +198,27 @@ export default {
 
         this.id = id
 
-        fetchOne(id)
-            .then(response => {
-                const data = response.contents
-                this.loading = false
-                this.code = data.code
-                this.initOptions = data.supplier
-                this.ruleForm = {
-                    supplier_id: data.supplier_id,
-                    tax_type: data.tax_type,
-                    details: data.details
-                    // phone: data.phone,
-                    // address: data.address,
-                    // facebook: data.facebook,
-                    // website: data.website,
-                    // note: data.note
-                }
-            })
-            .catch(e => {
-                console.log(e)
-            })
+        fetchOne(id).then(response => {
+            const data = response.contents
+            this.loading = false
+            this.code = data.code
+            this.initOptions = data.supplier
+            this.ruleForm = {
+                supplier_id: data.supplier_id,
+                tax_type: data.tax_type,
+                details: data.details
+            // phone: data.phone,
+            // address: data.address,
+            // facebook: data.facebook,
+            // website: data.website,
+                // note: data.note
+            }
+        }).catch(e => {
+            console.log(e)
+        })
     },
 
     methods: {
-        test(current) {
-            // console.log(current.$index, current.row.item.name, current.row.price_rate)
-            return 'discount' + current.$index
-        },
         changed() {
             // console.log(this.ruleForm.supplierId)
         },
@@ -210,23 +226,19 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     if (!this.isEdit) {
-                        create(this.ruleForm)
-                            .then(response => {
-                                this.$message.success(this.$t('form.created-successfully'))
-                                this.$router.push({ path: mainPATH + '/show/' + response.contents.id })
-                            })
-                            .catch(e => {
-                                console.log(e)
-                            })
+                        create(this.ruleForm).then(response => {
+                            this.$message.success(this.$t('form.created-successfully'))
+                            this.$router.push({ path: mainPATH + '/show/' + response.contents.id })
+                        }).catch(e => {
+                            console.log(e)
+                        })
                     } else {
-                        update(this.ruleForm)
-                            .then(response => {
-                                this.$message.success(this.$t('form.updated-successfully'))
-                                this.$router.push({ path: mainPATH + '/show/' + this.id })
-                            })
-                            .catch(e => {
-                                console.log(e)
-                            })
+                        update(this.ruleForm).then(response => {
+                            this.$message.success(this.$t('form.updated-successfully'))
+                            this.$router.push({ path: mainPATH + '/show/' + this.id })
+                        }).catch(e => {
+                            console.log(e)
+                        })
                     }
                 } else {
                     return false
@@ -258,4 +270,3 @@ export default {
     }
 }
 </script>
-

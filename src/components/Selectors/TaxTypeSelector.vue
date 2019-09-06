@@ -32,7 +32,7 @@ export default {
                 { id: 1, label: '稅外加' },
                 { id: 2, label: '稅內含' }
             ],
-            selected: null
+            selected: this.value
         }
     },
 

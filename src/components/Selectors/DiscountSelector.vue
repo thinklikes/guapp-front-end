@@ -24,7 +24,7 @@ export default {
     name: 'DiscountSelector',
     props: {
         value: {
-            type: Number,
+            type: [Number, String],
             default: null
         }
     },
@@ -44,13 +44,12 @@ export default {
                 { id: 0.1, label: '10%' }
             ],
             filteredOptions: [],
-            selected: null
+            selected: this.value
         }
     },
 
     watch: {
         value(val) {
-            console.log(val)
             this.selected = val
         },
         selected(val, oldVal) {
@@ -74,14 +73,13 @@ export default {
                 this.filteredOptions = this.options
                 return
             }
-            const stringOfValue = val
-            val = val < 1 ? parseFloat(val) : parseFloat(val) / 100
+            val = val <= 1 ? parseFloat(val) : parseFloat(val) / 100
+            const labelOfValue = (Math.round(val * 100)) + '%'
             const filtered = this.options.filter(function(item) {
-                return item.id === val || item.label === stringOfValue + '%'
+                return item.id === val || item.label === labelOfValue
             })
-
             if (filtered.length === 0 && val > 0) {
-                const newOption = { id: stringOfValue, label: (Math.round(val * 100)) + '%' }
+                const newOption = { id: val, label: labelOfValue }
                 filtered.push(newOption)
                 this.options.push(newOption)
             }

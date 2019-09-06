@@ -167,7 +167,9 @@ export default {
         subtotal: '小計',
         total: '合計',
         quantity: '數量',
-        noteOfItem: '品項備註'
+        noteOfItem: '品項備註',
+        fastFillQuantity: '數量快填',
+        fastFillDiscount: '折扣快填'
     },
     common: {
         colon: '：'
