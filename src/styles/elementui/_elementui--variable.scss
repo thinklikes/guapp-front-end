@@ -21,12 +21,3 @@ $el-length: (mini: 80px, shortest: 115px, short: 160px, normal: 200px, long: 240
 @function el-length($name) {
     @return map-get($el-length, $name);
 }
-
-.el-customize {
-    .el-date-editor{
-        width: auto;
-    }
-    .el-date-editor.el-input, .el-date-editor.el-input__inner {
-        width: 100%;
-    }
-}

@@ -181,7 +181,7 @@ export default {
                     sums[index] = this.$t('table.total')
                     return
                 }
-                if (index === 4) {
+                if (column.label === this.$t('table.subtotal')) {
                     sums[index] = this.summary
                     return
                 }

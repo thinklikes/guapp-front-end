@@ -54,7 +54,7 @@ export default {
         },
         selected(val, oldVal) {
             this.$emit('input', val)
-            this.$emit('change')
+            this.$emit('change', val)
         }
     },
 

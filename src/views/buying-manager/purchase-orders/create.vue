@@ -1,6 +1,6 @@
 <template>
     <el-form
-        ref="ruleForm"
+        :ref="references.mainForm"
         v-loading="loading"
         :model="ruleForm"
         :rules="rules"
@@ -13,31 +13,22 @@
         </el-form-item>
         <el-form-item
             :label="$t('suppliers.label.name')"
-            prop="supplierId"
+            prop="supplier_id"
         >
             <SupplierSelector
-                ref="suppliers"
+                :ref="references.suppliers"
                 v-model="ruleForm.supplier_id"
-                :init-options="initOptions"
+                :init-options="defaultSuppliersOptions"
             />
         </el-form-item>
         <el-form-item
             :label="$t('orders.label.taxType')"
-            prop="supplierId"
+            prop="taxType"
         >
             <TaxTypeSelector
-                ref="taxType"
+                ref="tax_type"
                 v-model="ruleForm.tax_type"
             />
-        </el-form-item>
-        <el-form-item
-            :label="$t('table.fastFillDiscount')"
-        >
-            <el-col>
-                <DiscountSelector
-                    v-model="fastFillDiscount"
-                />
-            </el-col>
         </el-form-item>
         <el-form-item
             :label="$t('table.fastFillQuantity')"
@@ -47,16 +38,31 @@
                 :min="1"
                 :max="10"
                 label="描述文字"
+                @change="fillQuantity"
             />
+        </el-form-item>
+        <el-form-item
+            :label="$t('table.fastFillDiscount')"
+        >
+            <el-col>
+                <DiscountSelector
+                    v-model="fastFillDiscount"
+                    @change="fillDiscount"
+                />
+            </el-col>
         </el-form-item>
         <el-form-item :label="$t('table.note')">
             <el-input v-model="ruleForm.note" type="textarea" />
         </el-form-item>
         <el-form-item>
-            <el-button type="primary">{{ $t('table.add') }}</el-button>
+            <el-button type="primary" @click="addNewItem">{{ $t('table.add') }}</el-button>
         </el-form-item>
-        <el-form-item><hr></el-form-item>
         <el-form-item>
+            <hr>
+        </el-form-item>
+        <el-form-item
+            prop="details"
+        >
             <el-table
                 v-loading="loading"
                 :empty-text="loadingStr"
@@ -66,25 +72,29 @@
                 style="width: 100%"
             >
                 <el-table-column
-                    width="500"
                     :label="$t('items.label.name')"
                 >
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.item.name" />
+                        <ItemSelector
+                            :ref="'items' + scope.$index"
+                            v-model="scope.row.item_id"
+                            :init-options="scope.row.item"
+                            class="is_full"
+                        />
                     </template>
                 </el-table-column>
                 <el-table-column
                     :label="$t('table.quantity')"
                 >
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.quantity" type="number" />
+                        <el-input-number v-model="scope.row.quantity" class="is_shortest" />
                     </template>
                 </el-table-column>
                 <el-table-column
                     :label="$t('details.label.price')"
                 >
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.price" type="number" />
+                        <el-input v-model="scope.row.price" class="is_shortest" type="number" />
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -92,7 +102,9 @@
                 >
                     <template slot-scope="scope">
                         <DiscountSelector
+                            :ref="references.discount + scope.$index"
                             v-model="scope.row.price_rate"
+                            class="is_shortest"
                         />
                     </template>
                 </el-table-column>
@@ -104,9 +116,16 @@
                         <span>{{ parseFloat(scope.row.price) * parseFloat(scope.row.price_rate) * scope.row.quantity }}</span>
                     </template>
                 </el-table-column>
+                <el-table-column
+                    :label="$t('table.noteOfItem')"
+                >
+                    <template slot-scope="scope">
+                        <el-input v-model="scope.row.note" />
+                    </template>
+                </el-table-column>
                 <el-table-column>
                     <template slot-scope="scope">
-                        <el-button type="danger" @click="deleteItem(scope.$index)">{{ $t('table.delete') }}</el-button>
+                        <el-button type="danger" icon="el-icon-delete" @click="deleteItem(scope.$index)" />
                     </template>
                 </el-table-column>
             </el-table>
@@ -125,49 +144,61 @@ import { update } from '@/api/purchase-orders'
 import { default as SupplierSelector } from '@/components/Selectors/SupplierSelector'
 import { default as TaxTypeSelector } from '@/components/Selectors/TaxTypeSelector'
 import { default as DiscountSelector } from '@/components/Selectors/DiscountSelector'
+import { default as ItemSelector } from '@/components/Selectors/ItemSelector'
 
 const mainPATH = '/buying-manager/purchase-orders'
 
 export default {
     name: 'CreatePurchaseOrder',
-    components: { SupplierSelector, TaxTypeSelector, DiscountSelector },
+    components: {
+        SupplierSelector,
+        TaxTypeSelector,
+        DiscountSelector,
+        ItemSelector
+    },
 
     data() {
+        const _this = this
         return {
+            references: {
+                mainForm: 'ruleForm',
+                discount: 'discount',
+                suppliers: 'suppliers'
+            },
             loading: true,
             loadingStr: 'Loading ....',
             id: null,
             code: null,
-            initOptions: {},
+            defaultSuppliersOptions: [],
+            defaultItemsOptions: [],
             fastFillQuantity: null,
             fastFillDiscount: 1,
+            originForm: {},
             ruleForm: {
                 employee_id: '1',
-                supplier_id: null,
-                tax_type: null,
+                supplier_id: '',
+                tax_type: '',
                 note: '',
-                details: [
-                    {
-                        item_id: null,
-                        quantity: 0,
-                        price: 0,
-                        price_rate: 0,
-                        item: {
-                            id: null,
-                            name: ''
-                        }
-                    }
-                ]
+                details: []
             },
             rules: {
-                // employee_id: [
-                //     { type: 'number', message: this.$t('suppliers.placeholder.name'), trigger: 'change' }
-                // ],
                 supplier_id: [
-                    { type: 'number', message: this.$t('suppliers.placeholder.name'), trigger: 'change' }
+                    { type: 'number', message: this.$t('suppliers.placeholder.name') }
                 ],
                 tax_type: [
                     { type: 'number', message: this.$t('orders.placeholder.taxType') }
+                ],
+                details: [
+                    {
+                        validator: function(rule, values, callback) {
+                            const items = values.filter((value) => { return value.item_id })
+                            if (items.length <= 0) {
+                                callback(new Error(_this.$t('items.placeholder.name')))
+                            } else {
+                                callback()
+                            }
+                        }
+                    }
                 ]
             }
         }
@@ -193,6 +224,7 @@ export default {
 
         if (!id) {
             this.loading = false
+            this.addNewItem()
             return false
         }
 
@@ -200,18 +232,15 @@ export default {
 
         fetchOne(id).then(response => {
             const data = response.contents
+            this.originForm = JSON.parse(JSON.stringify(data))
             this.loading = false
             this.code = data.code
-            this.initOptions = data.supplier
+            this.defaultSuppliersOptions.push(data.supplier)
             this.ruleForm = {
+                id: this.id,
                 supplier_id: data.supplier_id,
                 tax_type: data.tax_type,
                 details: data.details
-            // phone: data.phone,
-            // address: data.address,
-            // facebook: data.facebook,
-            // website: data.website,
-                // note: data.note
             }
         }).catch(e => {
             console.log(e)
@@ -219,8 +248,26 @@ export default {
     },
 
     methods: {
-        changed() {
-            // console.log(this.ruleForm.supplierId)
+        fillDiscount(val) {
+            this.ruleForm.details.forEach(detail => {
+                detail.price_rate = val
+            })
+        },
+        fillQuantity(val) {
+            this.ruleForm.details.forEach(detail => {
+                detail.quantity = val
+            })
+        },
+        addNewItem() {
+            const newItem = {
+                item_id: null,
+                quantity: 0,
+                price: 0,
+                price_rate: 1,
+                item: []
+            }
+            this.ruleForm.details.push(newItem)
+            window.scrollTo(0, document.body.scrollHeight)
         },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
@@ -247,6 +294,10 @@ export default {
         },
         resetForm(formName) {
             this.$refs[formName].resetFields()
+            if (Object.keys(this.originForm).length !== 0) {
+                // deep copy
+                this.ruleForm = JSON.parse(JSON.stringify(this.originForm))
+            }
         },
         getSummaries(param) {
             const { columns } = param
@@ -256,7 +307,7 @@ export default {
                     sums[index] = this.$t('table.total')
                     return
                 }
-                if (index === 4) {
+                if (column.label === this.$t('table.subtotal')) {
                     sums[index] = this.summary
                     return
                 }

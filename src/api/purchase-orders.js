@@ -22,9 +22,19 @@ export function create(data) {
         url: process.env.VUE_APP_BACKEND_PREFIX + '/purchase-orders',
         method: 'post',
         data: {
-            'code': data.code,
-            'name': data.name,
-            'comment': data.comment
+            supplier_id: data.supplier_id,
+            tax_type: data.tax_type,
+            employee_id: data.employee_id,
+            note: data.note,
+            details: data.details.map((detail) => {
+                return {
+                    item_id: detail.item_id,
+                    quantity: detail.quantity,
+                    price: detail.price,
+                    price_rate: detail.price_rate,
+                    note: detail.note
+                }
+            })
         }
     })
 }
@@ -34,9 +44,19 @@ export function update(data) {
         url: process.env.VUE_APP_BACKEND_PREFIX + '/purchase-orders/' + data.id,
         method: 'put',
         data: {
-            'code': data.code,
-            'name': data.name,
-            'comment': data.comment
+            supplier_id: data.supplier_id,
+            tax_type: data.tax_type,
+            employee_id: data.employee_id,
+            note: data.note,
+            details: data.details.map((detail) => {
+                return {
+                    item_id: detail.item_id,
+                    quantity: detail.quantity,
+                    price: detail.price,
+                    price_rate: detail.price_rate,
+                    note: detail.note
+                }
+            })
         }
     })
 }

@@ -169,7 +169,8 @@ export default {
         quantity: '數量',
         noteOfItem: '品項備註',
         fastFillQuantity: '數量快填',
-        fastFillDiscount: '折扣快填'
+        fastFillDiscount: '折扣快填',
+        items: ''
     },
     common: {
         colon: '：'

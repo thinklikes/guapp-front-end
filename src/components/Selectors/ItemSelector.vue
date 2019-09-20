@@ -1,30 +1,31 @@
 <template>
     <el-select
-        ref="suppliers"
+        ref="items"
         v-model="selected"
         filterable
         clearable
         remote
-        :placeholder="$t('suppliers.placeholder.name')"
+        :placeholder="$t('items.placeholder.name')"
         :remote-method="remoteMethod"
         :loading="loading"
+        width="300"
         @clear="cleared"
         @change="changed"
     >
         <el-option
-            v-for="supplier in options"
-            :key="supplier.id"
-            :label="supplier.name"
-            :value="supplier.id"
+            v-for="item in options"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
         />
     </el-select>
 </template>
 
 <script>
-import { fetchList } from '@/api/suppliers'
+import { fetchList } from '@/api/items'
 
 export default {
-    name: 'SupplierSelector',
+    name: 'ItemSelector',
     props: {
         value: {
             type: [Number, String],
